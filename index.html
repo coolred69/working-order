@@ -268,15 +268,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
   <div class="modal"><div id="gmbody"></div></div>
 </div>
 
-<script type="module">
-import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import{getDatabase,ref,set,onValue,push,update,remove}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
-
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
 const FB={apiKey:"AIzaSyAzXJJTR6pKMjS776ruaT99l5I53H6BFDo",authDomain:"working-order-7e2e3.firebaseapp.com",databaseURL:"https://working-order-7e2e3-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"working-order-7e2e3",storageBucket:"working-order-7e2e3.firebasestorage.app",messagingSenderId:"105733670486",appId:"1:105733670486:web:7580f154c43d17d9cf5df7"};
 const ROOT='working_order';
-const app=initializeApp(FB);
-const db=getDatabase(app);
-const r=p=>ref(db,`${ROOT}/${p}`);
+firebase.initializeApp(FB);
+const db=firebase.database();
+const r=p=>db.ref(`${ROOT}/${p}`);
 
 /* ── RANK (숫자 낮을수록 높은 권한) ── */
 const RANK={admin:1,general:2,info:3,dept_head:4,team_leader:5,employee:6};
@@ -317,10 +316,10 @@ const P={
 
 /* ── FIREBASE ── */
 function sb(s,m){const e=document.getElementById('sync');e.className=s;e.textContent=m;}
-window._save=async(path,val)=>{sb('s','☁️ 저장중');try{await set(ref(db,`${ROOT}/${path}`),val);sb('','✅ 동기화됨');}catch(e){sb('e','❌ 실패');throw e;}};
-window._upd=async(obj)=>{sb('s','☁️ 저장중');const f={};for(const[k,v]of Object.entries(obj))f[`${ROOT}/${k}`]=v;try{await update(ref(db),f);sb('','✅ 동기화됨');}catch(e){sb('e','❌ 실패');throw e;}};
+window._save=async(path,val)=>{sb('s','☁️ 저장중');try{await r(path).set(val);sb('','✅ 동기화됨');}catch(e){sb('e','❌ 실패');throw e;}};
+window._upd=async(obj)=>{sb('s','☁️ 저장중');const f={};for(const[k,v]of Object.entries(obj))f[`${ROOT}/${k}`]=v;try{await db.ref().update(f);sb('','✅ 동기화됨');}catch(e){sb('e','❌ 실패');throw e;}};
 
-onValue(ref(db,ROOT),snap=>{
+db.ref(ROOT).on('value',snap=>{
   const v=snap.val();
   if(v){
     D=v;
@@ -331,7 +330,7 @@ onValue(ref(db,ROOT),snap=>{
     if(D.settings.slotCount===undefined)D.settings.slotCount=20;
     if(!D.slots)D.slots={};
     if(!D.notifications)D.notifications={};
-  }else{D=initD();set(ref(db,ROOT),D);}
+  }else{D=initD();db.ref(ROOT).set(D);}
   sb('','✅ 동기화됨');
   rerender();
   checkNotif();
@@ -348,7 +347,7 @@ function checkNotif(){
   const dot=document.getElementById('ndot');
   if(dot)dot.classList.toggle('show',nc>0);
 }
-async function addNotif(msg){const nr=push(r('notifications'));await set(nr,{message:msg,timestamp:Date.now(),by:U?.displayName||'시스템'});}
+async function addNotif(msg){await r('notifications').push({message:msg,timestamp:Date.now(),by:U?U.displayName:'시스템'});}
 
 window.openNotif=()=>{
   const arr=Object.entries(D.notifications||{}).sort((a,b)=>b[1].timestamp-a[1].timestamp).slice(0,40);
@@ -394,15 +393,15 @@ window.pok=()=>{
   const s=D.settings;let user=null;
   const acId=document.getElementById('acctSelect').value;
   if(selRole==='admin'){if(pinBuf===(s.adminPin||'0000'))user={role:'admin',displayName:'관리자'};}
-  else if(selRole==='info'){if(!acId){document.getElementById('lerr').textContent='계정을 선택하세요';return;}const a=s.infoAccounts?.[acId];if(a&&pinBuf===a.pin)user={role:'info',displayName:a.name,acctId:acId};}
-  else if(selRole==='general'){if(!acId){document.getElementById('lerr').textContent='계정을 선택하세요';return;}const a=s.generalAccounts?.[acId];if(a&&pinBuf===a.pin)user={role:'general',displayName:a.name,acctId:acId};}
-  else if(selRole==='dept_head'){if(!acId){document.getElementById('lerr').textContent='본부를 선택하세요';return;}const dep=s.departments?.[acId];if(dep&&pinBuf===(dep.headPin||'2345'))user={role:'dept_head',displayName:dep.name+' 본부장',deptId:acId};}
-  else if(selRole==='team_leader'){if(!acId){document.getElementById('lerr').textContent='팀을 선택하세요';return;}let dId=null;for(const[d2,dep]of Object.entries(s.departments||{}))if(dep.teams?.[acId]){dId=d2;break;}const team=s.departments?.[dId]?.teams?.[acId];if(team&&pinBuf===(team.leaderPin||'4567'))user={role:'team_leader',displayName:team.name+' 팀장',teamId:acId,deptId:dId};}
+  else if(selRole==='info'){if(!acId){document.getElementById('lerr').textContent='계정을 선택하세요';return;}const a=(s.infoAccounts&&s.infoAccounts[acId]);if(a&&pinBuf===a.pin)user={role:'info',displayName:a.name,acctId:acId};}
+  else if(selRole==='general'){if(!acId){document.getElementById('lerr').textContent='계정을 선택하세요';return;}const a=(s.generalAccounts&&s.generalAccounts[acId]);if(a&&pinBuf===a.pin)user={role:'general',displayName:a.name,acctId:acId};}
+  else if(selRole==='dept_head'){if(!acId){document.getElementById('lerr').textContent='본부를 선택하세요';return;}const dep=(s.departments&&s.departments[acId]);if(dep&&pinBuf===(dep.headPin||'2345'))user={role:'dept_head',displayName:dep.name+' 본부장',deptId:acId};}
+  else if(selRole==='team_leader'){if(!acId){document.getElementById('lerr').textContent='팀을 선택하세요';return;}let dId=null;for(const[d2,dep]of Object.entries(s.departments||{}))if((dep.teams&&dep.teams[acId])){dId=d2;break;}const team=(s.departments&&s.departments[dId]&&s.departments[dId].teams&&s.departments[dId].teams[acId]);if(team&&pinBuf===(team.leaderPin||'4567'))user={role:'team_leader',displayName:team.name+' 팀장',teamId:acId,deptId:dId};}
   if(user){loginOK(user);}
   else{document.getElementById('lerr').textContent='❌ PIN이 올바르지 않습니다';pinBuf='';updDots();document.getElementById('lcard').classList.add('shake');setTimeout(()=>document.getElementById('lcard').classList.remove('shake'),400);}
 };
 function loginOK(u){
-  U=u;Notification.requestPermission?.();closeMbg('lmbg');
+  U=u;Notification.requestPermission&&Notification.requestPermission();closeMbg('lmbg');
   document.getElementById('loginBtn').style.display='none';
   document.getElementById('hdrUser').style.display='flex';
   document.getElementById('ubadge').textContent=U.displayName;
@@ -434,16 +433,16 @@ window.sw=tab=>{
   else if(tab==='emp')renderEmp();
   else if(tab==='acct')renderAcct();
 };
-function rerender(){const a=document.querySelector('.tab.on')?.dataset.tab||'work';if(a==='work')renderWork();else if(a==='manage')renderManage();else if(a==='emp')renderEmp();else if(a==='acct')renderAcct();}
+function rerender(){const a=(document.querySelector('.tab.on')&&document.querySelector('.tab.on').dataset.tab)||'work';if(a==='work')renderWork();else if(a==='manage')renderManage();else if(a==='emp')renderEmp();else if(a==='acct')renderAcct();}
 
 /* ── HELPERS ── */
-function getMember(dId,tId,name){const ms=D.settings?.departments?.[dId]?.teams?.[tId]?.members||{};return Object.entries(ms).find(([,m])=>m.name===name);}
-function getTeamMembers(dId,tId){return Object.entries(D.settings?.departments?.[dId]?.teams?.[tId]?.members||{}).map(([id,m])=>({id,name:m.name}));}
+function getMember(dId,tId,name){const ms=(D.settings&&D.settings.departments&&D.settings.departments[dId]&&D.settings.departments[dId].teams&&D.settings.departments[dId].teams[tId]&&D.settings.departments[dId].teams[tId].members)||{};return Object.entries(ms).find(([,m])=>m.name===name);}
+function getTeamMembers(dId,tId){return Object.entries((D.settings&&D.settings.departments&&D.settings.departments[dId]&&D.settings.departments[dId].teams&&D.settings.departments[dId].teams[tId]&&D.settings.departments[dId].teams[tId].members)||{}).map(([id,m])=>({id,name:m.name}));}
 
 /* ── RENDER WORK (워킹표) ── */
 function renderWork(){
   const wrap=document.getElementById('tab-work');
-  const slotCount=D.settings?.slotCount||20;
+  const slotCount=(D.settings&&D.settings.slotCount)||20;
   const slots=D.slots||{};
   // seq → slot 매핑
   const bySeq={};
@@ -491,14 +490,14 @@ function renderWork(){
           <td>${canDel?`<button class="btn bd" style="padding:5px 9px;font-size:13px" onclick="deleteEmptySlot(${seq})">🗑</button>`:''}</td></tr>`;
       }
       const dept=D.settings.departments[entry.deptId];
-      const team=dept?.teams?.[entry.teamId];
+      const team=(dept&&dept.teams&&dept.teams[entry.teamId]);
       const reg=entry.deptId&&entry.teamId?!!getMember(entry.deptId,entry.teamId,entry.memberName):true;
       const nameHtml=reg?`<span class="name-ok">${entry.memberName||'-'}</span>`
         :`<span class="name-err" onclick="offerAddMember('${entry.deptId}','${entry.teamId}','${entry.memberName}')">${entry.memberName||'-'}<span class="name-err-b" onclick="event.stopPropagation();offerAddMember('${entry.deptId}','${entry.teamId}','${entry.memberName}')">미등록↑</span></span>`;
       const ts=entry.checkedAt?new Date(entry.checkedAt).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
       const xc=entry.checked?'xbtn done':(canCheck?'xbtn can':'xbtn');
       const canE=P.canEditSlot(U,entry);
-      return`<tr><td><span class="seq-b">${seq}</span></td><td>${dept?.name||'-'}</td><td>${team?.name||'-'}</td><td>${nameHtml}</td>
+      return`<tr><td><span class="seq-b">${seq}</span></td><td>${(dept&&dept.name)||'-'}</td><td>${(team&&team.name)||'-'}</td><td>${nameHtml}</td>
         <td><div class="xwrap"><button class="${xc}" data-id="${entry.id}" data-done="${entry.checked?1:0}"></button>${entry.checked?`<div class="x-info">${ts}<br>${entry.checkedBy||''}</div>`:''}</div></td>
         <td style="white-space:nowrap"><div style="display:flex;gap:5px;justify-content:center">
           ${canE?`<button class="btn bs" style="padding:5px 9px;font-size:13px" onclick="openEditSlot('${entry.id}')">✏️</button>`:''}
@@ -516,7 +515,7 @@ function renderWork(){
         ${canDel?`<button class="btn bd" style="padding:4px 9px;font-size:12px;margin-top:2px" onclick="event.stopPropagation();deleteEmptySlot(${seq})">🗑 삭제</button>`:''}
       </div>`;
       const dept=D.settings.departments[entry.deptId];
-      const team=dept?.teams?.[entry.teamId];
+      const team=(dept&&dept.teams&&dept.teams[entry.teamId]);
       const reg=entry.deptId&&entry.teamId?!!getMember(entry.deptId,entry.teamId,entry.memberName):true;
       const ts=entry.checkedAt?new Date(entry.checkedAt).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
       const xc=entry.checked?'cv-x chk':(canCheck?'cv-x cpend':'cv-x pend');
@@ -526,8 +525,8 @@ function renderWork(){
       return`<div class="${ic}" data-id="${entry.id}" data-done="${entry.checked?1:0}">
         ${entry.checked?'<div class="cv-ribbon"></div>':''}
         <div class="cv-seq">${seq}</div>
-        <div class="cv-dept">${dept?.name||'-'}</div>
-        <div class="cv-team">${team?.name||'-'}</div>
+        <div class="cv-dept">${(dept&&dept.name)||'-'}</div>
+        <div class="cv-team">${(team&&team.name)||'-'}</div>
         <div class="cv-name${reg?'':' err'}" style="${!reg?'cursor:pointer':''}" ${nameClick}>${entry.memberName||'-'}${reg?'':' ⚠미등록'}</div>
         <div class="${xc}"></div>
         ${entry.checked?`<div class="cv-ts">${ts}<br>${entry.checkedBy||''}</div>`:''}
@@ -551,13 +550,13 @@ function renderWork(){
 
 /* 슬롯 수 조정 */
 window.changeSlotCount=async d=>{
-  const cur=D.settings?.slotCount||20;
+  const cur=(D.settings&&D.settings.slotCount)||20;
   const nv=Math.max(1,cur+d);
   await window._save('settings/slotCount',nv);
 };
 window.openSlotCountEdit=()=>{
   showGM(`📊 슬롯 수 변경 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
-    <div class="fg"><label class="fl">총 슬롯 수 (1~200)</label><input class="fi" type="number" id="scInput" value="${D.settings?.slotCount||20}" min="1" max="200"></div>
+    <div class="fg"><label class="fl">총 슬롯 수 (1~200)</label><input class="fi" type="number" id="scInput" value="${(D.settings&&D.settings.slotCount)||20}" min="1" max="200"></div>
     <button class="btn-full bp" onclick="saveSlotCount()">저장</button>`);
 };
 window.saveSlotCount=async()=>{
@@ -594,7 +593,7 @@ window.openAddSlot=()=>{
 };
 window.onSdChange=()=>{
   const dId=document.getElementById('sd').value;
-  const teams=D.settings.departments[dId]?.teams||{};
+  const teams=(D.settings.departments[dId]&&D.settings.departments[dId].teams)||{};
   document.getElementById('st').innerHTML='<option value="">-- 선택 --</option>'+Object.entries(teams).map(([id,t])=>`<option value="${id}">${t.name}</option>`).join('');
   document.getElementById('snSel').innerHTML='<option value="">목록선택</option>';
   document.getElementById('sn').value='';
@@ -613,10 +612,9 @@ window.saveSlot=async()=>{
   const shifts={};
   Object.entries(D.slots||{}).forEach(([id,s])=>{if(s.seq>=seq)shifts[`slots/${id}/seq`]=s.seq+1;});
   if(Object.keys(shifts).length)await window._upd(shifts);
-  const nr=push(r('slots'));
-  await set(nr,{seq,deptId:dId,teamId:tId,memberName:name,checked:false,checkedAt:null,checkedBy:null});
+  await r('slots').push({seq,deptId:dId,teamId:tId,memberName:name,checked:false,checkedAt:null,checkedBy:null});
   // slotCount도 늘려줌
-  if(seq>=(D.settings?.slotCount||20))await window._save('settings/slotCount',(D.settings?.slotCount||20)+1);
+  if(seq>=((D.settings&&D.settings.slotCount)||20))await window._save('settings/slotCount',((D.settings&&D.settings.slotCount)||20)+1);
   closeMbg('gmbg');showToast('✅ 슬롯 추가 (seq='+seq+')');
 };
 
@@ -624,7 +622,7 @@ window.saveSlot=async()=>{
 window.deleteSlot=async id=>{
   if(!P.canDeleteSlot(U)){showToast('권한 없음');return;}
   if(!confirm('이 슬롯을 삭제하고 뒤 번호를 앞으로 당깁니까?'))return;
-  const slot=D.slots?.[id];if(!slot)return;
+  const slot=(D.slots&&D.slots[id]);if(!slot)return;
   const delSeq=slot.seq;
   const upd={[`slots/${id}`]:null};
   Object.entries(D.slots||{}).forEach(([sid,s])=>{if(sid!==id&&s.seq>delSeq)upd[`slots/${sid}/seq`]=s.seq-1;});
@@ -636,14 +634,14 @@ window.deleteEmptySlot=async seq=>{
   const upd={};
   Object.entries(D.slots||{}).forEach(([sid,s])=>{if(s.seq>seq)upd[`slots/${sid}/seq`]=s.seq-1;});
   if(Object.keys(upd).length)await window._upd(upd);
-  const newCnt=Math.max(1,(D.settings?.slotCount||20)-1);
+  const newCnt=Math.max(1,((D.settings&&D.settings.slotCount)||20)-1);
   await window._save('settings/slotCount',newCnt);
   showToast('🗑 빈 슬롯 삭제');
 };
 
 /* 슬롯 수정 */
 window.openEditSlot=id=>{
-  const slot=D.slots?.[id];if(!slot)return;
+  const slot=(D.slots&&D.slots[id]);if(!slot)return;
   if(!P.canEditSlot(U,slot)){showToast('권한 없음');return;}
   const depts=D.settings.departments||{};
   const isAdmin=['admin','info','general'].includes(U.role);
@@ -653,9 +651,9 @@ window.openEditSlot=id=>{
   const allowDepts=isDH?{[U.deptId]:depts[U.deptId]}:isTL?{[U.deptId]:depts[U.deptId]}:depts;
   const dOpts=Object.entries(allowDepts).filter(([,d])=>d).map(([id,d])=>`<option value="${id}" ${id===slot.deptId?'selected':''}>${d.name}</option>`).join('');
   const curDept=depts[slot.deptId];
-  const tOpts=Object.entries(curDept?.teams||{}).map(([tid,t])=>`<option value="${tid}" ${tid===slot.teamId?'selected':''}>${t.name}</option>`).join('');
-  const curTeam=curDept?.teams?.[slot.teamId];
-  const mOpts=Object.entries(curTeam?.members||{}).map(([,m])=>`<option value="${m.name}" ${m.name===slot.memberName?'selected':''}>${m.name}</option>`).join('');
+  const tOpts=Object.entries((curDept&&curDept.teams)||{}).map(([tid,t])=>`<option value="${tid}" ${tid===slot.teamId?'selected':''}>${t.name}</option>`).join('');
+  const curTeam=(curDept&&curDept.teams&&curDept.teams[slot.teamId]);
+  const mOpts=Object.entries((curTeam&&curTeam.members)||{}).map(([,m])=>`<option value="${m.name}" ${m.name===slot.memberName?'selected':''}>${m.name}</option>`).join('');
   const deptDisabled=isTL?'disabled':'';
   const teamDisabled=isTL?'disabled':'';
   showGM(`✏️ 슬롯 수정 (${slot.seq}번) <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
@@ -674,7 +672,7 @@ window.openEditSlot=id=>{
 };
 window.onEsdChange=id=>{
   const dId=document.getElementById('esd').value;
-  const teams=D.settings.departments[dId]?.teams||{};
+  const teams=(D.settings.departments[dId]&&D.settings.departments[dId].teams)||{};
   document.getElementById('est').innerHTML='<option value="">-- 선택 --</option>'+Object.entries(teams).map(([tid,t])=>`<option value="${tid}">${t.name}</option>`).join('');
   document.getElementById('esnSel').innerHTML='<option value="">목록선택</option>';
 };
@@ -692,13 +690,13 @@ window.saveEditSlot=async id=>{
 };
 async function toggleCheck(id,wasDone){
   if(!P.canCheck(U)){showToast('권한 없음');return;}
-  const s=D.slots?.[id];if(!s)return;
+  const s=(D.slots&&D.slots[id]);if(!s)return;
   const nv=!wasDone;
   const upd={[`slots/${id}/checked`]:nv,[`slots/${id}/checkedAt`]:nv?Date.now():null,[`slots/${id}/checkedBy`]:nv?U.displayName:null};
   await window._upd(upd);
   if(nv){
-    const dept=D.settings.departments[s.deptId];const team=dept?.teams?.[s.teamId];
-    const msg=`${s.seq}번 완료 — ${dept?.name||''} ${team?.name||''} ${s.memberName||''}`;
+    const dept=D.settings.departments[s.deptId];const team=(dept&&dept.teams&&dept.teams[s.teamId]);
+    const msg=`${s.seq}번 완료 — ${(dept&&dept.name)||''} ${(team&&team.name)||''} ${s.memberName||''}`;
     await addNotif(msg);showToast('✅ '+msg);
     if(Notification.permission==='granted')try{new Notification('✅ 완료',{body:msg,icon:'icons/icon-192.png'})}catch(e){}
   }else showToast('↩️ 완료 취소');
@@ -709,13 +707,13 @@ window.offerAddMember=(dId,tId,name)=>{
   // 본부장 이상만 등록 제안 가능
   if(!U||!['admin','info','general','dept_head'].includes(U.role)){showToast('로그인 후 등록 가능');return;}
   if(!name||!dId||!tId)return;
-  const dept=D.settings.departments[dId];const team=dept?.teams?.[tId];
+  const dept=D.settings.departments[dId];const team=(dept&&dept.teams&&dept.teams[tId]);
   // 본부장은 자기 본부만
   if(U.role==='dept_head'&&U.deptId!==dId){showToast('본인 본부만 등록 가능');return;}
   showGM(`👤 미등록 직원 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
     <div style="background:#fff8e1;border-radius:10px;padding:13px 14px;margin-bottom:14px;font-size:15px;line-height:1.6">
       <b style="color:var(--red)">"${name}"</b>은 조직도에 없는 직원입니다.<br>
-      <b>${dept?.name||''} &gt; ${team?.name||''}</b>에 등록할까요?
+      <b>${(dept&&dept.name)||''} &gt; ${(team&&team.name)||''}</b>에 등록할까요?
     </div>
     <div style="display:flex;gap:9px">
       <button class="btn-full bs" style="flex:1" onclick="closeMbg('gmbg')">취소</button>
@@ -723,8 +721,8 @@ window.offerAddMember=(dId,tId,name)=>{
     </div>`);
 };
 window.confirmAddMember=async(dId,tId,name)=>{
-  const nr=push(r(`settings/departments/${dId}/teams/${tId}/members`));
-  await set(nr,{name});closeMbg('gmbg');showToast(`✅ ${name} 등록 완료`);
+  await r(`settings/departments/${dId}/teams/${tId}/members`).push({name});
+  closeMbg('gmbg');showToast('✅ '+name+' 등록 완료');
 };
 
 /* ── RENDER MANAGE (조직관리 — 인라인 편집) ── */
@@ -794,7 +792,7 @@ window.addDept=()=>{
 window.saveDept=async()=>{
   const name=document.getElementById('dn').value.trim(),pin=document.getElementById('dp').value.trim();
   if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리 확인');return;}
-  const nr=push(r('settings/departments'));await set(nr,{name,headPin:pin,teams:{}});closeMbg('gmbg');showToast('✅ 본부 추가');
+  await r('settings/departments').push({name,headPin:pin,teams:{}});closeMbg('gmbg');showToast('✅ 본부 추가');
 };
 window.delDept=async dId=>{
   if(!confirm('본부 전체 삭제? 워킹표의 해당 본부 슬롯도 모두 삭제됩니다.'))return;
@@ -810,8 +808,8 @@ window.delDept=async dId=>{
 
 window.addTeam=dId=>{
   const dep=D.settings.departments[dId];
-  const dNum=dep?.name.replace(/[^0-9]/g,'')||'';
-  const cnt=Object.keys(dep?.teams||{}).length+1;
+  const dNum=((dep&&dep.name)||'').replace(/[^0-9]/g,'')||'';
+  const cnt=Object.keys((dep&&dep.teams)||{}).length+1;
   const suggest=dNum?(dNum+'-'+cnt+'팀'):(cnt+'팀');
   showGM(`👥 팀 추가 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
     <input type="hidden" id="tdId" value="${dId}">
@@ -823,7 +821,7 @@ window.saveTeam=async()=>{
   const dId=document.getElementById('tdId').value;
   const name=document.getElementById('tn').value.trim(),pin=document.getElementById('tp').value.trim();
   if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리 확인');return;}
-  const nr=push(r(`settings/departments/${dId}/teams`));await set(nr,{name,leaderPin:pin,members:{}});closeMbg('gmbg');showToast('✅ 팀 추가');
+  await r(`settings/departments/${dId}/teams`).push({name,leaderPin:pin,members:{}});closeMbg('gmbg');showToast('✅ 팀 추가');
 };
 window.delTeam=async(dId,tId)=>{
   if(!confirm('팀 삭제? 워킹표의 해당 팀 슬롯도 모두 삭제됩니다.'))return;
@@ -881,7 +879,7 @@ window.saveMember=async(dId,tId,mId)=>{
   const name=document.getElementById('mn').value.trim();
   if(!name){showToast('이름 입력 필요');return;}
   if(mId)await window._save(`settings/departments/${dId}/teams/${tId}/members/${mId}/name`,name);
-  else{const nr=push(r(`settings/departments/${dId}/teams/${tId}/members`));await set(nr,{name});}
+  else{await r(`settings/departments/${dId}/teams/${tId}/members`).push({name});}
   closeMbg('gmbg');showToast('✅ 직원 추가');
 };
 window.delMember=async(dId,tId,mId)=>{if(!confirm('직원 삭제?'))return;await window._save(`settings/departments/${dId}/teams/${tId}/members/${mId}`,null);showToast('삭제됨');};
@@ -963,10 +961,10 @@ window.saveAdminPin=async()=>{
   await window._save('settings/adminPin',p);closeMbg('gmbg');showToast('✅ PIN 변경');
 };
 window.openAcctEdit=(type,id)=>{
-  const isInfo=type==='info';const a=id?(isInfo?D.settings.infoAccounts:D.settings.generalAccounts)?.[id]:null;
+  const isInfo=type==='info';const accts=isInfo?D.settings.infoAccounts:D.settings.generalAccounts;const a=id?(accts&&accts[id])||null:null;
   showGM(`${isInfo?'🖥️ 인포':'👑 총괄'} 계정 ${id?'수정':'추가'} <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
-    <div class="fg"><label class="fl">이름</label><input class="fi" id="an" value="${a?.name||''}" placeholder="이름"></div>
-    <div class="fg"><label class="fl">PIN (4자리)</label><input class="fi" id="ap" type="tel" inputmode="numeric" maxlength="4" value="${a?.pin||''}" placeholder="0000"></div>
+    <div class="fg"><label class="fl">이름</label><input class="fi" id="an" value="${(a&&a.name)||''}" placeholder="이름"></div>
+    <div class="fg"><label class="fl">PIN (4자리)</label><input class="fi" id="ap" type="tel" inputmode="numeric" maxlength="4" value="${(a&&a.pin)||''}" placeholder="0000"></div>
     <button class="btn-full bp" onclick="saveAcct('${type}','${id||''}')">저장</button>`);
 };
 window.saveAcct=async(type,id)=>{
@@ -974,7 +972,7 @@ window.saveAcct=async(type,id)=>{
   if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리 확인');return;}
   const path=type==='info'?'infoAccounts':'generalAccounts';
   if(id)await window._upd({[`settings/${path}/${id}/name`]:name,[`settings/${path}/${id}/pin`]:pin});
-  else{const nr=push(r(`settings/${path}`));await set(nr,{name,pin});}
+  else{await r(`settings/${path}`).push({name,pin});}
   closeMbg('gmbg');showToast('✅ 저장');
 };
 window.delAcct=async(type,id)=>{if(!confirm('삭제?'))return;await window._save(`settings/${type==='info'?'infoAccounts':'generalAccounts'}/${id}`,null);showToast('삭제됨');};
