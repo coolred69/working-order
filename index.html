@@ -570,127 +570,52 @@ window.setView=v=>{viewMode=v;localStorage.setItem('wo_view',v);renderWork();};
 window.openAddSlot=()=>{
   if(!P.canSlotAdd(U)){showToast('권한 없음');return;}
   const depts=D.settings.departments||{};
-  const isSup=['admin','info','general'].includes(U.role); // 총괄 이상
-  const isDH=U.role==='dept_head';
-  const isTL=U.role==='team_leader';
-
+  // 본부장: 자기 본부만 / 팀장: 자기 본부만
+  const allowDepts=U.role==='dept_head'?{[U.deptId]:depts[U.deptId]}:
+                   U.role==='team_leader'?{[U.deptId]:depts[U.deptId]}:depts;
+  const dOpts=Object.entries(allowDepts).filter(([,d])=>d).map(([id,d])=>`<option value="${id}">${d.name}</option>`).join('');
   const bySeq={};Object.values(D.slots||{}).forEach(s=>bySeq[s.seq]=true);
   let nextSeq=1;while(bySeq[nextSeq])nextSeq++;
-
-  // ── 총괄 이상: 순서번호+본부(필수)+팀(선택)+직원(선택)
-  if(isSup){
-    const dOpts=Object.entries(depts).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999))
-      .map(([id,d])=>`<option value="${id}">${d.name}</option>`).join('');
-    showGM(`➕ 슬롯 추가 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
-      <div class="fg"><label class="fl">순서 번호 <span style="color:var(--txt2);font-weight:400;font-size:12px">(이후 번호 자동 밀림)</span></label>
-        <input class="fi" type="number" id="ss" value="${nextSeq}" min="1"></div>
-      <div class="fg"><label class="fl">본부 <span style="color:var(--red)">*필수</span></label>
-        <select class="fsel" id="sd" onchange="onSdChange()"><option value="">-- 선택 --</option>${dOpts}</select></div>
-      <div class="fg"><label class="fl">팀 <span style="color:var(--txt2);font-size:12px">(선택)</span></label>
-        <select class="fsel" id="st" onchange="onStChange()"><option value="">-- 선택 안 함 --</option></select></div>
-      <div class="fg" id="snWrap"><label class="fl">직원명 <span style="color:var(--txt2);font-size:12px">(선택)</span></label>
-        <div style="display:flex;gap:8px">
-          <input class="fi" id="sn" placeholder="이름 입력 또는 목록 선택" style="flex:1">
-          <select class="fsel" id="snSel" style="width:130px" onchange="document.getElementById('sn').value=this.value"><option value="">목록선택</option></select>
-        </div>
+  showGM(`➕ 슬롯 추가 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">순서 번호 <span style="color:var(--txt2);font-weight:400;font-size:12px">(해당 번호 이후는 자동으로 뒤로 밀림)</span></label><input class="fi" type="number" id="ss" value="${nextSeq}" min="1"></div>
+    <div class="fg"><label class="fl">본부</label><select class="fsel" id="sd" onchange="onSdChange()"><option value="">-- 선택 --</option>${dOpts}</select></div>
+    <div class="fg"><label class="fl">팀</label><select class="fsel" id="st" onchange="onStChange()"><option value="">-- 선택 --</option></select></div>
+    <div class="fg"><label class="fl">직원명</label>
+      <div style="display:flex;gap:8px">
+        <input class="fi" id="sn" placeholder="이름 입력" style="flex:1">
+        <select class="fsel" id="snSel" style="width:130px" onchange="document.getElementById('sn').value=this.value"><option value="">목록선택</option></select>
       </div>
-      <button class="btn-full bp" onclick="saveSlot('sup')">추가</button>`);
-    return;
-  }
-
-  // ── 본부장: 본부 고정 + 팀(선택) + 직원(선택)
-  if(isDH){
-    const dept=depts[U.deptId];if(!dept){showToast('본부 정보 없음');return;}
-    const tOpts=Object.entries(dept.teams||{}).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999))
-      .map(([id,t])=>`<option value="${id}">${t.name}</option>`).join('');
-    showGM(`➕ 슬롯 추가 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
-      <div class="fg"><label class="fl">본부</label>
-        <div class="fi" style="background:#f5f5f5;color:var(--txt2)">${dept.name} (고정)</div></div>
-      <div class="fg"><label class="fl">팀 <span style="color:var(--txt2);font-size:12px">(선택)</span></label>
-        <select class="fsel" id="st" onchange="onStChangeDH()"><option value="">-- 선택 안 함 --</option>${tOpts}</select></div>
-      <div class="fg" id="snWrap"><label class="fl">직원명 <span style="color:var(--txt2);font-size:12px">(선택)</span></label>
-        <div style="display:flex;gap:8px">
-          <input class="fi" id="sn" placeholder="이름 입력 또는 목록 선택" style="flex:1">
-          <select class="fsel" id="snSel" style="width:130px" onchange="document.getElementById('sn').value=this.value"><option value="">목록선택</option></select>
-        </div>
-      </div>
-      <button class="btn-full bp" onclick="saveSlot('dh')">추가</button>`);
-    return;
-  }
-
-  // ── 팀장: 본부+팀 고정 + 직원명만 입력
-  if(isTL){
-    const dept=depts[U.deptId];const team=dept&&dept.teams&&dept.teams[U.teamId];
-    if(!dept||!team){showToast('팀 정보 없음');return;}
-    const mOpts=getTeamMembers(U.deptId,U.teamId).map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
-    showGM(`➕ 슬롯 추가 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
-      <div class="fg"><label class="fl">본부 / 팀</label>
-        <div class="fi" style="background:#f5f5f5;color:var(--txt2)">${dept.name} &gt; ${team.name} (고정)</div></div>
-      <div class="fg"><label class="fl">직원명 <span style="color:var(--red)">*필수</span></label>
-        <div style="display:flex;gap:8px">
-          <input class="fi" id="sn" placeholder="이름 입력" style="flex:1">
-          <select class="fsel" id="snSel" style="width:130px" onchange="document.getElementById('sn').value=this.value">
-            <option value="">목록선택</option>${mOpts}</select>
-        </div>
-      </div>
-      <button class="btn-full bp" onclick="saveSlot('tl')">추가</button>`);
-  }
+    </div>
+    <button class="btn-full bp" onclick="saveSlot()">추가</button>`);
+  // 팀장: 자기 팀 자동 선택
+  if(U.role==='dept_head'&&U.deptId){setTimeout(()=>{document.getElementById('sd').value=U.deptId;onSdChange();},50);}
+  if(U.role==='team_leader'&&U.deptId){setTimeout(()=>{document.getElementById('sd').value=U.deptId;onSdChange();setTimeout(()=>{document.getElementById('st').value=U.teamId;onStChange();},80);},50);}
 };
-
 window.onSdChange=()=>{
   const dId=document.getElementById('sd').value;
   const teams=(D.settings.departments[dId]&&D.settings.departments[dId].teams)||{};
-  const sorted=Object.entries(teams).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999));
-  document.getElementById('st').innerHTML='<option value="">-- 선택 안 함 --</option>'+sorted.map(([id,t])=>`<option value="${id}">${t.name}</option>`).join('');
-  if(document.getElementById('snSel'))document.getElementById('snSel').innerHTML='<option value="">목록선택</option>';
-  if(document.getElementById('sn'))document.getElementById('sn').value='';
+  document.getElementById('st').innerHTML='<option value="">-- 선택 --</option>'+Object.entries(teams).map(([id,t])=>`<option value="${id}">${t.name}</option>`).join('');
+  document.getElementById('snSel').innerHTML='<option value="">목록선택</option>';
+  document.getElementById('sn').value='';
 };
 window.onStChange=()=>{
   const dId=document.getElementById('sd').value,tId=document.getElementById('st').value;
-  if(!tId){if(document.getElementById('snSel'))document.getElementById('snSel').innerHTML='<option value="">목록선택</option>';return;}
   const members=getTeamMembers(dId,tId);
   document.getElementById('snSel').innerHTML='<option value="">목록선택</option>'+members.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
 };
-window.onStChangeDH=()=>{
-  const tId=document.getElementById('st').value;
-  if(!tId){if(document.getElementById('snSel'))document.getElementById('snSel').innerHTML='<option value="">목록선택</option>';return;}
-  const members=getTeamMembers(U.deptId,tId);
-  document.getElementById('snSel').innerHTML='<option value="">목록선택</option>'+members.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
-};
-
-window.saveSlot=async(mode)=>{
-  let seq,dId,tId,name;
-  const bySeq={};Object.values(D.slots||{}).forEach(s=>bySeq[s.seq]=true);
-  let nextSeq=1;while(bySeq[nextSeq])nextSeq++;
-
-  if(mode==='sup'){
-    seq=parseInt(document.getElementById('ss').value)||1;
-    dId=document.getElementById('sd').value;
-    tId=document.getElementById('st').value||null;
-    name=document.getElementById('sn').value.trim()||null;
-    if(!dId){showToast('본부는 필수 선택');return;}
-  } else if(mode==='dh'){
-    seq=nextSeq; // 본부장은 순서번호 자동
-    dId=U.deptId;
-    tId=document.getElementById('st').value||null;
-    name=document.getElementById('sn').value.trim()||null;
-    if(!dId){showToast('본부 정보 없음');return;}
-  } else if(mode==='tl'){
-    seq=nextSeq; // 팀장은 순서번호 자동
-    dId=U.deptId;
-    tId=U.teamId;
-    name=document.getElementById('sn').value.trim();
-    if(!name){showToast('직원명은 필수');return;}
-  } else return;
-
-  // seq 이후 밀기
+window.saveSlot=async()=>{
+  const seq=parseInt(document.getElementById('ss').value)||1;
+  const dId=document.getElementById('sd').value,tId=document.getElementById('st').value;
+  const name=document.getElementById('sn').value.trim();
+  if(!dId||!tId||!name){showToast('모든 항목 입력 필요');return;}
+  // 해당 seq 이상인 기존 슬롯 +1 밀기
   const shifts={};
-  Object.entries(D.slots||{}).forEach(([id,s])=>{if(s.seq>=seq)shifts['slots/'+id+'/seq']=s.seq+1;});
+  Object.entries(D.slots||{}).forEach(([id,s])=>{if(s.seq>=seq)shifts[`slots/${id}/seq`]=s.seq+1;});
   if(Object.keys(shifts).length)await window._upd(shifts);
   await r('slots').push({seq,deptId:dId,teamId:tId,memberName:name,checked:false,checkedAt:null,checkedBy:null});
-  const sc=(D.settings&&D.settings.slotCount)||20;
-  if(seq>=sc)await window._save('settings/slotCount',sc+1);
-  closeMbg('gmbg');showToast('✅ 슬롯 추가 ('+seq+'번)');
+  // slotCount도 늘려줌
+  if(seq>=((D.settings&&D.settings.slotCount)||20))await window._save('settings/slotCount',((D.settings&&D.settings.slotCount)||20)+1);
+  closeMbg('gmbg');showToast('✅ 슬롯 추가 (seq='+seq+')');
 };
 
 /* 슬롯 삭제 + 재정렬 */
@@ -719,99 +644,48 @@ window.openEditSlot=id=>{
   const slot=(D.slots&&D.slots[id]);if(!slot)return;
   if(!P.canEditSlot(U,slot)){showToast('권한 없음');return;}
   const depts=D.settings.departments||{};
-  const isSup=['admin','info','general'].includes(U.role);
+  const isAdmin=['admin','info','general'].includes(U.role);
   const isDH=U.role==='dept_head';
   const isTL=U.role==='team_leader';
+  // 본부 옵션 (권한에 따라)
+  const allowDepts=isDH?{[U.deptId]:depts[U.deptId]}:isTL?{[U.deptId]:depts[U.deptId]}:depts;
+  const dOpts=Object.entries(allowDepts).filter(([,d])=>d).map(([id,d])=>`<option value="${id}" ${id===slot.deptId?'selected':''}>${d.name}</option>`).join('');
   const curDept=depts[slot.deptId];
-  const curTeam=curDept&&curDept.teams&&curDept.teams[slot.teamId];
-
-  if(isSup){
-    // 총괄 이상: 본부/팀/직원 모두 수정 가능
-    const dOpts=Object.entries(depts).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999))
-      .map(([id,d])=>`<option value="${id}" ${id===slot.deptId?'selected':''}>${d.name}</option>`).join('');
-    const tOpts='<option value="">-- 선택 안 함 --</option>'+Object.entries((curDept&&curDept.teams)||{}).map(([tid,t])=>`<option value="${tid}" ${tid===slot.teamId?'selected':''}>${t.name}</option>`).join('');
-    const mOpts='<option value="">목록선택</option>'+Object.entries((curTeam&&curTeam.members)||{}).map(([,m])=>`<option value="${m.name}" ${m.name===slot.memberName?'selected':''}>${m.name}</option>`).join('');
-    showGM(`✏️ 슬롯 수정 (${slot.seq}번) <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
-      <div class="fg"><label class="fl">본부</label><select class="fsel" id="esd" onchange="onEsdChange()">${dOpts}</select></div>
-      <div class="fg"><label class="fl">팀 <span style="color:var(--txt2);font-size:12px">(선택)</span></label><select class="fsel" id="est" onchange="onEstChange()">${tOpts}</select></div>
-      <div class="fg"><label class="fl">직원명 <span style="color:var(--txt2);font-size:12px">(선택)</span></label>
-        <div style="display:flex;gap:8px">
-          <input class="fi" id="esn" value="${slot.memberName||''}" placeholder="이름 입력" style="flex:1">
-          <select class="fsel" id="esnSel" style="width:130px" onchange="document.getElementById('esn').value=this.value">${mOpts}</select>
-        </div></div>
-      <button class="btn-full bp" onclick="saveEditSlot('${id}','sup')">저장</button>`);
-    return;
-  }
-
-  if(isDH){
-    // 본부장: 본부 고정, 팀/직원 수정
-    const dept=depts[U.deptId];if(!dept)return;
-    const tOpts='<option value="">-- 선택 안 함 --</option>'+Object.entries(dept.teams||{}).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999))
-      .map(([tid,t])=>`<option value="${tid}" ${tid===slot.teamId?'selected':''}>${t.name}</option>`).join('');
-    const mOpts='<option value="">목록선택</option>'+getTeamMembers(U.deptId,slot.teamId).map(m=>`<option value="${m.name}" ${m.name===slot.memberName?'selected':''}>${m.name}</option>`).join('');
-    showGM(`✏️ 슬롯 수정 (${slot.seq}번) <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
-      <div class="fg"><label class="fl">본부</label>
-        <div class="fi" style="background:#f5f5f5;color:var(--txt2)">${dept.name} (고정)</div></div>
-      <div class="fg"><label class="fl">팀 <span style="color:var(--txt2);font-size:12px">(선택)</span></label><select class="fsel" id="est" onchange="onEstChangeDH()">${tOpts}</select></div>
-      <div class="fg"><label class="fl">직원명 <span style="color:var(--txt2);font-size:12px">(선택)</span></label>
-        <div style="display:flex;gap:8px">
-          <input class="fi" id="esn" value="${slot.memberName||''}" placeholder="이름 입력" style="flex:1">
-          <select class="fsel" id="esnSel" style="width:130px" onchange="document.getElementById('esn').value=this.value">${mOpts}</select>
-        </div></div>
-      <button class="btn-full bp" onclick="saveEditSlot('${id}','dh')">저장</button>`);
-    return;
-  }
-
-  if(isTL){
-    // 팀장: 본부+팀 고정, 직원명만 수정
-    const dept=depts[U.deptId];const team=dept&&dept.teams&&dept.teams[U.teamId];if(!team)return;
-    const mOpts='<option value="">목록선택</option>'+getTeamMembers(U.deptId,U.teamId).map(m=>`<option value="${m.name}" ${m.name===slot.memberName?'selected':''}>${m.name}</option>`).join('');
-    showGM(`✏️ 슬롯 수정 (${slot.seq}번) <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
-      <div class="fg"><label class="fl">본부 / 팀</label>
-        <div class="fi" style="background:#f5f5f5;color:var(--txt2)">${dept.name} &gt; ${team.name} (고정)</div></div>
-      <div class="fg"><label class="fl">직원명 <span style="color:var(--red)">*필수</span></label>
-        <div style="display:flex;gap:8px">
-          <input class="fi" id="esn" value="${slot.memberName||''}" placeholder="이름 입력" style="flex:1">
-          <select class="fsel" id="esnSel" style="width:130px" onchange="document.getElementById('esn').value=this.value">${mOpts}</select>
-        </div></div>
-      <button class="btn-full bp" onclick="saveEditSlot('${id}','tl')">저장</button>`);
-  }
+  const tOpts=Object.entries((curDept&&curDept.teams)||{}).map(([tid,t])=>`<option value="${tid}" ${tid===slot.teamId?'selected':''}>${t.name}</option>`).join('');
+  const curTeam=(curDept&&curDept.teams&&curDept.teams[slot.teamId]);
+  const mOpts=Object.entries((curTeam&&curTeam.members)||{}).map(([,m])=>`<option value="${m.name}" ${m.name===slot.memberName?'selected':''}>${m.name}</option>`).join('');
+  const deptDisabled=isTL?'disabled':'';
+  const teamDisabled=isTL?'disabled':'';
+  showGM(`✏️ 슬롯 수정 (${slot.seq}번) <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">본부</label><select class="fsel" id="esd" onchange="onEsdChange('${id}')" ${deptDisabled}>
+      <option value="">-- 선택 --</option>${dOpts}</select></div>
+    <div class="fg"><label class="fl">팀</label><select class="fsel" id="est" onchange="onEstChange('${id}')" ${teamDisabled}>
+      <option value="">-- 선택 --</option>${tOpts}</select></div>
+    <div class="fg"><label class="fl">직원명</label>
+      <div style="display:flex;gap:8px">
+        <input class="fi" id="esn" value="${slot.memberName||''}" placeholder="이름 입력" style="flex:1">
+        <select class="fsel" id="esnSel" style="width:130px" onchange="document.getElementById('esn').value=this.value">
+          <option value="">목록선택</option>${mOpts}</select>
+      </div>
+    </div>
+    <button class="btn-full bp" onclick="saveEditSlot('${id}')">저장</button>`);
 };
-window.onEsdChange=()=>{
+window.onEsdChange=id=>{
   const dId=document.getElementById('esd').value;
   const teams=(D.settings.departments[dId]&&D.settings.departments[dId].teams)||{};
-  document.getElementById('est').innerHTML='<option value="">-- 선택 안 함 --</option>'+Object.entries(teams).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999)).map(([tid,t])=>`<option value="${tid}">${t.name}</option>`).join('');
-  if(document.getElementById('esnSel'))document.getElementById('esnSel').innerHTML='<option value="">목록선택</option>';
+  document.getElementById('est').innerHTML='<option value="">-- 선택 --</option>'+Object.entries(teams).map(([tid,t])=>`<option value="${tid}">${t.name}</option>`).join('');
+  document.getElementById('esnSel').innerHTML='<option value="">목록선택</option>';
 };
-window.onEstChange=()=>{
+window.onEstChange=id=>{
   const dId=document.getElementById('esd').value,tId=document.getElementById('est').value;
-  if(!tId){if(document.getElementById('esnSel'))document.getElementById('esnSel').innerHTML='<option value="">목록선택</option>';return;}
   const members=getTeamMembers(dId,tId);
   document.getElementById('esnSel').innerHTML='<option value="">목록선택</option>'+members.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
 };
-window.onEstChangeDH=()=>{
-  const tId=document.getElementById('est').value;
-  if(!tId){if(document.getElementById('esnSel'))document.getElementById('esnSel').innerHTML='<option value="">목록선택</option>';return;}
-  const members=getTeamMembers(U.deptId,tId);
-  document.getElementById('esnSel').innerHTML='<option value="">목록선택</option>'+members.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
-};
-window.saveEditSlot=async(id,mode)=>{
-  let dId,tId,name;
-  if(mode==='sup'){
-    dId=document.getElementById('esd').value;
-    tId=document.getElementById('est').value||null;
-    name=document.getElementById('esn').value.trim()||null;
-    if(!dId){showToast('본부는 필수');return;}
-  } else if(mode==='dh'){
-    dId=U.deptId;
-    tId=document.getElementById('est').value||null;
-    name=document.getElementById('esn').value.trim()||null;
-  } else if(mode==='tl'){
-    dId=U.deptId;tId=U.teamId;
-    name=document.getElementById('esn').value.trim();
-    if(!name){showToast('직원명은 필수');return;}
-  } else return;
-  await window._upd({'slots/'+id+'/deptId':dId,'slots/'+id+'/teamId':tId,'slots/'+id+'/memberName':name});
+window.saveEditSlot=async id=>{
+  const dId=document.getElementById('esd').value,tId=document.getElementById('est').value;
+  const name=document.getElementById('esn').value.trim();
+  if(!dId||!tId||!name){showToast('모든 항목 입력 필요');return;}
+  await window._upd({[`slots/${id}/deptId`]:dId,[`slots/${id}/teamId`]:tId,[`slots/${id}/memberName`]:name});
   closeMbg('gmbg');showToast('✅ 수정 완료');
 };
 async function toggleCheck(id,wasDone){
