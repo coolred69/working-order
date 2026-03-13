@@ -170,6 +170,43 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
   #main{padding:18px;padding-bottom:90px}
   .o-tbl{font-size:14px}
 }
+
+/* VIEW TOGGLE */
+.view-ctrl{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
+.view-ctrl-left{font-size:13px;color:var(--txt2);font-weight:600}
+.view-toggle{display:flex;background:#e8eaf0;border-radius:10px;padding:3px;gap:2px;flex-shrink:0}
+.vt-btn{padding:6px 13px;border-radius:8px;border:none;font-size:12px;font-weight:700;cursor:pointer;transition:all .18s;background:none;color:var(--txt2)}
+.vt-btn.active{background:#fff;color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.15)}
+
+/* CARD VIEW */
+.card-view-wrap{display:flex;flex-direction:column;gap:14px}
+.cv-round{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
+.cv-round-hdr{padding:12px 15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;border-bottom:1px solid var(--bdr)}
+.cv-round-hdr:active{background:#f5f6ff}
+.cv-rname{font-size:15px;font-weight:800}
+.cv-rmeta{display:flex;align-items:center;gap:8px}
+.cv-body{padding:12px}
+.cv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.cv-item{border:2px solid var(--bdr);border-radius:12px;padding:10px 10px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:default;transition:all .2s;background:#fafbff;position:relative;overflow:hidden}
+.cv-item.done-item{border-color:var(--red);background:var(--redbg)}
+.cv-item.clickable-item{cursor:pointer}
+.cv-item.clickable-item:hover{border-color:var(--pri);background:#f0f2ff}
+.cv-seq{width:28px;height:28px;border-radius:50%;background:var(--pri);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cv-dept{font-size:10px;color:var(--txt2);font-weight:600;text-align:center}
+.cv-team{font-size:10px;color:var(--txt2);text-align:center}
+.cv-name{font-size:13px;font-weight:800;text-align:center;word-break:keep-all}
+.cv-name.err{color:var(--red)}
+.cv-x{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cv-x.pending{border:2.5px solid var(--bdr);background:#fff}
+.cv-x.pending.can{border-color:var(--pri2)}
+.cv-x.checked-x{background:var(--red);position:relative}
+.cv-x.checked-x::before,.cv-x.checked-x::after{content:'';position:absolute;width:14px;height:2.5px;background:#fff;border-radius:2px}
+.cv-x.checked-x::before{transform:rotate(45deg)}
+.cv-x.checked-x::after{transform:rotate(-45deg)}
+.cv-ts{font-size:9px;color:var(--txt2);text-align:center;line-height:1.3}
+.cv-done-ribbon{position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)}
+.cv-foot{padding:8px 12px;display:flex;justify-content:flex-end;gap:7px;border-top:1px solid var(--bdr);background:#fafbff}
+.cv-empty{padding:20px;text-align:center;color:var(--txt2);font-size:13px}
 </style>
 </head>
 <body>
@@ -309,6 +346,7 @@ function initData() {
 let D = initData();
 let U = null;
 let openR = {};
+let viewMode = localStorage.getItem('wo_view')||'table'; // 'table' or 'card'
 let prevNC = 0;
 
 /* ─── PERMISSIONS ─── */
@@ -556,19 +594,94 @@ function renderRounds(){
   const rounds = D.rounds || {};
   const arr = Object.entries(rounds).sort((a,b)=>(a[1].createdAt||0)-(b[1].createdAt||0));
 
+  // 기본: 모든 회차 열림
+  arr.forEach(([rid])=>{ if(openR[rid]===undefined) openR[rid]=true; });
+
+  const total = arr.length;
+  const ctrl = `<div class="view-ctrl">
+    <div class="view-ctrl-left">총 ${total}개 회차</div>
+    <div class="view-toggle">
+      <button class="vt-btn ${viewMode==='table'?'active':''}" onclick="setView('table')">≡ 테이블</button>
+      <button class="vt-btn ${viewMode==='card'?'active':''}" onclick="setView('card')">⊞ 카드</button>
+    </div>
+  </div>`;
+
   if(!arr.length){
-    wrap.innerHTML=`<div class="empty-state"><div class="empty-ico">📅</div><div>등록된 회차가 없습니다</div></div>`;
+    wrap.innerHTML=ctrl+`<div class="empty-state"><div class="empty-ico">📅</div><div>등록된 회차가 없습니다</div></div>`;
     return;
   }
-  wrap.innerHTML = arr.map(([rid,rnd])=>renderRoundCard(rid,rnd)).join('');
+
+  if(viewMode==='card'){
+    wrap.innerHTML = ctrl + `<div class="card-view-wrap">${arr.map(([rid,rnd])=>renderCardView(rid,rnd)).join('')}</div>`;
+  } else {
+    wrap.innerHTML = ctrl + arr.map(([rid,rnd])=>renderRoundCard(rid,rnd)).join('');
+  }
   bindRoundEvents();
+}
+
+window.setView = v => {
+  viewMode = v;
+  localStorage.setItem('wo_view', v);
+  renderRounds();
+};
+
+
+function renderCardView(rid, rnd){
+  const orders = Object.entries(rnd.orders||{}).sort((a,b)=>(a[1].seq||0)-(b[1].seq||0));
+  const total=orders.length, done=orders.filter(([,o])=>o.checked).length;
+  const pct=total>0?Math.round(done/total*100):0;
+  const isOpen = openR[rid]!==false;
+  const canCheck=P.canCheck(U);
+  const canEdit=P.canRounds(U);
+
+  const cards = orders.length===0
+    ? `<div class="cv-empty">워킹 순서가 없습니다${canEdit?' — 테이블뷰에서 추가하세요':''}</div>`
+    : orders.map(([oid,o])=>{
+        const dept=D.settings.departments[o.deptId];
+        const team=dept?.teams?.[o.teamId];
+        const reg=(o.deptId&&o.teamId)?isMemberRegistered(o.deptId,o.teamId,o.memberName):true;
+        const ts=o.checkedAt?new Date(o.checkedAt).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+        const xClass=o.checked?'cv-x checked-x':(canCheck?'cv-x pending can':'cv-x pending');
+        const itemClass=`cv-item${o.checked?' done-item':''}${canCheck?' clickable-item':''}`;
+        return `<div class="${itemClass}" data-rid="${rid}" data-oid="${oid}" data-done="${o.checked?1:0}">
+          ${o.checked?'<div class="cv-done-ribbon"></div>':''}
+          <div class="cv-seq">${o.seq}</div>
+          <div class="cv-dept">${dept?.name||'-'}</div>
+          <div class="cv-team">${team?.name||'-'}</div>
+          <div class="cv-name${reg?'':' err'}">${o.memberName||'-'}${reg?'':' ⚠'}</div>
+          <div class="${xClass}"></div>
+          ${o.checked?`<div class="cv-ts">${ts}<br>${o.checkedBy||''}</div>`:''}
+        </div>`;
+      }).join('');
+
+  return `<div class="cv-round" id="rc-${rid}">
+    <div class="cv-round-hdr" data-rid="${rid}">
+      <div>
+        <div class="cv-rname">${rnd.name}</div>
+        ${rnd.createdDate?`<div style="font-size:11px;color:var(--txt2);margin-top:2px">${rnd.createdDate}</div>`:''}
+      </div>
+      <div class="cv-rmeta">
+        <span class="r-cnt" style="font-size:14px;font-weight:700;color:${done===total&&total>0?'var(--ok)':'var(--pri)'}">${done}/${total}</span>
+        <span style="font-size:12px;color:var(--txt2)">${pct}%</span>
+        <span class="r-arr${isOpen?' open':''}">▶</span>
+      </div>
+    </div>
+    <div class="prog"><div class="prog-fill" style="width:${pct}%"></div></div>
+    <div id="rb-${rid}" style="display:${isOpen?'block':'none'}">
+      <div class="cv-body"><div class="cv-grid">${cards}</div></div>
+      ${canEdit?`<div class="cv-foot">
+        <button class="btn bs" onclick="openAddOrderModal('${rid}')">+ 순서추가</button>
+        <button class="btn bd" onclick="delRound('${rid}')">회차삭제</button>
+      </div>`:''}
+    </div>
+  </div>`;
 }
 
 function renderRoundCard(rid, rnd){
   const orders = Object.entries(rnd.orders||{}).sort((a,b)=>(a[1].seq||0)-(b[1].seq||0));
   const total=orders.length, done=orders.filter(([,o])=>o.checked).length;
   const pct=total>0?Math.round(done/total*100):0;
-  const isOpen=!!openR[rid];
+  const isOpen = openR[rid]!==false;
   const canCheck=P.canCheck(U);
   const canEdit=P.canRounds(U);
 
@@ -622,17 +735,32 @@ function renderRoundCard(rid, rnd){
 }
 
 function bindRoundEvents(){
+  // 테이블 뷰 헤더 토글
   document.querySelectorAll('.r-hdr').forEach(h=>{
     h.onclick = () => {
       const rid=h.dataset.rid;
-      openR[rid]=!openR[rid];
-      document.getElementById(`rb-${rid}`).style.display=openR[rid]?'block':'none';
-      h.classList.toggle('open',!!openR[rid]);
-      h.querySelector('.r-arr').classList.toggle('open',!!openR[rid]);
+      openR[rid] = openR[rid]===false ? true : false;
+      document.getElementById(`rb-${rid}`).style.display=openR[rid]===false?'none':'block';
+      h.classList.toggle('open', openR[rid]!==false);
+      h.querySelector('.r-arr').classList.toggle('open', openR[rid]!==false);
     };
   });
+  // 카드 뷰 헤더 토글
+  document.querySelectorAll('.cv-round-hdr').forEach(h=>{
+    h.onclick = () => {
+      const rid=h.dataset.rid;
+      openR[rid] = openR[rid]===false ? true : false;
+      document.getElementById(`rb-${rid}`).style.display=openR[rid]===false?'none':'block';
+      h.querySelector('.r-arr').classList.toggle('open', openR[rid]!==false);
+    };
+  });
+  // 테이블 뷰 X버튼
   document.querySelectorAll('.x-btn[data-rid]').forEach(btn=>{
     btn.onclick = e=>{e.stopPropagation(); toggleCheck(btn.dataset.rid,btn.dataset.oid,btn.dataset.done==='1');};
+  });
+  // 카드 뷰 X버튼 (카드 전체 클릭)
+  document.querySelectorAll('.cv-item.clickable-item').forEach(item=>{
+    item.onclick = e=>{e.stopPropagation(); toggleCheck(item.dataset.rid,item.dataset.oid,item.dataset.done==='1');};
   });
 }
 
