@@ -635,7 +635,7 @@ window.setView = v => {
 
 function renderCardView(rid, rnd){
   const orders = Object.entries(rnd.orders||{}).sort((a,b)=>(a[1].seq||0)-(b[1].seq||0));
-  const slotTotal = rnd.slotCount || orders.length;
+  const slotTotal = rnd.slotCount || (orders.length > 0 ? Math.max(orders.length, 20) : 20);
   const total=slotTotal, done=orders.filter(([,o])=>o.checked).length;
   const pct=total>0?Math.round(done/total*100):0;
   const isOpen = openR[rid]!==false;
@@ -700,7 +700,7 @@ function renderCardView(rid, rnd){
 
 function renderRoundCard(rid, rnd){
   const orders = Object.entries(rnd.orders||{}).sort((a,b)=>(a[1].seq||0)-(b[1].seq||0));
-  const slotTotal = rnd.slotCount || orders.length;
+  const slotTotal = rnd.slotCount || (orders.length > 0 ? Math.max(orders.length, 20) : 20);
   const total=slotTotal, done=orders.filter(([,o])=>o.checked).length;
   const pct=total>0?Math.round(done/total*100):0;
   const isOpen = openR[rid]!==false;
