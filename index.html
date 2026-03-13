@@ -8,1131 +8,1017 @@
 <meta name="theme-color" content="#1a237e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="워킹오더">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --primary:#1a237e;--primary-light:#3949ab;--primary-dark:#0d1b5e;
-  --accent:#e53935;--success:#2e7d32;--warning:#f57f17;
-  --bg:#f0f2f8;--card:#fff;--text:#212121;--text-light:#757575;
-  --border:#e0e0e0;--x-color:#e53935;--x-bg:#fff5f5;
+  --pri:#1a237e;--pri2:#3949ab;--pri3:#0d1b5e;
+  --acc:#e53935;--ok:#2e7d32;--warn:#f57f17;
+  --bg:#f0f2f8;--card:#fff;--txt:#212121;--txt2:#757575;
+  --bdr:#e0e0e0;--red:#e53935;--redbg:#fff5f5;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
 
-/* ===== LOGIN ===== */
-#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);padding:20px}
-.login-card{background:#fff;border-radius:20px;padding:28px 24px 24px;width:100%;max-width:380px;box-shadow:0 12px 40px rgba(0,0,0,.35)}
-.login-logo{text-align:center;font-size:40px;margin-bottom:8px}
-.login-title{text-align:center;font-size:20px;font-weight:800;color:var(--primary);margin-bottom:4px}
-.login-sub{text-align:center;color:var(--text-light);font-size:13px;margin-bottom:20px}
-.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.role-btn{padding:11px 8px;border:2px solid var(--border);border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;background:#fff;transition:all .15s;color:var(--text);text-align:center}
-.role-btn:active{transform:scale(.96)}
-.role-btn.active{border-color:var(--primary);background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(26,35,126,.3)}
-.sub-select-wrap{margin-bottom:14px}
-.sub-label{font-size:12px;font-weight:700;color:var(--text-light);margin-bottom:6px;display:block}
-.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px}
-.pin-dots{display:flex;justify-content:center;gap:14px;margin:14px 0 10px}
-.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--primary);transition:all .2s;background:#fff}
-.pin-dot.filled{background:var(--primary);transform:scale(1.1)}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 14px}
-.pkey{height:58px;border:1.5px solid var(--border);border-radius:14px;font-size:22px;font-weight:700;background:#fff;cursor:pointer;transition:all .12s;color:var(--text);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.pkey:active{background:var(--primary);color:#fff;transform:scale(.94);box-shadow:none}
-.pkey.del{font-size:17px;color:var(--text-light)}
-.pkey.ok{background:var(--primary);color:#fff;font-size:18px}
-.pkey.ok:active{background:var(--primary-dark)}
-.login-err{color:var(--accent);font-size:13px;text-align:center;margin-top:6px;min-height:20px;font-weight:600}
+/* HEADER */
+#hdr{background:var(--pri);color:#fff;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.hdr-title{font-size:17px;font-weight:800}
+.hdr-right{display:flex;align-items:center;gap:8px}
+.login-btn{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.4);color:#fff;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
+.login-btn:hover{background:rgba(255,255,255,.28)}
+.user-badge{background:rgba(255,255,255,.15);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;color:#fff}
+.logout-btn{background:none;border:none;color:rgba(255,255,255,.7);font-size:22px;cursor:pointer;padding:4px;line-height:1}
 
-/* ===== HEADER ===== */
-#appHeader{background:var(--primary);color:#fff;padding:14px 16px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.2)}
-.hdr-left{}
-.hdr-title{font-size:17px;font-weight:800;letter-spacing:-.3px}
-.hdr-role{font-size:11px;opacity:.8;background:rgba(255,255,255,.18);padding:2px 10px;border-radius:20px;margin-top:3px;display:inline-block}
-.hdr-right{display:flex;align-items:center;gap:10px}
-.icon-btn{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:4px;line-height:1;position:relative;transition:opacity .15s}
-.icon-btn:active{opacity:.6}
-.notif-dot{position:absolute;top:0;right:0;width:9px;height:9px;background:#ef5350;border-radius:50%;border:1.5px solid var(--primary);display:none}
-.notif-dot.show{display:block}
-
-/* ===== TABS ===== */
-.tab-bar{display:flex;background:#fff;border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none}
+/* TABS */
+.tab-bar{display:flex;background:#fff;border-bottom:2px solid var(--bdr);overflow-x:auto;scrollbar-width:none;position:sticky;top:49px;z-index:90}
 .tab-bar::-webkit-scrollbar{display:none}
-.tab{padding:13px 22px;font-size:14px;font-weight:700;color:var(--text-light);border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
-.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab{padding:12px 18px;font-size:13px;font-weight:700;color:var(--txt2);border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab.active{color:var(--pri);border-bottom-color:var(--pri)}
 
-/* ===== MAIN ===== */
-#mainContent{padding:16px;padding-bottom:100px}
+/* MAIN */
+#main{padding:14px;padding-bottom:90px}
 
-/* ===== ROUND CARDS ===== */
-.rounds-wrap{display:flex;flex-direction:column;gap:12px}
-.round-card{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
-.round-hdr{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .15s;user-select:none}
-.round-hdr:active{background:#f5f6ff}
-.round-hdr.open{border-bottom:1px solid var(--border)}
-.r-name{font-size:16px;font-weight:800;color:var(--text)}
-.r-date{font-size:11px;color:var(--text-light);margin-top:2px}
-.r-stats{display:flex;align-items:center;gap:10px}
-.r-count{font-size:14px;font-weight:700}
-.r-pct{font-size:12px;color:var(--text-light)}
-.r-arr{font-size:16px;color:#bbb;transition:transform .2s}
+/* ROUND CARDS */
+.r-card{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:12px;overflow:hidden}
+.r-hdr{padding:13px 15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.r-hdr:active{background:#f5f6ff}
+.r-hdr.open{border-bottom:1px solid var(--bdr)}
+.r-name{font-size:15px;font-weight:800}
+.r-date{font-size:11px;color:var(--txt2);margin-top:2px}
+.r-meta{display:flex;align-items:center;gap:8px}
+.r-cnt{font-size:14px;font-weight:700}
+.r-pct{font-size:12px;color:var(--txt2)}
+.r-arr{font-size:14px;color:#bbb;transition:transform .2s}
 .r-arr.open{transform:rotate(90deg)}
-.progress-bar{height:4px;background:var(--bg);margin:0;overflow:hidden}
-.progress-fill{height:100%;background:var(--success);transition:width .4s ease}
+.prog{height:4px;background:#eee}
+.prog-fill{height:100%;background:var(--ok);transition:width .4s}
 
-/* ===== ORDER TABLE ===== */
+/* ORDER TABLE */
 .tbl-wrap{overflow-x:auto}
-.order-tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:320px}
-.order-tbl th{background:#f3f5ff;padding:10px 10px;text-align:center;font-weight:700;color:var(--primary);white-space:nowrap;border-bottom:2px solid var(--border)}
-.order-tbl td{padding:10px 10px;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:middle}
-.order-tbl tr:last-child td{border-bottom:none}
-.order-tbl tr:hover td{background:#fafbff}
-.seq-badge{display:inline-block;width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;font-size:12px;font-weight:800;line-height:28px;text-align:center}
-.x-cell{display:flex;flex-direction:column;align-items:center;gap:3px}
-.x-btn{width:42px;height:42px;border-radius:50%;border:2.5px solid var(--border);background:#fff;cursor:default;font-size:0;display:flex;align-items:center;justify-content:center;transition:all .2s;position:relative;flex-shrink:0}
-.x-btn.can-check{border-color:var(--primary-light);cursor:pointer}
-.x-btn.can-check:hover{background:#e8eaff}
-.x-btn.checked{border-color:var(--x-color);background:var(--x-color);cursor:pointer}
-.x-btn.checked::before,.x-btn.checked::after{content:'';position:absolute;width:18px;height:3px;background:#fff;border-radius:2px}
-.x-btn.checked::before{transform:rotate(45deg)}
-.x-btn.checked::after{transform:rotate(-45deg)}
-.x-info{font-size:10px;color:var(--text-light);line-height:1.3;text-align:center;max-width:70px}
-.tbl-actions{padding:10px 14px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--border);background:#fafbff}
-.empty-tbl{padding:28px;text-align:center;color:var(--text-light);font-size:13px}
+.o-tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:300px}
+.o-tbl th{background:#f3f5ff;padding:9px 10px;text-align:center;font-weight:700;color:var(--pri);border-bottom:2px solid var(--bdr);white-space:nowrap}
+.o-tbl td{padding:9px 10px;border-bottom:1px solid #f5f5f5;text-align:center;vertical-align:middle}
+.o-tbl tr:last-child td{border-bottom:none}
+.seq-b{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--pri);color:#fff;font-size:11px;font-weight:800;align-items:center;justify-content:center}
+.name-ok{font-weight:700}
+.name-err{font-weight:700;color:var(--red)}
+.name-err-badge{font-size:10px;background:var(--redbg);color:var(--red);border:1px solid var(--red);border-radius:4px;padding:1px 4px;margin-left:3px}
+.x-wrap{display:flex;flex-direction:column;align-items:center;gap:2px}
+.x-btn{width:40px;height:40px;border-radius:50%;border:2px solid var(--bdr);background:#fff;cursor:default;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0;position:relative}
+.x-btn.clickable{border-color:var(--pri2);cursor:pointer}
+.x-btn.clickable:hover{background:#eef}
+.x-btn.done{border-color:var(--red);background:var(--red);cursor:pointer}
+.x-btn.done::before,.x-btn.done::after{content:'';position:absolute;width:17px;height:2.5px;background:#fff;border-radius:2px}
+.x-btn.done::before{transform:rotate(45deg)}
+.x-btn.done::after{transform:rotate(-45deg)}
+.x-info{font-size:10px;color:var(--txt2);line-height:1.3;text-align:center;max-width:68px}
+.tbl-foot{padding:10px 14px;display:flex;justify-content:flex-end;gap:7px;border-top:1px solid var(--bdr);background:#fafbff}
+.empty-row{padding:24px;text-align:center;color:var(--txt2);font-size:13px}
 
-/* ===== ADMIN ===== */
-.admin-section{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:14px;overflow:hidden}
-.admin-sec-hdr{padding:13px 16px;font-weight:700;font-size:14px;background:#f3f5ff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.admin-list{}
-.admin-item{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5}
-.admin-item:last-child{border-bottom:none}
-.ai-name{font-size:14px;font-weight:700}
-.ai-sub{font-size:11px;color:var(--text-light);margin-top:1px}
-.btn-grp{display:flex;gap:6px;flex-shrink:0}
-.btn{padding:7px 12px;border-radius:9px;font-size:12px;font-weight:700;border:none;cursor:pointer;transition:all .15s;white-space:nowrap}
+/* BUTTONS */
+.btn{padding:7px 12px;border-radius:9px;font-size:12px;font-weight:700;border:none;cursor:pointer;transition:all .15s;white-space:nowrap;line-height:1.4}
 .btn:active{transform:scale(.94)}
-.btn-p{background:var(--primary);color:#fff}
-.btn-s{background:#e8e8e8;color:var(--text)}
-.btn-d{background:#ef5350;color:#fff}
-.btn-w{background:var(--warning);color:#fff}
-.indent1{padding-left:28px;border-left:3px solid var(--primary-light);background:#fdfdff}
-.indent2{padding-left:44px;border-left:3px solid #9fa8da;background:#fefeff}
-.empty-admin{padding:24px;text-align:center;color:var(--text-light);font-size:13px}
+.bp{background:var(--pri);color:#fff}
+.bs{background:#e8e8e8;color:var(--txt)}
+.bd{background:#ef5350;color:#fff}
+.bw{background:var(--warn);color:#fff}
+.bg{background:#43a047;color:#fff}
+.btn-full{width:100%;padding:13px;border-radius:13px;font-size:15px;font-weight:800;border:none;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn-full:active{transform:scale(.97)}
 
-/* ===== FAB ===== */
-.fab{position:fixed;bottom:24px;right:20px;width:58px;height:58px;border-radius:50%;background:var(--primary);color:#fff;font-size:28px;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(26,35,126,.45);display:none;align-items:center;justify-content:center;z-index:200;transition:all .2s}
+/* ADMIN SECTIONS */
+.sec{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:14px;overflow:hidden}
+.sec-hdr{padding:12px 15px;background:#f3f5ff;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:14px}
+.sec-row{padding:11px 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5}
+.sec-row:last-child{border-bottom:none}
+.row-name{font-size:14px;font-weight:700}
+.row-sub{font-size:11px;color:var(--txt2);margin-top:2px}
+.btn-grp{display:flex;gap:6px;flex-shrink:0}
+.indent1{padding-left:26px;border-left:3px solid var(--pri2);background:#fdfdff}
+.indent2{padding-left:42px;border-left:3px solid #9fa8da;background:#fefeff}
+.empty-sec{padding:22px;text-align:center;color:var(--txt2);font-size:13px}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+.badge-ok{background:#e8f5e9;color:var(--ok)}
+.badge-warn{background:#fff3e0;color:var(--warn)}
+.badge-err{background:#ffebee;color:var(--red)}
+
+/* FAB */
+.fab{position:fixed;bottom:22px;right:18px;width:56px;height:56px;border-radius:50%;background:var(--pri);color:#fff;font-size:26px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(26,35,126,.4);display:none;align-items:center;justify-content:center;z-index:200;transition:all .2s}
 .fab:active{transform:scale(.9)}
 .fab.show{display:flex}
 
-/* ===== MODAL ===== */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-end;justify-content:center}
-.modal-bg.show{display:flex}
-.modal{background:#fff;border-radius:22px 22px 0 0;padding:24px 20px;width:100%;max-width:480px;max-height:85vh;overflow-y:auto;animation:slideUp .25s ease}
+/* MODAL */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-end;justify-content:center}
+.mbg.show{display:flex}
+.mbg.center{align-items:center}
+.modal{background:#fff;border-radius:22px 22px 0 0;padding:22px 18px 28px;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;animation:slideUp .22s ease}
+.modal.center-modal{border-radius:18px;max-width:380px;animation:fadeIn .2s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.modal-title{font-size:17px;font-weight:800;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
-.close-btn{background:none;border:none;font-size:24px;cursor:pointer;color:var(--text-light);line-height:1;padding:0}
-.form-grp{margin-bottom:14px}
-.form-lbl{font-size:12px;font-weight:700;color:var(--text-light);margin-bottom:5px;display:block}
-.form-inp{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;outline:none;transition:border-color .2s;font-family:inherit}
-.form-inp:focus{border-color:var(--primary)}
-.form-sel{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;outline:none;background:#fff;font-family:inherit}
-.form-sel:focus{border-color:var(--primary)}
-.btn-full{width:100%;padding:14px;border-radius:14px;font-size:15px;font-weight:800;border:none;cursor:pointer;transition:all .15s;font-family:inherit}
-.btn-full:active{transform:scale(.97)}
+@keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.m-title{font-size:16px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.m-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--txt2);line-height:1;padding:0}
 
-/* ===== TOAST ===== */
-#toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:12px 22px;border-radius:28px;font-size:13px;font-weight:600;z-index:400;opacity:0;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center;transition:opacity .3s;box-shadow:0 4px 14px rgba(0,0,0,.3)}
-#toast.show{opacity:1}
+/* FORMS */
+.fg{margin-bottom:13px}
+.fl{font-size:12px;font-weight:700;color:var(--txt2);margin-bottom:5px;display:block}
+.fi{width:100%;padding:11px 13px;border:1.5px solid var(--bdr);border-radius:11px;font-size:15px;outline:none;transition:border-color .2s;font-family:inherit}
+.fi:focus{border-color:var(--pri)}
+.fsel{width:100%;padding:11px 13px;border:1.5px solid var(--bdr);border-radius:11px;font-size:15px;outline:none;background:#fff;font-family:inherit;cursor:pointer}
+.fsel:focus{border-color:var(--pri)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* ===== SYNC ===== */
-#syncBadge{position:fixed;top:65px;right:12px;font-size:11px;padding:4px 10px;border-radius:14px;background:#e8f5e9;color:#2e7d32;z-index:150;transition:all .3s;font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.12)}
-#syncBadge.syncing{background:#fff8e1;color:var(--warning)}
+/* LOGIN MODAL */
+.login-modal{background:#fff;border-radius:20px;padding:24px 20px 20px;width:calc(100% - 32px);max-width:360px;animation:fadeIn .2s ease}
+.login-logo{text-align:center;font-size:36px;margin-bottom:6px}
+.login-ttl{text-align:center;font-size:18px;font-weight:800;color:var(--pri);margin-bottom:3px}
+.login-sub{text-align:center;color:var(--txt2);font-size:12px;margin-bottom:18px}
+.pin-dots{display:flex;justify-content:center;gap:13px;margin:12px 0 8px}
+.pd{width:13px;height:13px;border-radius:50%;border:2px solid var(--pri);background:#fff;transition:all .18s}
+.pd.on{background:var(--pri);transform:scale(1.1)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:8px 0 12px}
+.pk{height:56px;border:1.5px solid var(--bdr);border-radius:13px;font-size:21px;font-weight:700;background:#fff;cursor:pointer;transition:all .1s;color:var(--txt);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.pk:active{background:var(--pri);color:#fff;transform:scale(.93)}
+.pk.del{font-size:16px;color:var(--txt2)}
+.pk.ok{background:var(--pri);color:#fff;font-size:17px}
+.pk.ok:active{background:var(--pri3)}
+.login-err{color:var(--red);font-size:13px;text-align:center;margin-top:4px;min-height:18px;font-weight:600}
+.login-employee-btn{display:block;width:100%;padding:13px;border-radius:13px;background:#f3f5ff;border:2px solid var(--pri2);color:var(--pri);font-size:14px;font-weight:800;cursor:pointer;text-align:center;margin-bottom:10px;transition:all .15s}
+.login-employee-btn:active{transform:scale(.97);background:#e8eaff}
+
+/* SYNC */
+#syncBadge{position:fixed;top:56px;right:10px;font-size:10px;padding:3px 9px;border-radius:12px;background:#e8f5e9;color:var(--ok);z-index:150;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+#syncBadge.syncing{background:#fff8e1;color:var(--warn)}
 #syncBadge.error{background:#ffebee;color:#c62828}
 
-/* ===== EMPTY ===== */
-.empty-state{text-align:center;padding:50px 20px;color:var(--text-light)}
-.empty-ico{font-size:52px;margin-bottom:12px}
-.empty-msg{font-size:14px;line-height:1.6}
+/* TOAST */
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:11px 20px;border-radius:26px;font-size:13px;font-weight:600;z-index:400;opacity:0;pointer-events:none;white-space:nowrap;max-width:92vw;text-align:center;transition:opacity .3s;box-shadow:0 3px 12px rgba(0,0,0,.28)}
+#toast.show{opacity:1}
 
-/* ===== SHAKE ===== */
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
-.shake{animation:shake .4s ease}
+/* SHAKE */
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.shake{animation:shake .35s ease}
+
+/* NOTIF DOT */
+.ndot{position:absolute;top:0;right:0;width:8px;height:8px;background:#ef5350;border-radius:50%;border:1.5px solid var(--pri);display:none}
+.ndot.show{display:block}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:44px 20px;color:var(--txt2)}
+.empty-ico{font-size:48px;margin-bottom:10px}
 
 @media(min-width:480px){
-  .order-tbl{font-size:14px}
-  #mainContent{padding:20px;padding-bottom:100px}
+  #main{padding:18px;padding-bottom:90px}
+  .o-tbl{font-size:14px}
 }
 </style>
 </head>
 <body>
 
-<!-- 로딩 오버레이 -->
-<div id="loadOverlay" style="position:fixed;inset:0;background:rgba(26,35,126,.95);z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px"><div style="width:56px;height:56px;border:5px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite"></div><div style="color:#fff;font-size:17px;font-weight:800">워킹오더 관리시스템</div><div style="color:rgba(255,255,255,.65);font-size:13px">Firebase 연결 중... 잠시만 기다려주세요</div></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+<!-- HEADER -->
+<div id="hdr">
+  <div class="hdr-title">📋 워킹오더 관리</div>
+  <div class="hdr-right">
+    <div id="hdrUser" style="display:none">
+      <span class="user-badge" id="userBadge"></span>
+      <button class="logout-btn" onclick="doLogout()" title="로그아웃">🚪</button>
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="openLoginModal()">🔐 로그인</button>
+    <div style="position:relative">
+      <button class="login-btn" style="padding:7px 10px;font-size:18px" onclick="openNotifModal()" title="알림">🔔<span class="ndot" id="ndot"></span></button>
+    </div>
+  </div>
+</div>
 
-<!-- ===== LOGIN ===== -->
-<div id="loginScreen">
-  <div class="login-card" id="loginCard">
+<!-- TABS -->
+<div class="tab-bar" id="tabBar">
+  <button class="tab active" data-tab="rounds" onclick="switchTab('rounds')">📅 워킹표</button>
+  <button class="tab" data-tab="manage" onclick="switchTab('manage')" style="display:none">⚙️ 관리</button>
+  <button class="tab" data-tab="employees" onclick="switchTab('employees')" style="display:none">👥 직원관리</button>
+  <button class="tab" data-tab="accounts" onclick="switchTab('accounts')" style="display:none">🔐 계정설정</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+  <div id="tab-rounds"></div>
+  <div id="tab-manage" style="display:none"></div>
+  <div id="tab-employees" style="display:none"></div>
+  <div id="tab-accounts" style="display:none"></div>
+</div>
+
+<button class="fab" id="fab" onclick="openAddRoundModal()">+</button>
+<div id="syncBadge">✅ 연결됨</div>
+<div id="toast"></div>
+
+<!-- MODALS -->
+<div class="mbg center" id="loginMbg" onclick="if(event.target===this)closeMbg('loginMbg')">
+  <div class="login-modal" id="loginCard">
     <div class="login-logo">📋</div>
-    <div class="login-title">워킹오더 관리</div>
-    <div class="login-sub">역할을 선택하고 PIN 4자리를 입력하세요</div>
+    <div class="login-ttl">워킹오더 관리시스템</div>
+    <div class="login-sub">역할을 선택하고 로그인하세요</div>
 
-    <div class="role-grid" id="roleGrid">
-      <button class="role-btn" data-role="info">🖥️ 인포</button>
-      <button class="role-btn" data-role="general">👑 총괄본부장</button>
-      <button class="role-btn" data-role="dept_head">🏢 본부장</button>
-      <button class="role-btn" data-role="team_leader">👥 팀장</button>
-      <button class="role-btn" data-role="employee" style="grid-column:1/-1;">👤 직원</button>
+    <!-- 직원 공개 열람 버튼 -->
+    <button class="login-employee-btn" onclick="closeMbg('loginMbg')">👁️ 직원 열람 (로그인 없이 보기)</button>
+
+    <div class="fg">
+      <label class="fl">역할 선택</label>
+      <select class="fsel" id="roleSelect" onchange="onRoleChange()">
+        <option value="">-- 역할 선택 --</option>
+        <option value="admin">🛡️ 관리자</option>
+        <option value="info">🖥️ 인포</option>
+        <option value="general">👑 총괄본부장</option>
+        <option value="dept_head">🏢 본부장</option>
+        <option value="team_leader">👥 팀장</option>
+      </select>
     </div>
 
-    <div class="sub-select-wrap" id="subWrap" style="display:none">
-      <span class="sub-label" id="subLabel">선택</span>
-      <div class="sub-grid" id="subGrid"></div>
+    <div class="fg" id="accountWrap" style="display:none">
+      <label class="fl" id="accountLabel">계정 선택</label>
+      <select class="fsel" id="accountSelect"></select>
     </div>
 
-    <div id="pinArea"><div class="pin-dots" id="pinDots">
-      <div class="pin-dot" id="pd0"></div>
-      <div class="pin-dot" id="pd1"></div>
-      <div class="pin-dot" id="pd2"></div>
-      <div class="pin-dot" id="pd3"></div>
-    </div>
-
-    <div class="pin-pad">
-      <button class="pkey" onclick="pk('1')">1</button>
-      <button class="pkey" onclick="pk('2')">2</button>
-      <button class="pkey" onclick="pk('3')">3</button>
-      <button class="pkey" onclick="pk('4')">4</button>
-      <button class="pkey" onclick="pk('5')">5</button>
-      <button class="pkey" onclick="pk('6')">6</button>
-      <button class="pkey" onclick="pk('7')">7</button>
-      <button class="pkey" onclick="pk('8')">8</button>
-      <button class="pkey" onclick="pk('9')">9</button>
-      <button class="pkey del" onclick="pdel()">⌫</button>
-      <button class="pkey" onclick="pk('0')">0</button>
-      <button class="pkey ok" onclick="pok()">✓</button>
-    </div>
-
+    <div id="pinWrap">
+      <div class="pin-dots">
+        <div class="pd" id="pd0"></div><div class="pd" id="pd1"></div>
+        <div class="pd" id="pd2"></div><div class="pd" id="pd3"></div>
+      </div>
+      <div class="pin-pad">
+        <button class="pk" onclick="pk('1')">1</button>
+        <button class="pk" onclick="pk('2')">2</button>
+        <button class="pk" onclick="pk('3')">3</button>
+        <button class="pk" onclick="pk('4')">4</button>
+        <button class="pk" onclick="pk('5')">5</button>
+        <button class="pk" onclick="pk('6')">6</button>
+        <button class="pk" onclick="pk('7')">7</button>
+        <button class="pk" onclick="pk('8')">8</button>
+        <button class="pk" onclick="pk('9')">9</button>
+        <button class="pk del" onclick="pdel()">⌫</button>
+        <button class="pk" onclick="pk('0')">0</button>
+        <button class="pk ok" onclick="pok()">✓</button>
+      </div>
     </div>
     <div class="login-err" id="loginErr"></div>
   </div>
 </div>
 
-<!-- ===== APP ===== -->
-<div id="appScreen" style="display:none">
-  <div id="appHeader">
-    <div class="hdr-left">
-      <div class="hdr-title">📋 워킹오더 관리</div>
-      <div class="hdr-role" id="hdrRole">-</div>
-    </div>
-    <div class="hdr-right">
-      <button class="icon-btn" id="bellBtn" onclick="openNotifModal()" title="알림">
-        🔔<span class="notif-dot" id="notifDot"></span>
-      </button>
-      <button class="icon-btn" onclick="doLogout()" title="로그아웃">🚪</button>
-    </div>
-  </div>
-
-  <div class="tab-bar">
-    <button class="tab active" id="tab-rounds" onclick="switchTab('rounds')">📅 회차관리</button>
-    <button class="tab" id="tab-admin" onclick="switchTab('admin')" style="display:none">⚙️ 설정</button>
-  </div>
-
-  <div id="mainContent">
-    <div id="tab-rounds-content">
-      <div class="rounds-wrap" id="roundsWrap"></div>
-    </div>
-    <div id="tab-admin-content" style="display:none">
-      <div id="adminWrap"></div>
-    </div>
-  </div>
-
-  <button class="fab" id="fabBtn" onclick="openAddRoundModal()">+</button>
-</div>
-
-<div id="syncBadge">✅ 동기화됨</div>
-<div id="toast"></div>
-
-<!-- MODAL -->
-<div class="modal-bg" id="modalBg" onclick="bgClose(event)">
-  <div class="modal" id="modal" onclick="event.stopPropagation()">
-    <div id="modalBody"></div>
+<div class="mbg" id="editMbg" onclick="if(event.target===this)closeMbg('editMbg')">
+  <div class="modal" id="editModal">
+    <div id="editBody"></div>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getDatabase, ref, set, get, onValue, push, update, remove } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+import { getDatabase, ref, set, onValue, push, update, remove } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-/* ============================================================
-   🔧 FIREBASE 설정 — 아래 값을 실제 Firebase 설정으로 교체
-   ============================================================ */
+/* ─── FIREBASE CONFIG ─── */
 const FB = {
-  apiKey: "AIzaSyAzXJJTR6pKMjS776ruaT99l5I53H6BFDo",
-  authDomain: "working-order-7e2e3.firebaseapp.com",
-  databaseURL: "https://working-order-7e2e3-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "working-order-7e2e3",
-  storageBucket: "working-order-7e2e3.firebasestorage.app",
+  apiKey:            "AIzaSyAzXJJTR6pKMjS776ruaT99l5I53H6BFDo",
+  authDomain:        "working-order-7e2e3.firebaseapp.com",
+  databaseURL:       "https://working-order-7e2e3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:         "working-order-7e2e3",
+  storageBucket:     "working-order-7e2e3.firebasestorage.app",
   messagingSenderId: "105733670486",
-  appId: "1:105733670486:web:7580f154c43d17d9cf5df7"
+  appId:             "1:105733670486:web:7580f154c43d17d9cf5df7"
 };
-const DB_ROOT = 'working_order';   // Firebase DB 최상위 경로
+const ROOT = 'working_order';
+const app = initializeApp(FB);
+const db  = getDatabase(app);
+const r   = p => ref(db, `${ROOT}/${p}`);
 
-/* ============================================================
-   초기화
-   ============================================================ */
-const firebaseApp = initializeApp(FB);
-const db = getDatabase(firebaseApp);
-const r = (path) => ref(db, `${DB_ROOT}/${path}`);
-
-/* ============================================================
-   상태
-   ============================================================ */
-let U = null;           // 현재 로그인 유저
-let D = JSON.parse(JSON.stringify(INITIAL_DEFAULT)); // 즉시 초기화
-let selRole = null;
-let selSubId = null;
-let pinBuf = '';
-let prevNotifCount = 0;
-let openRounds = {};    // 펼쳐진 회차 ID 추적
-
-const INITIAL_DEFAULT = {
-  settings:{
-    departments:{},
-    pins:{ info:'1111', general:'2222', dept_heads:{}, team_leaders:{}, employees:{} }
-  },
-  rounds:{
-      "round01":{name:"1회차",createdDate:"",createdAt:1,orders:{}},
-      "round02":{name:"2회차",createdDate:"",createdAt:2,orders:{}},
-      "round03":{name:"3회차",createdDate:"",createdAt:3,orders:{}},
-      "round04":{name:"4회차",createdDate:"",createdAt:4,orders:{}},
-      "round05":{name:"5회차",createdDate:"",createdAt:5,orders:{}},
-      "round06":{name:"6회차",createdDate:"",createdAt:6,orders:{}},
-      "round07":{name:"7회차",createdDate:"",createdAt:7,orders:{}},
-      "round08":{name:"8회차",createdDate:"",createdAt:8,orders:{}},
-      "round09":{name:"9회차",createdDate:"",createdAt:9,orders:{}},
-      "round10":{name:"10회차",createdDate:"",createdAt:10,orders:{}},
-      "round11":{name:"11회차",createdDate:"",createdAt:11,orders:{}},
-      "round12":{name:"12회차",createdDate:"",createdAt:12,orders:{}},
-      "round13":{name:"13회차",createdDate:"",createdAt:13,orders:{}},
-      "round14":{name:"14회차",createdDate:"",createdAt:14,orders:{}},
-      "round15":{name:"15회차",createdDate:"",createdAt:15,orders:{}},
-      "round16":{name:"16회차",createdDate:"",createdAt:16,orders:{}},
-      "round17":{name:"17회차",createdDate:"",createdAt:17,orders:{}},
-      "round18":{name:"18회차",createdDate:"",createdAt:18,orders:{}},
-      "round19":{name:"19회차",createdDate:"",createdAt:19,orders:{}},
-      "round20":{name:"20회차",createdDate:"",createdAt:20,orders:{}},
+/* ─── INITIAL DATA ─── */
+function initData() {
+  const rounds = {};
+  for (let i = 1; i <= 20; i++) {
+    rounds[`round${String(i).padStart(2,'0')}`] = {
+      name: `${i}회차`, createdDate: '', createdAt: i, orders: {}
+    };
+  }
+  return {
+    settings: {
+      adminPin: '0000',
+      infoAccounts: {},
+      generalAccounts: {},
+      departments: {}
     },
-  notifications:{}
+    rounds,
+    notifications: {}
+  };
+}
+
+/* ─── STATE ─── */
+let D = initData();
+let U = null;
+let openR = {};
+let prevNC = 0;
+
+/* ─── PERMISSIONS ─── */
+const P = {
+  canCheck:   u => u && ['admin','info','general'].includes(u.role),
+  canRounds:  u => u && ['admin','info','general'].includes(u.role),
+  canOrders:  u => u && ['admin','info','general','dept_head'].includes(u.role),
+  canEmpMgmt: u => u && ['admin','info','general'].includes(u.role),
+  canAcctMgmt:u => u && ['admin','info','general'].includes(u.role),
+  canAddDept: u => u && ['admin','info','general'].includes(u.role),
+  canAddTeam: u => u && ['admin','info','general','dept_head'].includes(u.role),
+  canFullEdit:u => u && ['admin','info','general'].includes(u.role),
 };
 
-// 기본 PIN 상수 (Firebase에 데이터 없을 때 폴백)
-const DEFAULT_DEPT_PIN = '2345';
-const DEFAULT_TEAM_PIN = '4567';
-
-/* ============================================================
-   Firebase 실시간 싱크
-   ============================================================ */
-function syncBadge(state, msg){
-  const el = document.getElementById('syncBadge');
-  el.className = state; el.textContent = msg;
-}
+/* ─── FIREBASE SYNC ─── */
+function sb(s,m){ const e=document.getElementById('syncBadge'); e.className=s; e.textContent=m; }
 
 window._save = async (path, val) => {
-  syncBadge('syncing','☁️ 저장 중...');
-  try{ await set(ref(db,`${DB_ROOT}/${path}`),val); syncBadge('','✅ 동기화됨'); }
-  catch(e){ syncBadge('error','❌ 저장 실패'); throw e; }
+  sb('syncing','☁️ 저장중');
+  try { await set(ref(db,`${ROOT}/${path}`),val); sb('','✅ 동기화됨'); }
+  catch(e) { sb('error','❌ 실패'); throw e; }
+};
+window._upd = async (obj) => {
+  sb('syncing','☁️ 저장중');
+  const full={};
+  for(const [k,v] of Object.entries(obj)) full[`${ROOT}/${k}`]=v;
+  try { await update(ref(db),full); sb('','✅ 동기화됨'); }
+  catch(e) { sb('error','❌ 실패'); throw e; }
 };
 
-window._update = async (updates) => {
-  syncBadge('syncing','☁️ 저장 중...');
-  const full = {};
-  for(const [k,v] of Object.entries(updates)) full[`${DB_ROOT}/${k}`]=v;
-  try{ await update(ref(db),full); syncBadge('','✅ 동기화됨'); }
-  catch(e){ syncBadge('error','❌ 저장 실패'); throw e; }
-};
-
-// 로딩 오버레이 표시
-const loadOverlay = document.getElementById('loadOverlay');
-
-
-// 10초 타임아웃 폴백
-const fbTimeout = setTimeout(()=>{
-  if(!D){
-    D = JSON.parse(JSON.stringify(INITIAL_DEFAULT));
-    if(loadOverlay) loadOverlay.style.display='none';
-    syncBadge('error','❌ 연결 오류 — 오프라인 모드');
-    showToast('⚠️ Firebase 연결 실패. 오프라인으로 실행됩니다.');
-  }
-}, 10000);
-
-onValue(ref(db, DB_ROOT),(snap)=>{
-  clearTimeout(fbTimeout);
-  D = snap.val() || JSON.parse(JSON.stringify(INITIAL_DEFAULT));
-  if(!D.settings) D.settings = INITIAL_DEFAULT.settings;
-  if(!D.settings.departments) D.settings.departments = {};
-  if(!D.settings.pins) D.settings.pins = INITIAL_DEFAULT.settings.pins;
-  if(!D.rounds) D.rounds = {};
-  if(!D.notifications) D.notifications = {};
-  if(!snap.val()) set(ref(db,DB_ROOT), D);
-  if(loadOverlay) loadOverlay.style.display='none';
-  syncBadge('','✅ 동기화됨');
-  if(U){ rerender(); checkNewNotifs(); }
-},(err)=>{
-  clearTimeout(fbTimeout);
-  syncBadge('error','❌ 연결 오류');
-  if(!D){ D = JSON.parse(JSON.stringify(INITIAL_DEFAULT)); }
-  if(loadOverlay) loadOverlay.style.display='none';
-});
-
-/* ============================================================
-   알림
-   ============================================================ */
-async function reqNotifPerm(){
-  if(!('Notification' in window)) return;
-  await Notification.requestPermission();
-}
-
-function checkNewNotifs(){
-  const notifs = D.notifications || {};
-  const cnt = Object.keys(notifs).length;
-  if(cnt > prevNotifCount && prevNotifCount > 0){
-    const latest = Object.values(notifs).sort((a,b)=>b.timestamp-a.timestamp)[0];
-    if(latest){ pushBrowserNotif('✅ 워킹오더 완료', latest.message); showToast('🔔 '+latest.message); }
-  }
-  prevNotifCount = cnt;
-  const dot = document.getElementById('notifDot');
-  if(dot) dot.classList.toggle('show', cnt > 0);
-}
-
-function pushBrowserNotif(title, body){
-  if(Notification.permission==='granted'){
-    try{ new Notification(title,{body,icon:'icons/icon-192.png'}); }catch(e){}
-  }
-}
-
-async function addNotif(message, extra={}){
-  const newRef = push(r('notifications'));
-  await set(newRef,{message, timestamp:Date.now(), by:U.displayName, ...extra});
-}
-
-/* ============================================================
-   로그인
-   ============================================================ */
-window.pk = (d)=>{
-  if(pinBuf.length>=4) return;
-  pinBuf+=d; updateDots();
-  if(pinBuf.length===4) setTimeout(()=>pok(),80);
-};
-window.pdel = ()=>{ if(pinBuf) pinBuf=pinBuf.slice(0,-1); updateDots(); };
-
-function updateDots(){
-  for(let i=0;i<4;i++){
-    const d=document.getElementById(`pd${i}`);
-    if(d) d.classList.toggle('filled',i<pinBuf.length);
-  }
-}
-
-window.pok = ()=>{
-  if(!selRole){ showErr('역할을 선택해주세요'); return; }
-  if(selRole==='employee'){
-    if(!selSubId){ showErr('직원을 선택해주세요'); return; }
-    // 직원은 PIN 없이 바로 입장
+onValue(ref(db,ROOT), snap => {
+  const val = snap.val();
+  if(val) {
+    D = val;
+    if(!D.settings) D.settings = initData().settings;
+    if(!D.settings.departments) D.settings.departments = {};
+    if(!D.settings.infoAccounts) D.settings.infoAccounts = {};
+    if(!D.settings.generalAccounts) D.settings.generalAccounts = {};
+    if(!D.rounds) D.rounds = {};
+    if(!D.notifications) D.notifications = {};
   } else {
-    if(pinBuf.length<4){ showErr('PIN 4자리를 입력하세요'); return; }
+    D = initData();
+    set(ref(db,ROOT), D);
   }
-  if(!D){ showErr('❌ PIN이 올바르지 않습니다'); return; }
-  const pins = D.settings?.pins || {};
+  sb('','✅ 동기화됨');
+  rerender();
+  checkNotif();
+}, err => { sb('error','❌ 연결오류'); });
 
-  let user = null;
-  if(selRole==='info' && pinBuf===pins.info)
-    user = {role:'info', displayName:'인포'};
-  else if(selRole==='general' && pinBuf===pins.general)
-    user = {role:'general', displayName:'총괄본부장'};
-  else if(selRole==='dept_head' && selSubId && pinBuf===(pins.dept_heads?.[selSubId]||DEFAULT_DEPT_PIN))
-    user = {role:'dept_head', displayName:(D.settings.departments[selSubId]?.name||'')+'본부장', deptId:selSubId};
-  else if(selRole==='team_leader' && selSubId && pinBuf===(pins.team_leaders?.[selSubId]||DEFAULT_TEAM_PIN)){
-    let dId=null;
-    for(const [d2,dep] of Object.entries(D.settings.departments||{}))
-      if(dep.teams?.[selSubId]){dId=d2;break;}
-    const tName=(D.settings.departments[dId]?.teams?.[selSubId]?.name||'');
-    user = {role:'team_leader', displayName:tName+'팀장', deptId:dId, teamId:selSubId};
+/* ─── NOTIFICATIONS ─── */
+function checkNotif(){
+  const nc = Object.keys(D.notifications||{}).length;
+  if(nc > prevNC && prevNC > 0){
+    const latest = Object.values(D.notifications).sort((a,b)=>b.timestamp-a.timestamp)[0];
+    if(latest){ browserNotif('✅ 워킹오더', latest.message); showToast('🔔 '+latest.message); }
   }
-  else if(selRole==='employee' && selSubId){
-    let dId=null,tId=null,mName='직원';
-    for(const [d2,dep] of Object.entries(D.settings.departments||{})){
-      for(const [t2,team] of Object.entries(dep.teams||{})){
-        if(team.members?.[selSubId]){dId=d2;tId=t2;mName=team.members[selSubId].name||'직원';break;}
-      }if(dId)break;
-    }
-    user = {role:'employee', displayName:mName, deptId:dId, teamId:tId, memberId:selSubId};
-  }
-
-  if(user){ doLogin(user); }
-  else{ showErr('❌ PIN이 올바르지 않습니다'); pinBuf=''; updateDots(); shake(); }
-};
-
-function showErr(msg){ document.getElementById('loginErr').textContent=msg; }
-function shake(){ const c=document.getElementById('loginCard'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); }
-
-function doLogin(user){
-  U = user;
-  reqNotifPerm();
-  document.getElementById('loginScreen').style.display='none';
-  document.getElementById('appScreen').style.display='block';
-  document.getElementById('hdrRole').textContent=U.displayName;
-  prevNotifCount = Object.keys(D.notifications||{}).length;
-  // Show admin tab
-  if(['info','general','dept_head','team_leader'].includes(U.role))
-    document.getElementById('tab-admin').style.display='';
-  // Show FAB for info/general
-  if(['info','general'].includes(U.role))
-    document.getElementById('fabBtn').classList.add('show');
-  switchTab('rounds');
+  prevNC = nc;
+  const dot = document.getElementById('ndot');
+  if(dot) dot.classList.toggle('show', nc > 0);
 }
-
-window.doLogout = ()=>{
-  U=null; pinBuf=''; selRole=null; selSubId=null; updateDots();
-  document.getElementById('loginErr').textContent='';
-  document.getElementById('appScreen').style.display='none';
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('tab-admin').style.display='none';
-  document.getElementById('fabBtn').classList.remove('show');
-  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('subWrap').style.display='none';
-  openRounds={};
+async function addNotif(msg){
+  const nr = push(r('notifications'));
+  await set(nr,{message:msg,timestamp:Date.now(),by:U?.displayName||'시스템'});
+}
+function browserNotif(t,b){
+  if(Notification.permission==='granted') try{new Notification(t,{body:b,icon:'icons/icon-192.png'})}catch(e){}
+}
+window.openNotifModal = () => {
+  const arr = Object.entries(D.notifications||{}).sort((a,b)=>b[1].timestamp-a[1].timestamp).slice(0,40);
+  const rows = arr.length===0 ? '<div class="empty-sec">알림 없음</div>'
+    : arr.map(([,n])=>`<div class="sec-row"><div><div class="row-name" style="font-size:12px">✅ ${n.message}</div><div class="row-sub">${new Date(n.timestamp).toLocaleString('ko-KR')} · ${n.by}</div></div></div>`).join('');
+  showEditModal(`🔔 알림 기록 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,
+    `<div style="max-height:55vh;overflow-y:auto;margin:0 -18px;padding:0 18px">${rows}</div>
+     ${P.canFullEdit(U)?`<br><button class="btn-full bp" onclick="clearNotifs()">전체 삭제</button>`:''}`)
+};
+window.clearNotifs = async () => {
+  if(!confirm('알림 기록을 전체 삭제할까요?')) return;
+  await window._save('notifications',{}); prevNC=0; closeMbg('editMbg'); showToast('삭제됨');
 };
 
-// Role select
-document.getElementById('roleGrid').addEventListener('click',(e)=>{
-  const btn=e.target.closest('.role-btn'); if(!btn) return;
-  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  selRole=btn.dataset.role; selSubId=null; pinBuf=''; updateDots();
+/* ─── LOGIN ─── */
+let pinBuf='', selRole=null, selAcctId=null;
+
+window.onRoleChange = () => {
+  selRole = document.getElementById('roleSelect').value;
+  selAcctId = null;
+  pinBuf = ''; updateDots();
   document.getElementById('loginErr').textContent='';
-  const pinArea=document.getElementById('pinArea');
-  if(pinArea) pinArea.style.display=selRole==='employee'?'none':'block';
-  buildSubSelect();
-});
+  const wrap = document.getElementById('accountWrap');
+  const sel  = document.getElementById('accountSelect');
+  const lbl  = document.getElementById('accountLabel');
+  const s    = D.settings;
 
-function buildSubSelect(){
-  const wrap=document.getElementById('subWrap');
-  const label=document.getElementById('subLabel');
-  const grid=document.getElementById('subGrid');
-  const depts=D?.settings?.departments||{};
-
-  let items=[];
-  if(selRole==='dept_head'){
-    label.textContent='본부 선택';
-    items=Object.entries(depts).map(([id,d])=>({id,name:d.name}));
-  } else if(selRole==='team_leader'){
-    label.textContent='팀 선택';
-    for(const [,dep] of Object.entries(depts))
+  if(selRole === 'admin'){
+    wrap.style.display = 'none';
+  } else if(selRole === 'info'){
+    const accts = Object.entries(s.infoAccounts||{});
+    if(!accts.length){ wrap.style.display='none'; document.getElementById('loginErr').textContent='등록된 인포 계정이 없습니다'; return; }
+    lbl.textContent='인포 계정 선택';
+    sel.innerHTML = '<option value="">-- 선택 --</option>' + accts.map(([id,a])=>`<option value="${id}">${a.name}</option>`).join('');
+    wrap.style.display='block';
+  } else if(selRole === 'general'){
+    const accts = Object.entries(s.generalAccounts||{});
+    if(!accts.length){ wrap.style.display='none'; document.getElementById('loginErr').textContent='등록된 총괄 계정이 없습니다'; return; }
+    lbl.textContent='총괄본부장 계정 선택';
+    sel.innerHTML = '<option value="">-- 선택 --</option>' + accts.map(([id,a])=>`<option value="${id}">${a.name}</option>`).join('');
+    wrap.style.display='block';
+  } else if(selRole === 'dept_head'){
+    const depts = Object.entries(s.departments||{});
+    if(!depts.length){ wrap.style.display='none'; document.getElementById('loginErr').textContent='등록된 본부가 없습니다'; return; }
+    lbl.textContent='본부 선택';
+    sel.innerHTML = '<option value="">-- 선택 --</option>' + depts.map(([id,d])=>`<option value="${id}">${d.name}</option>`).join('');
+    wrap.style.display='block';
+  } else if(selRole === 'team_leader'){
+    const teams=[];
+    for(const [dId,dep] of Object.entries(s.departments||{}))
       for(const [tId,team] of Object.entries(dep.teams||{}))
-        items.push({id:tId, name:team.name});
-  } else if(selRole==='employee'){
-    label.textContent='직원 선택';
-    for(const [,dep] of Object.entries(depts))
-      for(const [,team] of Object.entries(dep.teams||{}))
-        for(const [mId,mem] of Object.entries(team.members||{}))
-          items.push({id:mId, name:mem.name});
-  }
-
-  if(items.length && ['dept_head','team_leader','employee'].includes(selRole)){
-    grid.innerHTML=items.map(it=>`<button class="role-btn" data-sub="${it.id}">${it.name}</button>`).join('');
-    grid.querySelectorAll('.role-btn').forEach(b=>{
-      b.addEventListener('click',()=>{
-        grid.querySelectorAll('.role-btn').forEach(x=>x.classList.remove('active'));
-        b.classList.add('active');
-        selSubId=b.dataset.sub; pinBuf=''; updateDots();
-      });
-    });
+        teams.push({id:tId,name:team.name,deptId:dId});
+    if(!teams.length){ wrap.style.display='none'; document.getElementById('loginErr').textContent='등록된 팀이 없습니다'; return; }
+    lbl.textContent='팀 선택';
+    sel.innerHTML = '<option value="">-- 선택 --</option>' + teams.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
     wrap.style.display='block';
   } else {
     wrap.style.display='none';
   }
+};
+
+window.pk = d => { if(pinBuf.length>=4) return; pinBuf+=d; updateDots(); if(pinBuf.length===4) setTimeout(pok,80); };
+window.pdel = () => { if(pinBuf) pinBuf=pinBuf.slice(0,-1); updateDots(); };
+function updateDots(){ for(let i=0;i<4;i++) document.getElementById(`pd${i}`).classList.toggle('on',i<pinBuf.length); }
+
+window.pok = () => {
+  document.getElementById('loginErr').textContent='';
+  if(!selRole){ document.getElementById('loginErr').textContent='역할을 선택하세요'; return; }
+  if(pinBuf.length<4){ document.getElementById('loginErr').textContent='PIN 4자리를 입력하세요'; return; }
+
+  const s = D.settings;
+  const acctSel = document.getElementById('accountSelect').value;
+  let user = null;
+
+  if(selRole==='admin'){
+    if(pinBuf===(s.adminPin||'0000')) user={role:'admin',displayName:'관리자'};
+  } else if(selRole==='info'){
+    selAcctId = acctSel;
+    if(!selAcctId){ document.getElementById('loginErr').textContent='계정을 선택하세요'; return; }
+    const a = s.infoAccounts?.[selAcctId];
+    if(a && pinBuf===a.pin) user={role:'info',displayName:a.name,acctId:selAcctId};
+  } else if(selRole==='general'){
+    selAcctId = acctSel;
+    if(!selAcctId){ document.getElementById('loginErr').textContent='계정을 선택하세요'; return; }
+    const a = s.generalAccounts?.[selAcctId];
+    if(a && pinBuf===a.pin) user={role:'general',displayName:a.name,acctId:selAcctId};
+  } else if(selRole==='dept_head'){
+    selAcctId = acctSel;
+    if(!selAcctId){ document.getElementById('loginErr').textContent='본부를 선택하세요'; return; }
+    const dep = s.departments?.[selAcctId];
+    if(dep && pinBuf===(dep.headPin||'2345')) user={role:'dept_head',displayName:dep.name+' 본부장',deptId:selAcctId};
+  } else if(selRole==='team_leader'){
+    selAcctId = acctSel;
+    if(!selAcctId){ document.getElementById('loginErr').textContent='팀을 선택하세요'; return; }
+    let dId=null;
+    for(const [d2,dep] of Object.entries(s.departments||{}))
+      if(dep.teams?.[selAcctId]){dId=d2;break;}
+    const team = s.departments?.[dId]?.teams?.[selAcctId];
+    if(team && pinBuf===(team.leaderPin||'4567')) user={role:'team_leader',displayName:team.name+' 팀장',teamId:selAcctId,deptId:dId};
+  }
+
+  if(user){ loginSuccess(user); }
+  else {
+    document.getElementById('loginErr').textContent='❌ PIN이 올바르지 않습니다';
+    pinBuf=''; updateDots();
+    document.getElementById('loginCard').classList.add('shake');
+    setTimeout(()=>document.getElementById('loginCard').classList.remove('shake'),400);
+  }
+};
+
+function loginSuccess(user){
+  U = user;
+  Notification.requestPermission?.();
+  closeMbg('loginMbg');
+  document.getElementById('loginBtn').style.display='none';
+  document.getElementById('hdrUser').style.display='flex';
+  document.getElementById('userBadge').textContent=U.displayName;
+  updateTabs();
+  rerender();
+  showToast(`✅ ${U.displayName}으로 로그인됨`);
 }
 
-/* ============================================================
-   탭 전환
-   ============================================================ */
-window.switchTab = (tab)=>{
-  ['rounds','admin'].forEach(t=>{
-    document.getElementById(`tab-${t}`).classList.toggle('active',t===tab);
-    document.getElementById(`tab-${t}-content`).style.display=t===tab?'block':'none';
+window.doLogout = () => {
+  U=null; pinBuf=''; selRole=null; selAcctId=null; updateDots();
+  document.getElementById('roleSelect').value='';
+  document.getElementById('accountWrap').style.display='none';
+  document.getElementById('loginErr').textContent='';
+  document.getElementById('loginBtn').style.display='';
+  document.getElementById('hdrUser').style.display='none';
+  document.getElementById('fab').classList.remove('show');
+  updateTabs();
+  rerender();
+  switchTab('rounds');
+};
+
+function updateTabs(){
+  const canAdmin = P.canRounds(U);
+  const canEmp   = P.canEmpMgmt(U);
+  const canAcct  = P.canAcctMgmt(U);
+  document.querySelector('[data-tab="manage"]').style.display = canAdmin?'':'none';
+  document.querySelector('[data-tab="employees"]').style.display = canEmp?'':'none';
+  document.querySelector('[data-tab="accounts"]').style.display = canAcct?'':'none';
+  if(P.canRounds(U)) document.getElementById('fab').classList.add('show');
+  else document.getElementById('fab').classList.remove('show');
+}
+
+/* ─── TABS ─── */
+window.switchTab = tab => {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  ['rounds','manage','employees','accounts'].forEach(t=>{
+    document.getElementById(`tab-${t}`).style.display = t===tab?'block':'none';
   });
   if(tab==='rounds') renderRounds();
-  else if(tab==='admin') renderAdmin();
+  else if(tab==='manage') renderManage();
+  else if(tab==='employees') renderEmployees();
+  else if(tab==='accounts') renderAccounts();
 };
 
 function rerender(){
-  const active=document.querySelector('.tab.active')?.id?.replace('tab-','');
+  const active = document.querySelector('.tab.active')?.dataset.tab || 'rounds';
   if(active==='rounds') renderRounds();
-  else if(active==='admin') renderAdmin();
+  else if(active==='manage') renderManage();
+  else if(active==='employees') renderEmployees();
+  else if(active==='accounts') renderAccounts();
 }
 
-/* ============================================================
-   회차 렌더링
-   ============================================================ */
+/* ─── EMPLOYEE LOOKUP ─── */
+function isMemberRegistered(deptId, teamId, name){
+  const members = D.settings?.departments?.[deptId]?.teams?.[teamId]?.members || {};
+  return Object.values(members).some(m=>m.name===name);
+}
+function getTeamMembers(deptId, teamId){
+  return Object.values(D.settings?.departments?.[deptId]?.teams?.[teamId]?.members||{}).map(m=>m.name);
+}
+
+/* ─── RENDER ROUNDS (PUBLIC) ─── */
 function renderRounds(){
-  const wrap=document.getElementById('roundsWrap');
-  const rounds=D?.rounds||{};
-  const arr=Object.entries(rounds).sort((a,b)=>(a[1].createdAt||0)-(b[1].createdAt||0));
+  const wrap = document.getElementById('tab-rounds');
+  const rounds = D.rounds || {};
+  const arr = Object.entries(rounds).sort((a,b)=>(a[1].createdAt||0)-(b[1].createdAt||0));
 
   if(!arr.length){
-    wrap.innerHTML=`<div class="empty-state">
-      <div class="empty-ico">📅</div>
-      <div class="empty-msg">등록된 회차가 없습니다${['info','general'].includes(U?.role)?'<br><b>+ 버튼</b>으로 회차를 추가하세요':''}</div>
-    </div>`;
+    wrap.innerHTML=`<div class="empty-state"><div class="empty-ico">📅</div><div>등록된 회차가 없습니다</div></div>`;
     return;
   }
-  wrap.innerHTML=arr.map(([rid,round])=>renderRoundCard(rid,round)).join('');
+  wrap.innerHTML = arr.map(([rid,rnd])=>renderRoundCard(rid,rnd)).join('');
   bindRoundEvents();
 }
 
-function renderRoundCard(rid, round){
-  const orders=Object.entries(round.orders||{}).sort((a,b)=>(a[1].seq||0)-(b[1].seq||0));
+function renderRoundCard(rid, rnd){
+  const orders = Object.entries(rnd.orders||{}).sort((a,b)=>(a[1].seq||0)-(b[1].seq||0));
   const total=orders.length, done=orders.filter(([,o])=>o.checked).length;
   const pct=total>0?Math.round(done/total*100):0;
-  const isOpen=!!openRounds[rid];
-  const canCheck=['info','general'].includes(U?.role);
+  const isOpen=!!openR[rid];
+  const canCheck=P.canCheck(U);
+  const canEdit=P.canRounds(U);
 
-  const rows=orders.length===0
-    ?`<tr><td colspan="5" class="empty-tbl">워킹 순서가 없습니다</td></tr>`
-    :orders.map(([oid,o])=>{
-      const dept=D.settings.departments[o.deptId];
-      const team=dept?.teams?.[o.teamId];
-      const mem=team?.members?.[o.memberId];
-      const ts=o.checkedAt?new Date(o.checkedAt).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
-      let xClass=o.checked?'x-btn checked':(canCheck?'x-btn can-check':'x-btn');
-      return `<tr>
-        <td><span class="seq-badge">${o.seq}</span></td>
-        <td>${dept?.name||'-'}</td>
-        <td>${team?.name||'-'}</td>
-        <td style="font-weight:700">${mem?.name||'-'}</td>
-        <td>
-          <div class="x-cell">
-            <button class="${xClass}" data-rid="${rid}" data-oid="${oid}" data-checked="${o.checked?'1':'0'}" data-can="${canCheck?'1':'0'}" title="${o.checked?'완료 취소':'완료 처리'}"></button>
+  const rows = orders.length===0
+    ? `<tr><td colspan="5" class="empty-row">워킹 순서가 없습니다${canEdit?' — 아래 버튼으로 추가하세요':''}</td></tr>`
+    : orders.map(([oid,o])=>{
+        const dept=D.settings.departments[o.deptId];
+        const team=dept?.teams?.[o.teamId];
+        const registered = (o.deptId && o.teamId) ? isMemberRegistered(o.deptId,o.teamId,o.memberName) : true;
+        const nameHtml = registered
+          ? `<span class="name-ok">${o.memberName||'-'}</span>`
+          : `<span class="name-err">${o.memberName||'-'}<span class="name-err-badge">미등록</span></span>`;
+        const ts=o.checkedAt?new Date(o.checkedAt).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+        const xClass=o.checked?'x-btn done':(canCheck?'x-btn clickable':'x-btn');
+        return `<tr>
+          <td><span class="seq-b">${o.seq}</span></td>
+          <td>${dept?.name||'-'}</td>
+          <td>${team?.name||'-'}</td>
+          <td>${nameHtml}</td>
+          <td><div class="x-wrap">
+            <button class="${xClass}" data-rid="${rid}" data-oid="${oid}" data-done="${o.checked?1:0}"></button>
             ${o.checked?`<div class="x-info">${ts}<br>${o.checkedBy||''}</div>`:''}
-          </div>
-        </td>
-      </tr>`;
-    }).join('');
+          </div></td>
+        </tr>`;
+      }).join('');
 
-  const actionBtns=canCheck&&orders.length>0?`
-    <button class="btn btn-p" onclick="openAddOrderModal('${rid}')">+ 순서 추가</button>
-    <button class="btn btn-d" onclick="delRound('${rid}')">회차 삭제</button>
-  `:canCheck?`<button class="btn btn-p" onclick="openAddOrderModal('${rid}')">+ 순서 추가</button><button class="btn btn-d" onclick="delRound('${rid}')">회차 삭제</button>`:'';
-
-  return `<div class="round-card" id="rc-${rid}">
-    <div class="round-hdr ${isOpen?'open':''}" data-rid="${rid}">
+  return `<div class="r-card" id="rc-${rid}">
+    <div class="r-hdr${isOpen?' open':''}" data-rid="${rid}">
       <div>
-        <div class="r-name">${round.name}</div>
-        <div class="r-date">${round.createdDate||''}</div>
+        <div class="r-name">${rnd.name}</div>
+        <div class="r-date">${rnd.createdDate||''}</div>
       </div>
-      <div class="r-stats">
-        <span class="r-count" style="color:${done===total&&total>0?'var(--success)':'var(--primary)'}">${done}/${total}</span>
+      <div class="r-meta">
+        <span class="r-cnt" style="color:${done===total&&total>0?'var(--ok)':'var(--pri)'}">${done}/${total}</span>
         <span class="r-pct">${pct}%</span>
         <span class="r-arr${isOpen?' open':''}">▶</span>
       </div>
     </div>
-    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="prog"><div class="prog-fill" style="width:${pct}%"></div></div>
     <div id="rb-${rid}" style="display:${isOpen?'block':'none'}">
-      <div class="tbl-wrap">
-        <table class="order-tbl">
-          <thead><tr><th>순서</th><th>본부</th><th>팀</th><th>직원명</th><th>완료</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-      ${canCheck?`<div class="tbl-actions">${actionBtns}</div>`:''}
+      <div class="tbl-wrap"><table class="o-tbl">
+        <thead><tr><th>순서</th><th>본부</th><th>팀</th><th>직원명</th><th>완료</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+      ${canEdit?`<div class="tbl-foot">
+        <button class="btn bs" onclick="openAddOrderModal('${rid}')">+ 순서추가</button>
+        <button class="btn bd" onclick="delRound('${rid}')">회차삭제</button>
+      </div>`:''}
     </div>
   </div>`;
 }
 
 function bindRoundEvents(){
-  // Toggle expand
-  document.querySelectorAll('.round-hdr').forEach(hdr=>{
-    hdr.addEventListener('click',()=>{
-      const rid=hdr.dataset.rid;
-      openRounds[rid]=!openRounds[rid];
-      const body=document.getElementById(`rb-${rid}`);
-      if(body) body.style.display=openRounds[rid]?'block':'none';
-      hdr.classList.toggle('open',!!openRounds[rid]);
-      const arr=hdr.querySelector('.r-arr');
-      if(arr) arr.classList.toggle('open',!!openRounds[rid]);
-    });
+  document.querySelectorAll('.r-hdr').forEach(h=>{
+    h.onclick = () => {
+      const rid=h.dataset.rid;
+      openR[rid]=!openR[rid];
+      document.getElementById(`rb-${rid}`).style.display=openR[rid]?'block':'none';
+      h.classList.toggle('open',!!openR[rid]);
+      h.querySelector('.r-arr').classList.toggle('open',!!openR[rid]);
+    };
   });
-  // X buttons
-  document.querySelectorAll('.x-btn[data-can="1"]').forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
-      e.stopPropagation();
-      const rid=btn.dataset.rid, oid=btn.dataset.oid, checked=btn.dataset.checked==='1';
-      toggleCheck(rid,oid,checked);
-    });
+  document.querySelectorAll('.x-btn[data-rid]').forEach(btn=>{
+    btn.onclick = e=>{e.stopPropagation(); toggleCheck(btn.dataset.rid,btn.dataset.oid,btn.dataset.done==='1');};
   });
 }
 
-async function toggleCheck(rid,oid,wasChecked){
-  const round=D.rounds[rid]; if(!round) return;
-  const order=round.orders?.[oid]; if(!order) return;
-  const dept=D.settings.departments[order.deptId];
-  const team=dept?.teams?.[order.teamId];
-  const mem=team?.members?.[order.memberId];
-  const newVal=!wasChecked;
-  const updates={};
-  updates[`rounds/${rid}/orders/${oid}/checked`]=newVal;
-  updates[`rounds/${rid}/orders/${oid}/checkedAt`]=newVal?Date.now():null;
-  updates[`rounds/${rid}/orders/${oid}/checkedBy`]=newVal?U.displayName:null;
-  await window._update(updates);
+async function toggleCheck(rid,oid,wasDone){
+  if(!P.canCheck(U)){showToast('권한이 없습니다');return;}
+  const o = D.rounds?.[rid]?.orders?.[oid]; if(!o) return;
+  const newVal=!wasDone;
+  const upd={};
+  upd[`rounds/${rid}/orders/${oid}/checked`]=newVal;
+  upd[`rounds/${rid}/orders/${oid}/checkedAt`]=newVal?Date.now():null;
+  upd[`rounds/${rid}/orders/${oid}/checkedBy`]=newVal?U.displayName:null;
+  await window._upd(upd);
   if(newVal){
-    const msg=`[${round.name}] ${order.seq}번 완료 — ${dept?.name||''} ${team?.name||''} ${mem?.name||''}`;
-    await addNotif(msg,{roundId:rid,orderId:oid});
+    const dept=D.settings.departments[o.deptId];
+    const team=dept?.teams?.[o.teamId];
+    const msg=`[${D.rounds[rid].name}] ${o.seq}번 완료 — ${dept?.name||''} ${team?.name||''} ${o.memberName||''}`;
+    await addNotif(msg);
     showToast('✅ '+msg);
-    pushBrowserNotif('✅ 워킹오더 완료',msg);
-  } else {
-    showToast('↩️ 완료 취소됨');
-  }
+    browserNotif('✅ 완료',msg);
+  } else { showToast('↩️ 완료 취소'); }
 }
 
-/* ============================================================
-   어드민 렌더링
-   ============================================================ */
-function renderAdmin(){
-  const wrap=document.getElementById('adminWrap');
-  const depts=D?.settings?.departments||{};
-  const pins=D?.settings?.pins||{};
-  const deptArr=Object.entries(depts);
-  const canAll=['info','general'].includes(U?.role);
-
-  let html='';
-
-  // 조직 구조
-  html+=`<div class="admin-section">
-    <div class="admin-sec-hdr">
-      <span>🏢 조직 관리</span>
-      ${canAll?`<button class="btn btn-p" onclick="openDeptModal()">+ 본부 추가</button>`:''}
-    </div><div class="admin-list">`;
-
-  const visDepts=U?.role==='dept_head'?deptArr.filter(([id])=>id===U.deptId)
-    :U?.role==='team_leader'?deptArr.filter(([id])=>id===U.deptId):deptArr;
-
-  if(!visDepts.length) html+=`<div class="empty-admin">등록된 본부가 없습니다</div>`;
-
-  for(const [dId,dept] of visDepts){
-    const canDept=canAll||(U?.deptId===dId&&['dept_head','team_leader'].includes(U.role));
-    const canDeptEdit=canAll||U?.deptId===dId&&U.role==='dept_head';
-    const teamArr=Object.entries(dept.teams||{});
-    html+=`<div>
-      <div class="admin-item">
-        <div><div class="ai-name">🏢 ${dept.name}</div><div class="ai-sub">${teamArr.length}팀</div></div>
-        <div class="btn-grp">
-          ${canDept?`<button class="btn btn-p" onclick="openTeamModal('${dId}')">+ 팀</button>`:''}
-          ${canDeptEdit?`<button class="btn btn-s" onclick="openDeptModal('${dId}')">수정</button>`:''}
-          ${canAll?`<button class="btn btn-d" onclick="delDept('${dId}')">삭제</button>`:''}
-        </div>
-      </div>`;
-    for(const [tId,team] of teamArr){
-      const visTeam=U?.role==='team_leader'&&U.teamId!==tId;
-      if(visTeam) continue;
-      const canTeamEdit=canAll||U?.deptId===dId;
-      const canMemEdit=canAll||U?.deptId===dId||U?.teamId===tId;
-      const memArr=Object.entries(team.members||{});
-      html+=`<div class="indent1">
-        <div class="admin-item">
-          <div><div class="ai-name">👥 ${team.name}</div><div class="ai-sub">${memArr.length}명</div></div>
-          <div class="btn-grp">
-            ${canMemEdit?`<button class="btn btn-p" onclick="openMemberModal('${dId}','${tId}')">+ 직원</button>`:''}
-            ${canTeamEdit?`<button class="btn btn-s" onclick="openTeamModal('${dId}','${tId}')">수정</button>`:''}
-            ${canTeamEdit?`<button class="btn btn-d" onclick="delTeam('${dId}','${tId}')">삭제</button>`:''}
-          </div>
-        </div>`;
-      for(const [mId,mem] of memArr){
-        html+=`<div class="indent2">
-          <div class="admin-item">
-            <div><div class="ai-name">👤 ${mem.name}</div></div>
-            ${canMemEdit?`<div class="btn-grp">
-              <button class="btn btn-s" onclick="openMemberModal('${dId}','${tId}','${mId}')">수정</button>
-              <button class="btn btn-d" onclick="delMember('${dId}','${tId}','${mId}')">삭제</button>
-            </div>`:''}
-          </div>
-        </div>`;
-      }
-      html+=`</div>`;
-    }
-    html+=`</div>`;
-  }
-  html+=`</div></div>`;
-
-  // PIN 관리 (info/general only)
-  if(canAll){
-    html+=`<div class="admin-section">
-      <div class="admin-sec-hdr"><span>🔐 PIN 관리</span></div>
-      <div class="admin-list">
-        <div class="admin-item">
-          <div><div class="ai-name">인포 PIN</div><div class="ai-sub">현재: ${pins.info||'미설정'}</div></div>
-          <button class="btn btn-s" onclick="openPinModal('info')">변경</button>
-        </div>
-        <div class="admin-item">
-          <div><div class="ai-name">총괄본부장 PIN</div><div class="ai-sub">현재: ${pins.general||'미설정'}</div></div>
-          <button class="btn btn-s" onclick="openPinModal('general')">변경</button>
-        </div>`;
-    for(const [dId,dept] of deptArr){
-      html+=`<div class="admin-item">
-        <div><div class="ai-name">${dept.name} 본부장 PIN</div><div class="ai-sub">현재: ${pins.dept_heads?.[dId]||'미설정'}</div></div>
-        <button class="btn btn-s" onclick="openPinModal('dept_head','${dId}')">변경</button>
-      </div>`;
-      for(const [tId,team] of Object.entries(dept.teams||{})){
-        html+=`<div class="admin-item" style="padding-left:28px">
-          <div><div class="ai-name">${team.name} 팀장 PIN</div><div class="ai-sub">현재: ${pins.team_leaders?.[tId]||'미설정'}</div></div>
-          <button class="btn btn-s" onclick="openPinModal('team_leader','${tId}')">변경</button>
-        </div>`;
-        for(const [mId,mem] of Object.entries(team.members||{})){
-          html+=`<div class="admin-item" style="padding-left:44px">
-            <div><div class="ai-name">${mem.name} 직원 PIN</div><div class="ai-sub">현재: ${pins.employees?.[mId]||'미설정'}</div></div>
-            <button class="btn btn-s" onclick="openPinModal('employee','${mId}')">변경</button>
-          </div>`;
-        }
-      }
-    }
-    html+=`</div></div>`;
-  }
-
-  // 알림 기록
-  html+=`<div class="admin-section">
-    <div class="admin-sec-hdr">
-      <span>🔔 알림 기록</span>
-      ${canAll?`<button class="btn btn-d" onclick="clearNotifs()">전체 삭제</button>`:''}
-    </div><div class="admin-list">`;
-  const notifArr=Object.entries(D.notifications||{}).sort((a,b)=>b[1].timestamp-a[1].timestamp).slice(0,30);
-  if(!notifArr.length) html+=`<div class="empty-admin">알림 기록이 없습니다</div>`;
-  else notifArr.forEach(([,n])=>{
-    html+=`<div class="admin-item">
-      <div>
-        <div class="ai-name" style="font-size:13px">✅ ${n.message}</div>
-        <div class="ai-sub">${new Date(n.timestamp).toLocaleString('ko-KR')} · ${n.by}</div>
-      </div>
-    </div>`;
-  });
-  html+=`</div></div>`;
-
-  wrap.innerHTML=html;
-}
-
-/* ============================================================
-   모달 유틸
-   ============================================================ */
-function openModal(html){ document.getElementById('modalBody').innerHTML=html; document.getElementById('modalBg').classList.add('show'); }
-window.closeModal = ()=>{ document.getElementById('modalBg').classList.remove('show'); };
-window.bgClose = (e)=>{ if(e.target===document.getElementById('modalBg')) closeModal(); };
-
-/* ============================================================
-   회차 추가
-   ============================================================ */
-window.openAddRoundModal = ()=>{
-  const cnt=Object.keys(D?.rounds||{}).length+1;
+/* ROUND CRUD */
+window.openAddRoundModal = () => {
+  if(!P.canRounds(U)){showToast('권한이 없습니다');return;}
+  const cnt=Object.keys(D.rounds||{}).length+1;
   const today=new Date().toISOString().split('T')[0];
-  openModal(`
-    <div class="modal-title">📅 회차 추가 <button class="close-btn" onclick="closeModal()">×</button></div>
-    <div class="form-grp">
-      <label class="form-lbl">회차 이름</label>
-      <input class="form-inp" id="rName" value="${cnt}회차" placeholder="예: ${cnt}회차">
-    </div>
-    <div class="form-grp">
-      <label class="form-lbl">날짜</label>
-      <input class="form-inp" id="rDate" type="date" value="${today}">
-    </div>
-    <button class="btn-full btn-p" onclick="saveRound()" style="margin-top:8px">추가</button>
-  `);
+  showEditModal(`📅 회차 추가 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
+    <div class="fg"><label class="fl">회차 이름</label><input class="fi" id="rName" value="${cnt}회차"></div>
+    <div class="fg"><label class="fl">날짜</label><input class="fi" type="date" id="rDate" value="${today}"></div>
+    <button class="btn-full bp" onclick="saveRound()">추가</button>`);
 };
-
 window.saveRound = async()=>{
   const name=document.getElementById('rName').value.trim();
   const date=document.getElementById('rDate').value;
-  if(!name){showToast('회차 이름을 입력하세요');return;}
-  const newRef=push(r('rounds'));
-  await set(newRef,{name,createdDate:date,createdAt:Date.now(),orders:{}});
-  closeModal(); showToast('✅ 회차 추가 완료');
+  if(!name){showToast('이름을 입력하세요');return;}
+  const nr=push(r('rounds'));
+  await set(nr,{name,createdDate:date,createdAt:Date.now(),orders:{}});
+  closeMbg('editMbg'); showToast('✅ 회차 추가');
 };
-
-window.delRound = async(rid)=>{
+window.delRound=async rid=>{
   if(!confirm('이 회차를 삭제할까요?')) return;
   await window._save(`rounds/${rid}`,null);
-  delete openRounds[rid]; showToast('삭제 완료');
+  delete openR[rid]; showToast('삭제됨');
 };
 
-/* ============================================================
-   워킹순서 추가
-   ============================================================ */
-window.openAddOrderModal = (rid)=>{
-  const depts=D?.settings?.departments||{};
-  const deptOpts=Object.entries(depts).map(([id,d])=>`<option value="${id}">${d.name}</option>`).join('');
-  const cnt=Object.keys(D?.rounds?.[rid]?.orders||{}).length+1;
-  openModal(`
-    <div class="modal-title">➕ 워킹순서 추가 <button class="close-btn" onclick="closeModal()">×</button></div>
-    <div class="form-grp">
-      <label class="form-lbl">순서 번호</label>
-      <input class="form-inp" id="seqN" type="number" value="${cnt}" min="1">
+/* ORDER CRUD */
+window.openAddOrderModal = rid => {
+  if(!P.canOrders(U)){showToast('권한이 없습니다');return;}
+  const depts=D.settings.departments||{};
+  const dOpts=Object.entries(depts).map(([id,d])=>`<option value="${id}">${d.name}</option>`).join('');
+  const cnt=Object.keys(D.rounds?.[rid]?.orders||{}).length+1;
+  const adminMode=P.canFullEdit(U);
+  showEditModal(`➕ 워킹순서 추가 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
+    <input type="hidden" id="oRid" value="${rid}">
+    <div class="fg"><label class="fl">순서 번호</label><input class="fi" type="number" id="oSeq" value="${cnt}" min="1"></div>
+    <div class="fg"><label class="fl">본부</label>
+      <select class="fsel" id="oDept" onchange="onODeptChange()"><option value="">-- 선택 --</option>${dOpts}</select></div>
+    <div class="fg"><label class="fl">팀</label>
+      <select class="fsel" id="oTeam" onchange="onOTeamChange()"><option value="">-- 선택 --</option></select></div>
+    <div class="fg"><label class="fl">직원명${adminMode?' <span style="color:var(--txt2);font-weight:400">(미등록도 입력 가능)</span>':''}</label>
+      <div style="display:flex;gap:8px">
+        <input class="fi" id="oName" placeholder="이름 입력" style="flex:1">
+        <select class="fsel" id="oNameSel" style="width:130px" onchange="document.getElementById('oName').value=this.value">
+          <option value="">목록에서 선택</option>
+        </select>
+      </div>
     </div>
-    <div class="form-grp">
-      <label class="form-lbl">본부</label>
-      <select class="form-sel" id="selD" onchange="onDeptChange()">
-        <option value="">-- 선택 --</option>${deptOpts}
-      </select>
-    </div>
-    <div class="form-grp">
-      <label class="form-lbl">팀</label>
-      <select class="form-sel" id="selT" onchange="onTeamChange()">
-        <option value="">-- 선택 --</option>
-      </select>
-    </div>
-    <div class="form-grp">
-      <label class="form-lbl">직원</label>
-      <select class="form-sel" id="selM">
-        <option value="">-- 선택 --</option>
-      </select>
-    </div>
-    <button class="btn-full btn-p" onclick="saveOrder('${rid}')" style="margin-top:8px">추가</button>
-  `);
+    <button class="btn-full bp" onclick="saveOrder()">추가</button>`);
+};
+window.onODeptChange=()=>{
+  const dId=document.getElementById('oDept').value;
+  const teams=D.settings.departments[dId]?.teams||{};
+  document.getElementById('oTeam').innerHTML='<option value="">-- 선택 --</option>'+
+    Object.entries(teams).map(([id,t])=>`<option value="${id}">${t.name}</option>`).join('');
+  document.getElementById('oNameSel').innerHTML='<option value="">목록에서 선택</option>';
+  document.getElementById('oName').value='';
+};
+window.onOTeamChange=()=>{
+  const dId=document.getElementById('oDept').value;
+  const tId=document.getElementById('oTeam').value;
+  const names=getTeamMembers(dId,tId);
+  document.getElementById('oNameSel').innerHTML='<option value="">목록에서 선택</option>'+
+    names.map(n=>`<option value="${n}">${n}</option>`).join('');
+};
+window.saveOrder=async()=>{
+  const rid=document.getElementById('oRid').value;
+  const seq=parseInt(document.getElementById('oSeq').value)||1;
+  const deptId=document.getElementById('oDept').value;
+  const teamId=document.getElementById('oTeam').value;
+  const memberName=document.getElementById('oName').value.trim();
+  if(!deptId||!teamId||!memberName){showToast('모든 항목을 입력하세요');return;}
+  const nr=push(r(`rounds/${rid}/orders`));
+  await set(nr,{seq,deptId,teamId,memberName,checked:false,checkedAt:null,checkedBy:null});
+  closeMbg('editMbg'); showToast('✅ 순서 추가');
 };
 
-window.onDeptChange = ()=>{
-  const dId=document.getElementById('selD')?.value;
-  const teams=D?.settings?.departments?.[dId]?.teams||{};
-  document.getElementById('selT').innerHTML=`<option value="">-- 선택 --</option>`+Object.entries(teams).map(([id,t])=>`<option value="${id}">${t.name}</option>`).join('');
-  document.getElementById('selM').innerHTML=`<option value="">-- 선택 --</option>`;
-};
-window.onTeamChange = ()=>{
-  const dId=document.getElementById('selD')?.value;
-  const tId=document.getElementById('selT')?.value;
-  const mems=D?.settings?.departments?.[dId]?.teams?.[tId]?.members||{};
-  document.getElementById('selM').innerHTML=`<option value="">-- 선택 --</option>`+Object.entries(mems).map(([id,m])=>`<option value="${id}">${m.name}</option>`).join('');
-};
+/* ─── RENDER MANAGE (dept/team) ─── */
+function renderManage(){
+  if(!P.canRounds(U)){document.getElementById('tab-manage').innerHTML='<div class="empty-state"><div class="empty-ico">🔒</div><div>권한이 없습니다</div></div>';return;}
+  const depts=D.settings.departments||{};
+  const canDept=P.canAddDept(U);
 
-window.saveOrder = async(rid)=>{
-  const seq=parseInt(document.getElementById('seqN').value)||1;
-  const deptId=document.getElementById('selD').value;
-  const teamId=document.getElementById('selT').value;
-  const memberId=document.getElementById('selM').value;
-  if(!deptId||!teamId||!memberId){showToast('모든 항목을 선택하세요');return;}
-  const newRef=push(r(`rounds/${rid}/orders`));
-  await set(newRef,{seq,deptId,teamId,memberId,checked:false,checkedAt:null,checkedBy:null});
-  closeModal(); showToast('✅ 순서 추가 완료');
-};
+  let html=`<div class="sec">
+    <div class="sec-hdr"><span>🏢 본부 / 팀 구조</span>
+      ${canDept?`<button class="btn bp" onclick="openDeptModal()">+ 본부추가</button>`:''}
+    </div>`;
 
-/* ============================================================
-   본부 CRUD
-   ============================================================ */
-window.openDeptModal = (dId)=>{
+  const dArr=Object.entries(depts);
+  const visDepts=U?.role==='dept_head'?dArr.filter(([id])=>id===U.deptId):
+                 U?.role==='team_leader'?dArr.filter(([id])=>id===U.deptId):dArr;
+
+  if(!visDepts.length) html+=`<div class="empty-sec">등록된 본부가 없습니다</div>`;
+
+  for(const [dId,dept] of visDepts){
+    const canTeam=P.canAddTeam(U)&&(U.role!=='dept_head'||U.deptId===dId);
+    const canDeptEdit=P.canFullEdit(U)||(U.role==='dept_head'&&U.deptId===dId);
+    html+=`<div class="sec-row"><div><div class="row-name">🏢 ${dept.name}</div>
+      <div class="row-sub">본부장 PIN: ${dept.headPin||'2345(기본)'} · ${Object.keys(dept.teams||{}).length}팀</div></div>
+      <div class="btn-grp">
+        ${canTeam?`<button class="btn bp" onclick="openTeamModal('${dId}')">+ 팀</button>`:''}
+        ${canDeptEdit?`<button class="btn bs" onclick="openDeptModal('${dId}')">수정</button>`:''}
+        ${P.canFullEdit(U)?`<button class="btn bd" onclick="delDept('${dId}')">삭제</button>`:''}
+      </div></div>`;
+    for(const [tId,team] of Object.entries(dept.teams||{})){
+      if(U?.role==='team_leader'&&U.teamId!==tId) continue;
+      html+=`<div class="sec-row indent1"><div><div class="row-name">👥 ${team.name}</div>
+        <div class="row-sub">팀장 PIN: ${team.leaderPin||'4567(기본)'} · ${Object.keys(team.members||{}).length}명</div></div>
+        <div class="btn-grp">
+          ${canDeptEdit?`<button class="btn bs" onclick="openTeamModal('${dId}','${tId}')">수정</button>`:''}
+          ${P.canFullEdit(U)?`<button class="btn bd" onclick="delTeam('${dId}','${tId}')">삭제</button>`:''}
+        </div></div>`;
+    }
+  }
+  html+=`</div>`;
+  document.getElementById('tab-manage').innerHTML=html;
+}
+
+/* DEPT CRUD */
+window.openDeptModal=dId=>{
   const dept=dId?D.settings.departments[dId]:null;
-  const pin=dId?(D.settings.pins?.dept_heads?.[dId]||''):'';
-  openModal(`
-    <div class="modal-title">🏢 본부 ${dId?'수정':'추가'} <button class="close-btn" onclick="closeModal()">×</button></div>
-    <div class="form-grp">
-      <label class="form-lbl">본부 이름</label>
-      <input class="form-inp" id="dName" value="${dept?.name||''}" placeholder="예: 1본부">
-    </div>
-    <div class="form-grp">
-      <label class="form-lbl">본부장 PIN (4자리)</label>
-      <input class="form-inp" id="dPin" type="tel" inputmode="numeric" maxlength="4" value="${pin}" placeholder="0000">
-    </div>
-    <button class="btn-full btn-p" onclick="saveDept('${dId||''}')" style="margin-top:8px">${dId?'저장':'추가'}</button>
-  `);
+  const cnt=Object.keys(D.settings.departments||{}).length+1;
+  showEditModal(`🏢 본부 ${dId?'수정':'추가'} <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
+    <div class="fg"><label class="fl">본부 이름</label>
+      <input class="fi" id="dName" value="${dept?.name||cnt+'본부'}" placeholder="예: 1본부"></div>
+    <div class="fg"><label class="fl">본부장 PIN (4자리 숫자)</label>
+      <input class="fi" id="dPin" type="tel" inputmode="numeric" maxlength="4" value="${dept?.headPin||'2345'}" placeholder="2345"></div>
+    <button class="btn-full bp" onclick="saveDept('${dId||''}')">저장</button>`);
 };
-
-window.saveDept = async(dId)=>{
+window.saveDept=async dId=>{
   const name=document.getElementById('dName').value.trim();
   const pin=document.getElementById('dPin').value.trim();
-  if(!name){showToast('이름을 입력하세요');return;}
-  if(pin&&(pin.length!==4||!/^\d+$/.test(pin))){showToast('PIN은 숫자 4자리여야 합니다');return;}
-  const updates={};
+  if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리를 확인하세요');return;}
   if(dId){
-    updates[`settings/departments/${dId}/name`]=name;
-    if(pin) updates[`settings/pins/dept_heads/${dId}`]=pin;
+    await window._upd({[`settings/departments/${dId}/name`]:name,[`settings/departments/${dId}/headPin`]:pin});
   } else {
-    const newRef=push(r('settings/departments'));
-    const nId=newRef.key;
-    updates[`settings/departments/${nId}`]={name,teams:{}};
-    if(pin) updates[`settings/pins/dept_heads/${nId}`]=pin;
+    const nr=push(r('settings/departments'));
+    await set(nr,{name,headPin:pin,teams:{}});
   }
-  await window._update(updates);
-  closeModal(); showToast(`✅ 본부 ${dId?'수정':'추가'} 완료`);
+  closeMbg('editMbg'); showToast(`✅ 본부 ${dId?'수정':'추가'}`);
 };
-
-window.delDept = async(dId)=>{
+window.delDept=async dId=>{
   if(!confirm('본부와 하위 팀/직원을 모두 삭제합니다. 계속할까요?')) return;
-  const updates={};
-  updates[`settings/departments/${dId}`]=null;
-  updates[`settings/pins/dept_heads/${dId}`]=null;
-  await window._update(updates); showToast('삭제 완료');
+  await window._save(`settings/departments/${dId}`,null); showToast('삭제됨');
 };
 
-/* ============================================================
-   팀 CRUD
-   ============================================================ */
-window.openTeamModal = (dId,tId)=>{
-  const team=tId?D.settings.departments[dId]?.teams?.[tId]:null;
-  const pin=tId?(D.settings.pins?.team_leaders?.[tId]||''):'';
-  openModal(`
-    <div class="modal-title">👥 팀 ${tId?'수정':'추가'} <button class="close-btn" onclick="closeModal()">×</button></div>
-    <div class="form-grp">
-      <label class="form-lbl">팀 이름</label>
-      <input class="form-inp" id="tName" value="${team?.name||''}" placeholder="예: 1팀">
-    </div>
-    <div class="form-grp">
-      <label class="form-lbl">팀장 PIN (4자리)</label>
-      <input class="form-inp" id="tPin" type="tel" inputmode="numeric" maxlength="4" value="${pin}" placeholder="0000">
-    </div>
-    <button class="btn-full btn-p" onclick="saveTeam('${dId}','${tId||''}')" style="margin-top:8px">${tId?'저장':'추가'}</button>
-  `);
+/* TEAM CRUD */
+window.openTeamModal=(dId,tId)=>{
+  const dept=D.settings.departments[dId];
+  const team=tId?dept?.teams?.[tId]:null;
+  const deptNum=dept?.name.replace('본부','').trim()||'';
+  const teamCnt=Object.keys(dept?.teams||{}).length+(tId?0:1);
+  const suggestName=tId?(team?.name||''):`${deptNum}-${teamCnt}팀`;
+  showEditModal(`👥 팀 ${tId?'수정':'추가'} <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
+    <div class="fg"><label class="fl">팀 이름</label>
+      <input class="fi" id="tName" value="${suggestName}" placeholder="예: 1-1팀"></div>
+    <div class="fg"><label class="fl">팀장 PIN (4자리 숫자)</label>
+      <input class="fi" id="tPin" type="tel" inputmode="numeric" maxlength="4" value="${team?.leaderPin||'4567'}" placeholder="4567"></div>
+    <button class="btn-full bp" onclick="saveTeam('${dId}','${tId||''}')">저장</button>`);
 };
-
-window.saveTeam = async(dId,tId)=>{
+window.saveTeam=async(dId,tId)=>{
   const name=document.getElementById('tName').value.trim();
   const pin=document.getElementById('tPin').value.trim();
-  if(!name){showToast('이름을 입력하세요');return;}
-  if(pin&&(pin.length!==4||!/^\d+$/.test(pin))){showToast('PIN은 숫자 4자리여야 합니다');return;}
-  const updates={};
+  if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리를 확인하세요');return;}
   if(tId){
-    updates[`settings/departments/${dId}/teams/${tId}/name`]=name;
-    if(pin) updates[`settings/pins/team_leaders/${tId}`]=pin;
+    await window._upd({[`settings/departments/${dId}/teams/${tId}/name`]:name,[`settings/departments/${dId}/teams/${tId}/leaderPin`]:pin});
   } else {
-    const newRef=push(r(`settings/departments/${dId}/teams`));
-    const nId=newRef.key;
-    updates[`settings/departments/${dId}/teams/${nId}`]={name,members:{}};
-    if(pin) updates[`settings/pins/team_leaders/${nId}`]=pin;
+    const nr=push(r(`settings/departments/${dId}/teams`));
+    await set(nr,{name,leaderPin:pin,members:{}});
   }
-  await window._update(updates);
-  closeModal(); showToast(`✅ 팀 ${tId?'수정':'추가'} 완료`);
+  closeMbg('editMbg'); showToast(`✅ 팀 ${tId?'수정':'추가'}`);
+};
+window.delTeam=async(dId,tId)=>{
+  if(!confirm('팀과 하위 직원을 삭제합니다.')) return;
+  await window._save(`settings/departments/${dId}/teams/${tId}`,null); showToast('삭제됨');
 };
 
-window.delTeam = async(dId,tId)=>{
-  if(!confirm('팀과 하위 직원을 삭제합니다. 계속할까요?')) return;
-  const updates={};
-  updates[`settings/departments/${dId}/teams/${tId}`]=null;
-  updates[`settings/pins/team_leaders/${tId}`]=null;
-  await window._update(updates); showToast('삭제 완료');
-};
+/* ─── RENDER EMPLOYEES ─── */
+function renderEmployees(){
+  if(!P.canEmpMgmt(U)){document.getElementById('tab-employees').innerHTML='<div class="empty-state"><div class="empty-ico">🔒</div><div>권한이 없습니다<br><small>관리자·인포·총괄만 접근 가능</small></div></div>';return;}
+  const depts=D.settings.departments||{};
+  let html='';
+  for(const [dId,dept] of Object.entries(depts)){
+    html+=`<div class="sec"><div class="sec-hdr"><span>🏢 ${dept.name}</span></div>`;
+    const teams=dept.teams||{};
+    if(!Object.keys(teams).length) html+=`<div class="empty-sec">팀 없음 — 관리탭에서 팀을 추가하세요</div>`;
+    for(const [tId,team] of Object.entries(teams)){
+      html+=`<div class="sec-row indent1"><div><div class="row-name">👥 ${team.name}</div></div>
+        <button class="btn bp" onclick="openMemberModal('${dId}','${tId}')">+ 직원추가</button></div>`;
+      for(const [mId,mem] of Object.entries(team.members||{})){
+        html+=`<div class="sec-row indent2"><div class="row-name">👤 ${mem.name}</div>
+          <div class="btn-grp">
+            <button class="btn bs" onclick="openMemberModal('${dId}','${tId}','${mId}')">수정</button>
+            <button class="btn bd" onclick="delMember('${dId}','${tId}','${mId}')">삭제</button>
+          </div></div>`;
+      }
+    }
+    html+=`</div>`;
+  }
+  if(!Object.keys(depts).length) html=`<div class="empty-state"><div class="empty-ico">👥</div><div>먼저 관리탭에서 본부와 팀을 추가하세요</div></div>`;
+  document.getElementById('tab-employees').innerHTML=html;
+}
 
-/* ============================================================
-   직원 CRUD
-   ============================================================ */
-window.openMemberModal = (dId,tId,mId)=>{
+window.openMemberModal=(dId,tId,mId)=>{
   const mem=mId?D.settings.departments[dId]?.teams?.[tId]?.members?.[mId]:null;
-  const pin=mId?(D.settings.pins?.employees?.[mId]||''):'';
-  openModal(`
-    <div class="modal-title">👤 직원 ${mId?'수정':'추가'} <button class="close-btn" onclick="closeModal()">×</button></div>
-    <div class="form-grp">
-      <label class="form-lbl">직원 이름</label>
-      <input class="form-inp" id="mName" value="${mem?.name||''}" placeholder="이름 입력">
-    </div>
-    <div class="form-grp">
-      <label class="form-lbl">직원 PIN (4자리)</label>
-      <input class="form-inp" id="mPin" type="tel" inputmode="numeric" maxlength="4" value="${pin}" placeholder="0000">
-    </div>
-    <button class="btn-full btn-p" onclick="saveMember('${dId}','${tId}','${mId||''}')" style="margin-top:8px">${mId?'저장':'추가'}</button>
-  `);
+  showEditModal(`👤 직원 ${mId?'수정':'추가'} <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
+    <div class="fg"><label class="fl">직원 이름</label>
+      <input class="fi" id="mName" value="${mem?.name||''}" placeholder="이름 입력"></div>
+    <button class="btn-full bp" onclick="saveMember('${dId}','${tId}','${mId||''}')">저장</button>`);
 };
-
-window.saveMember = async(dId,tId,mId)=>{
+window.saveMember=async(dId,tId,mId)=>{
   const name=document.getElementById('mName').value.trim();
-  const pin=document.getElementById('mPin').value.trim();
   if(!name){showToast('이름을 입력하세요');return;}
-  if(pin&&(pin.length!==4||!/^\d+$/.test(pin))){showToast('PIN은 숫자 4자리여야 합니다');return;}
-  const updates={};
   if(mId){
-    updates[`settings/departments/${dId}/teams/${tId}/members/${mId}/name`]=name;
-    if(pin) updates[`settings/pins/employees/${mId}`]=pin;
+    await window._save(`settings/departments/${dId}/teams/${tId}/members/${mId}/name`,name);
   } else {
-    const newRef=push(r(`settings/departments/${dId}/teams/${tId}/members`));
-    const nId=newRef.key;
-    updates[`settings/departments/${dId}/teams/${tId}/members/${nId}`]={name};
-    if(pin) updates[`settings/pins/employees/${nId}`]=pin;
+    const nr=push(r(`settings/departments/${dId}/teams/${tId}/members`));
+    await set(nr,{name});
   }
-  await window._update(updates);
-  closeModal(); showToast(`✅ 직원 ${mId?'수정':'추가'} 완료`);
+  closeMbg('editMbg'); showToast(`✅ 직원 ${mId?'수정':'추가'}`);
+};
+window.delMember=async(dId,tId,mId)=>{
+  if(!confirm('직원을 삭제합니다.')) return;
+  await window._save(`settings/departments/${dId}/teams/${tId}/members/${mId}`,null); showToast('삭제됨');
 };
 
-window.delMember = async(dId,tId,mId)=>{
-  if(!confirm('직원을 삭제합니다. 계속할까요?')) return;
-  const updates={};
-  updates[`settings/departments/${dId}/teams/${tId}/members/${mId}`]=null;
-  updates[`settings/pins/employees/${mId}`]=null;
-  await window._update(updates); showToast('삭제 완료');
-};
+/* ─── RENDER ACCOUNTS ─── */
+function renderAccounts(){
+  if(!P.canAcctMgmt(U)){document.getElementById('tab-accounts').innerHTML='<div class="empty-state"><div class="empty-ico">🔒</div><div>권한이 없습니다</div></div>';return;}
+  const s=D.settings;
+  let html='';
 
-/* ============================================================
-   PIN 변경
-   ============================================================ */
-window.openPinModal = (type,subId)=>{
-  const labels={info:'인포',general:'총괄본부장',dept_head:'본부장',team_leader:'팀장',employee:'직원'};
-  openModal(`
-    <div class="modal-title">🔐 PIN 변경 <button class="close-btn" onclick="closeModal()">×</button></div>
-    <div class="form-grp">
-      <label class="form-lbl">${labels[type]||type} 새 PIN (숫자 4자리)</label>
-      <input class="form-inp" id="nPin" type="tel" inputmode="numeric" maxlength="4" placeholder="0000">
-    </div>
-    <button class="btn-full btn-p" onclick="savePin('${type}','${subId||''}')" style="margin-top:8px">저장</button>
-  `);
-};
+  /* 관리자 */
+  html+=`<div class="sec"><div class="sec-hdr">🛡️ 관리자</div>
+    <div class="sec-row"><div><div class="row-name">관리자</div><div class="row-sub">PIN: ${s.adminPin||'0000'}</div></div>
+      <button class="btn bs" onclick="openPinModal('admin')">PIN 변경</button>
+    </div></div>`;
 
-window.savePin = async(type,subId)=>{
+  /* 인포 */
+  html+=`<div class="sec"><div class="sec-hdr"><span>🖥️ 인포 계정</span>
+    <button class="btn bp" onclick="openAcctModal('info')">+ 추가</button></div>`;
+  const infoArr=Object.entries(s.infoAccounts||{});
+  if(!infoArr.length) html+=`<div class="empty-sec">인포 계정 없음</div>`;
+  infoArr.forEach(([id,a])=>{
+    html+=`<div class="sec-row"><div><div class="row-name">${a.name}</div><div class="row-sub">PIN: ${a.pin}</div></div>
+      <div class="btn-grp">
+        <button class="btn bs" onclick="openAcctModal('info','${id}')">수정</button>
+        <button class="btn bd" onclick="delAcct('info','${id}')">삭제</button>
+      </div></div>`;
+  });
+  html+=`</div>`;
+
+  /* 총괄 */
+  html+=`<div class="sec"><div class="sec-hdr"><span>👑 총괄본부장 계정</span>
+    <button class="btn bp" onclick="openAcctModal('general')">+ 추가</button></div>`;
+  const genArr=Object.entries(s.generalAccounts||{});
+  if(!genArr.length) html+=`<div class="empty-sec">총괄본부장 계정 없음</div>`;
+  genArr.forEach(([id,a])=>{
+    html+=`<div class="sec-row"><div><div class="row-name">${a.name}</div><div class="row-sub">PIN: ${a.pin}</div></div>
+      <div class="btn-grp">
+        <button class="btn bs" onclick="openAcctModal('general','${id}')">수정</button>
+        <button class="btn bd" onclick="delAcct('general','${id}')">삭제</button>
+      </div></div>`;
+  });
+  html+=`</div>`;
+
+  /* 본부장 PIN */
+  html+=`<div class="sec"><div class="sec-hdr">🏢 본부장 PIN</div>`;
+  const dArr=Object.entries(s.departments||{});
+  if(!dArr.length) html+=`<div class="empty-sec">등록된 본부 없음</div>`;
+  dArr.forEach(([dId,dept])=>{
+    html+=`<div class="sec-row"><div><div class="row-name">${dept.name} 본부장</div><div class="row-sub">PIN: ${dept.headPin||'2345'}</div></div>
+      <button class="btn bs" onclick="openDeptPinModal('${dId}')">PIN 변경</button></div>`;
+    Object.entries(dept.teams||{}).forEach(([tId,team])=>{
+      html+=`<div class="sec-row indent1"><div><div class="row-name">${team.name} 팀장</div><div class="row-sub">PIN: ${team.leaderPin||'4567'}</div></div>
+        <button class="btn bs" onclick="openTeamPinModal('${dId}','${tId}')">PIN 변경</button></div>`;
+    });
+  });
+  html+=`</div>`;
+
+  document.getElementById('tab-accounts').innerHTML=html;
+}
+
+window.openAcctModal=(type,id)=>{
+  const isInfo=type==='info';
+  const accts=isInfo?D.settings.infoAccounts:D.settings.generalAccounts;
+  const a=id?accts?.[id]:null;
+  const lbl=isInfo?'인포':'총괄본부장';
+  showEditModal(`${isInfo?'🖥️':'👑'} ${lbl} 계정 ${id?'수정':'추가'} <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
+    <div class="fg"><label class="fl">이름</label><input class="fi" id="acName" value="${a?.name||''}" placeholder="이름 입력"></div>
+    <div class="fg"><label class="fl">PIN (4자리 숫자)</label><input class="fi" id="acPin" type="tel" inputmode="numeric" maxlength="4" value="${a?.pin||''}" placeholder="0000"></div>
+    <button class="btn-full bp" onclick="saveAcct('${type}','${id||''}')">저장</button>`);
+};
+window.saveAcct=async(type,id)=>{
+  const name=document.getElementById('acName').value.trim();
+  const pin=document.getElementById('acPin').value.trim();
+  if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리를 확인하세요');return;}
+  const path=type==='info'?'infoAccounts':'generalAccounts';
+  if(id){
+    await window._upd({[`settings/${path}/${id}/name`]:name,[`settings/${path}/${id}/pin`]:pin});
+  } else {
+    const nr=push(r(`settings/${path}`));
+    await set(nr,{name,pin});
+  }
+  closeMbg('editMbg'); showToast('✅ 저장됨');
+};
+window.delAcct=async(type,id)=>{
+  if(!confirm('계정을 삭제합니다.')) return;
+  const path=type==='info'?'infoAccounts':'generalAccounts';
+  await window._save(`settings/${path}/${id}`,null); showToast('삭제됨');
+};
+window.openPinModal=type=>{
+  showEditModal(`🔐 관리자 PIN 변경 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
+    <div class="fg"><label class="fl">새 PIN (4자리 숫자)</label><input class="fi" id="nPin" type="tel" inputmode="numeric" maxlength="4" placeholder="0000"></div>
+    <button class="btn-full bp" onclick="savePin('admin')">저장</button>`);
+};
+window.savePin=async type=>{
   const pin=document.getElementById('nPin').value.trim();
   if(pin.length!==4||!/^\d+$/.test(pin)){showToast('숫자 4자리를 입력하세요');return;}
-  let path='';
-  if(type==='info') path='settings/pins/info';
-  else if(type==='general') path='settings/pins/general';
-  else if(type==='dept_head') path=`settings/pins/dept_heads/${subId}`;
-  else if(type==='team_leader') path=`settings/pins/team_leaders/${subId}`;
-  else if(type==='employee') path=`settings/pins/employees/${subId}`;
-  await window._save(path,pin);
-  closeModal(); showToast('✅ PIN 변경 완료');
+  await window._save('settings/adminPin',pin);
+  closeMbg('editMbg'); showToast('✅ PIN 변경됨');
+};
+window.openDeptPinModal=dId=>{
+  showEditModal(`🏢 본부장 PIN 변경 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
+    <div class="fg"><label class="fl">새 PIN (4자리)</label><input class="fi" id="nPin" type="tel" inputmode="numeric" maxlength="4" placeholder="0000"></div>
+    <button class="btn-full bp" onclick="saveDeptPin('${dId}')">저장</button>`);
+};
+window.saveDeptPin=async dId=>{
+  const pin=document.getElementById('nPin').value.trim();
+  if(pin.length!==4||!/^\d+$/.test(pin)){showToast('숫자 4자리를 입력하세요');return;}
+  await window._save(`settings/departments/${dId}/headPin`,pin);
+  closeMbg('editMbg'); showToast('✅ PIN 변경됨');
+};
+window.openTeamPinModal=(dId,tId)=>{
+  showEditModal(`👥 팀장 PIN 변경 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
+    <div class="fg"><label class="fl">새 PIN (4자리)</label><input class="fi" id="nPin" type="tel" inputmode="numeric" maxlength="4" placeholder="0000"></div>
+    <button class="btn-full bp" onclick="saveTeamPin('${dId}','${tId}')">저장</button>`);
+};
+window.saveTeamPin=async(dId,tId)=>{
+  const pin=document.getElementById('nPin').value.trim();
+  if(pin.length!==4||!/^\d+$/.test(pin)){showToast('숫자 4자리를 입력하세요');return;}
+  await window._save(`settings/departments/${dId}/teams/${tId}/leaderPin`,pin);
+  closeMbg('editMbg'); showToast('✅ PIN 변경됨');
 };
 
-/* ============================================================
-   알림 모달
-   ============================================================ */
-window.openNotifModal = ()=>{
-  document.getElementById('notifDot').classList.remove('show');
-  const arr=Object.entries(D?.notifications||{}).sort((a,b)=>b[1].timestamp-a[1].timestamp).slice(0,40);
-  const rows=arr.length===0?`<div class="empty-admin">알림이 없습니다</div>`
-    :arr.map(([,n])=>`<div class="admin-item">
-      <div>
-        <div class="ai-name" style="font-size:13px">✅ ${n.message}</div>
-        <div class="ai-sub">${new Date(n.timestamp).toLocaleString('ko-KR')} · ${n.by}</div>
-      </div>
-    </div>`).join('');
-  openModal(`
-    <div class="modal-title">🔔 알림 기록 <button class="close-btn" onclick="closeModal()">×</button></div>
-    <div style="max-height:60vh;overflow-y:auto;margin:0 -20px;padding:0 20px">${rows}</div>
-  `);
-};
+/* ─── MODALS ─── */
+window.openLoginModal=()=>{ document.getElementById('loginMbg').classList.add('show'); };
+window.closeMbg=id=>document.getElementById(id).classList.remove('show');
+function showEditModal(title,body){
+  document.getElementById('editBody').innerHTML=`<div class="m-title">${title}</div>${body}`;
+  document.getElementById('editMbg').classList.add('show');
+}
 
-window.clearNotifs = async()=>{
-  if(!confirm('알림 기록을 전체 삭제할까요?')) return;
-  await window._save('notifications',{}); prevNotifCount=0; showToast('알림 기록 삭제됨');
-};
-
-/* ============================================================
-   유틸
-   ============================================================ */
+/* ─── UTILS ─── */
 function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer=setTimeout(()=>t.classList.remove('show'),2600);
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2600);
 }
+window.showToast=showToast;
 
-// expose to window for onclick= handlers
-window.openAddOrderModal=window.openAddOrderModal;
-window.delRound=window.delRound;
-</script>
+/* ─── SW ─── */
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
-<!-- Service Worker -->
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
-  });
-}
+/* init */
+renderRounds();
 </script>
 </body>
 </html>
