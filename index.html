@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>신포역 벽산 블루밍 워킹 순서</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1a237e">
@@ -14,255 +14,218 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --pri:#1a237e;--pri2:#3949ab;--pri3:#0d1b5e;
-  --acc:#e53935;--ok:#2e7d32;--warn:#f57f17;
-  --bg:#f0f2f8;--card:#fff;--txt:#212121;--txt2:#757575;
-  --bdr:#e0e0e0;--red:#e53935;--redbg:#fff5f5;
+  --ok:#2e7d32;--warn:#f57f17;--red:#e53935;
+  --bg:#f0f2f8;--txt:#212121;--txt2:#757575;
+  --bdr:#e0e0e0;--redbg:#fff5f5;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;font-size:16px}
 
 /* HEADER */
-#hdr{background:var(--pri);color:#fff;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.25)}
-.hdr-title{font-size:20px;font-weight:800}
-.hdr-right{display:flex;align-items:center;gap:8px}
-.login-btn{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.4);color:#fff;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s}
-.login-btn:hover{background:rgba(255,255,255,.28)}
-.user-badge{background:rgba(255,255,255,.15);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;color:#fff}
-.logout-btn{background:none;border:none;color:rgba(255,255,255,.7);font-size:22px;cursor:pointer;padding:4px;line-height:1}
+#hdr{background:var(--pri);color:#fff;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.hdr-title{font-size:15px;font-weight:800;line-height:1.3;flex:1}
+.hdr-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.hbtn{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);color:#fff;padding:7px 12px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer}
+.hbtn:active{background:rgba(255,255,255,.3)}
+.ubadge{background:rgba(255,255,255,.15);padding:5px 11px;border-radius:18px;font-size:12px;font-weight:700}
 
 /* TABS */
-.tab-bar{display:flex;background:#fff;border-bottom:2px solid var(--bdr);overflow-x:auto;scrollbar-width:none;position:sticky;top:49px;z-index:90}
-.tab-bar::-webkit-scrollbar{display:none}
-.tab{padding:12px 18px;font-size:16px;font-weight:700;color:var(--txt2);border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
-.tab.active{color:var(--pri);border-bottom-color:var(--pri)}
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--bdr);overflow-x:auto;scrollbar-width:none;position:sticky;top:49px;z-index:90}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:13px 20px;font-size:15px;font-weight:700;color:var(--txt2);border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab.on{color:var(--pri);border-bottom-color:var(--pri)}
 
 /* MAIN */
-#main{padding:14px;padding-bottom:90px}
+#main{padding:13px;padding-bottom:90px}
 
-/* ROUND CARDS */
-.r-card{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:12px;overflow:hidden}
-.r-hdr{padding:13px 15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
-.r-hdr:active{background:#f5f6ff}
-.r-hdr.open{border-bottom:1px solid var(--bdr)}
-.r-name{font-size:19px;font-weight:800}
-.r-date{font-size:14px;color:var(--txt2);margin-top:2px}
-.r-meta{display:flex;align-items:center;gap:8px}
-.r-cnt{font-size:17px;font-weight:700}
-.r-pct{font-size:14px;color:var(--txt2)}
-.r-arr{font-size:14px;color:#bbb;transition:transform .2s}
-.r-arr.open{transform:rotate(90deg)}
-.prog{height:4px;background:#eee}
-.prog-fill{height:100%;background:var(--ok);transition:width .4s}
+/* VIEW TOGGLE */
+.vtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.vtog{display:flex;background:#e8eaf0;border-radius:10px;padding:3px;gap:2px}
+.vbtn{padding:8px 16px;border-radius:8px;border:none;font-size:14px;font-weight:700;cursor:pointer;background:none;color:var(--txt2)}
+.vbtn.on{background:#fff;color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.vcnt{font-size:15px;font-weight:700;color:var(--txt2)}
 
-/* ORDER TABLE */
-.tbl-wrap{overflow-x:auto}
+/* SLOT COUNT EDIT */
+.slot-ctrl{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:12px 15px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.slot-label{font-size:15px;font-weight:700;flex:1}
+.slot-val{font-size:20px;font-weight:800;color:var(--pri);min-width:40px;text-align:center}
+.sc-btn{width:38px;height:38px;border-radius:50%;border:2px solid var(--pri);background:#fff;color:var(--pri);font-size:22px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.sc-btn:active{background:var(--pri);color:#fff}
+.sc-edit{font-size:13px;color:var(--pri2);font-weight:700;cursor:pointer;padding:6px 10px;border-radius:8px;border:1.5px solid var(--pri2);background:#fff;white-space:nowrap}
+.sc-edit:active{background:#eef}
+
+/* PROG BAR */
+.prog-wrap{background:#fff;border-radius:12px;padding:12px 15px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.prog-top{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;font-weight:700}
+.prog{height:10px;background:#eee;border-radius:8px;overflow:hidden}
+.prog-fill{height:100%;background:var(--ok);border-radius:8px;transition:width .4s}
+
+/* TABLE VIEW */
+.tbl-wrap{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
 .o-tbl{width:100%;border-collapse:collapse;font-size:16px;min-width:300px}
-.o-tbl th{background:#f3f5ff;padding:13px 10px;text-align:center;font-weight:800;color:var(--pri);border-bottom:2px solid var(--bdr);white-space:nowrap;font-size:17px}
-.o-tbl td{padding:13px 10px;border-bottom:1px solid #f5f5f5;text-align:center;vertical-align:middle;font-size:16px}
+.o-tbl th{background:#f3f5ff;padding:13px 10px;text-align:center;font-weight:800;color:var(--pri);border-bottom:2px solid var(--bdr);font-size:15px;white-space:nowrap}
+.o-tbl td{padding:14px 10px;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:middle}
 .o-tbl tr:last-child td{border-bottom:none}
-.seq-b{display:inline-flex;width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;font-size:15px;font-weight:800;align-items:center;justify-content:center}
-.name-ok{font-weight:800;font-size:17px}
-.name-err{font-weight:800;color:var(--red);font-size:17px}
-.name-err-badge{font-size:13px;background:var(--redbg);color:var(--red);border:1px solid var(--red);border-radius:4px;padding:1px 4px;margin-left:3px}
-.x-wrap{display:flex;flex-direction:column;align-items:center;gap:2px}
-.x-btn{width:48px;height:48px;border-radius:50%;border:2px solid var(--bdr);background:#fff;cursor:default;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0;position:relative}
-.x-btn.clickable{border-color:var(--pri2);cursor:pointer}
-.x-btn.clickable:hover{background:#eef}
-.x-btn.done{border-color:var(--red);background:var(--red);cursor:pointer}
-.x-btn.done::before,.x-btn.done::after{content:'';position:absolute;width:21px;height:3px;background:#fff;border-radius:2px}
-.x-btn.done::before{transform:rotate(45deg)}
-.x-btn.done::after{transform:rotate(-45deg)}
-.x-info{font-size:12px;color:var(--txt2);line-height:1.3;text-align:center;max-width:68px}
-.tbl-foot{padding:10px 14px;display:flex;justify-content:flex-end;gap:7px;border-top:1px solid var(--bdr);background:#fafbff}
-.empty-row{padding:24px;text-align:center;color:var(--txt2);font-size:16px}
+.o-tbl tr.slot-empty td{color:#ccc;background:#fafafa}
+.seq-b{display:inline-flex;width:34px;height:34px;border-radius:50%;background:var(--pri);color:#fff;font-size:14px;font-weight:800;align-items:center;justify-content:center}
+.slot-empty .seq-b{background:#ddd;color:#999}
+.name-ok{font-size:17px;font-weight:800}
+.name-err{font-size:17px;font-weight:800;color:var(--red);cursor:pointer;text-decoration:underline dotted}
+.name-err-b{font-size:11px;background:var(--redbg);color:var(--red);border:1px solid var(--red);border-radius:4px;padding:2px 5px;margin-left:4px;cursor:pointer}
+
+/* X BUTTON */
+.xwrap{display:flex;flex-direction:column;align-items:center;gap:3px}
+.xbtn{width:44px;height:44px;border-radius:50%;border:2px solid var(--bdr);background:#fff;cursor:default;display:flex;align-items:center;justify-content:center;transition:all .18s;position:relative;flex-shrink:0}
+.xbtn.can{border-color:var(--pri2);cursor:pointer}
+.xbtn.can:active{background:#eef}
+.xbtn.done{border-color:var(--red);background:var(--red);cursor:pointer}
+.xbtn.done::before,.xbtn.done::after{content:'';position:absolute;width:18px;height:3px;background:#fff;border-radius:2px}
+.xbtn.done::before{transform:rotate(45deg)}
+.xbtn.done::after{transform:rotate(-45deg)}
+.x-info{font-size:11px;color:var(--txt2);line-height:1.3;text-align:center;max-width:72px}
+
+/* CARD VIEW */
+.cv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.cv-item{border:2px solid var(--bdr);border-radius:13px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#fafbff;position:relative;overflow:hidden;transition:all .2s}
+.cv-item.can{cursor:pointer}
+.cv-item.can:active{border-color:var(--pri);background:#eef}
+.cv-item.done{border-color:var(--red);background:var(--redbg)}
+.cv-item.empty{background:#f8f8f8;border:2px dashed #ddd;opacity:.65}
+.cv-ribbon{position:absolute;top:0;left:0;right:0;height:4px;background:var(--red)}
+.cv-seq{width:38px;height:38px;border-radius:50%;background:var(--pri);color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.cv-item.empty .cv-seq{background:#ccc}
+.cv-dept{font-size:13px;color:var(--txt2);font-weight:600;text-align:center}
+.cv-team{font-size:13px;color:var(--txt2);text-align:center}
+.cv-name{font-size:19px;font-weight:800;text-align:center;word-break:keep-all;line-height:1.2}
+.cv-name.err{color:var(--red)}
+.cv-x{width:44px;height:44px;border-radius:50%;flex-shrink:0;position:relative}
+.cv-x.pend{border:2.5px solid var(--bdr);background:#fff}
+.cv-x.cpend{border:2.5px solid var(--pri2);background:#fff}
+.cv-x.chk{background:var(--red)}
+.cv-x.chk::before,.cv-x.chk::after{content:'';position:absolute;width:18px;height:3px;background:#fff;border-radius:2px;top:50%;left:50%;transform-origin:center}
+.cv-x.chk::before{transform:translate(-50%,-50%) rotate(45deg)}
+.cv-x.chk::after{transform:translate(-50%,-50%) rotate(-45deg)}
+.cv-ts{font-size:11px;color:var(--txt2);text-align:center;line-height:1.4}
+
+/* SECTIONS (manage/employees/accounts) */
+.sec{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:14px;overflow:hidden}
+.sec-hdr{padding:14px 16px;background:#f3f5ff;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:16px}
+.sec-row{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5;gap:8px}
+.sec-row:last-child{border-bottom:none}
+.row-info{flex:1;min-width:0}
+.row-name{font-size:16px;font-weight:700}
+.row-sub{font-size:13px;color:var(--txt2);margin-top:3px}
+.row-btns{display:flex;gap:7px;flex-shrink:0}
+.ind1{padding-left:28px;border-left:3px solid var(--pri2);background:#fdfdff}
+.ind2{padding-left:44px;border-left:3px solid #9fa8da;background:#fefeff}
+.sec-empty{padding:22px;text-align:center;color:var(--txt2);font-size:15px}
+
+/* INLINE EDIT */
+.editable{border-radius:8px;padding:3px 7px;cursor:pointer;border:1.5px solid transparent;transition:border-color .15s;font-size:16px;font-weight:700}
+.editable:hover{border-color:var(--pri2);background:#f0f2ff}
+.inline-input{border:1.5px solid var(--pri);border-radius:8px;padding:5px 9px;font-size:15px;font-weight:700;outline:none;font-family:inherit;width:140px;max-width:100%}
 
 /* BUTTONS */
-.btn{padding:10px 16px;border-radius:9px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all .15s;white-space:nowrap;line-height:1.4}
-.btn:active{transform:scale(.94)}
+.btn{padding:9px 15px;border-radius:9px;font-size:14px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;line-height:1.4;transition:all .15s}
+.btn:active{transform:scale(.93)}
 .bp{background:var(--pri);color:#fff}
 .bs{background:#e8e8e8;color:var(--txt)}
 .bd{background:#ef5350;color:#fff}
-.bw{background:var(--warn);color:#fff}
-.bg{background:#43a047;color:#fff}
-.btn-full{width:100%;padding:16px;border-radius:13px;font-size:17px;font-weight:800;border:none;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn-full{width:100%;padding:15px;border-radius:13px;font-size:17px;font-weight:800;border:none;cursor:pointer;font-family:inherit;transition:all .15s}
 .btn-full:active{transform:scale(.97)}
-
-/* ADMIN SECTIONS */
-.sec{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:14px;overflow:hidden}
-.sec-hdr{padding:15px 16px;background:#f3f5ff;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:17px}
-.sec-row{padding:15px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5}
-.sec-row:last-child{border-bottom:none}
-.row-name{font-size:17px;font-weight:700}
-.row-sub{font-size:14px;color:var(--txt2);margin-top:3px}
-.btn-grp{display:flex;gap:6px;flex-shrink:0}
-.indent1{padding-left:26px;border-left:3px solid var(--pri2);background:#fdfdff}
-.indent2{padding-left:42px;border-left:3px solid #9fa8da;background:#fefeff}
-.empty-sec{padding:22px;text-align:center;color:var(--txt2);font-size:16px}
-.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
-.badge-ok{background:#e8f5e9;color:var(--ok)}
-.badge-warn{background:#fff3e0;color:var(--warn)}
-.badge-err{background:#ffebee;color:var(--red)}
-
-/* FAB */
-.fab{position:fixed;bottom:22px;right:18px;width:56px;height:56px;border-radius:50%;background:var(--pri);color:#fff;font-size:26px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(26,35,126,.4);display:none;align-items:center;justify-content:center;z-index:200;transition:all .2s}
+.fab{position:fixed;bottom:22px;right:18px;width:58px;height:58px;border-radius:50%;background:var(--pri);color:#fff;font-size:28px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(26,35,126,.4);display:none;align-items:center;justify-content:center;z-index:200}
 .fab:active{transform:scale(.9)}
 .fab.show{display:flex}
 
 /* MODAL */
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-end;justify-content:center}
 .mbg.show{display:flex}
-.mbg.center{align-items:center}
-.modal{background:#fff;border-radius:22px 22px 0 0;padding:22px 18px 28px;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;animation:slideUp .22s ease}
-.modal.center-modal{border-radius:18px;max-width:380px;animation:fadeIn .2s ease}
+.mbg.c{align-items:center}
+.modal{background:#fff;border-radius:22px 22px 0 0;padding:22px 18px 32px;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;animation:slideUp .22s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
-.m-title{font-size:19px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
-.m-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--txt2);line-height:1;padding:0}
+.m-ttl{font-size:18px;font-weight:800;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
+.m-x{background:none;border:none;font-size:24px;cursor:pointer;color:var(--txt2);line-height:1}
 
 /* FORMS */
-.fg{margin-bottom:13px}
-.fl{font-size:15px;font-weight:700;color:var(--txt2);margin-bottom:5px;display:block}
-.fi{width:100%;padding:14px 15px;border:1.5px solid var(--bdr);border-radius:11px;font-size:17px;outline:none;transition:border-color .2s;font-family:inherit}
+.fg{margin-bottom:14px}
+.fl{font-size:14px;font-weight:700;color:var(--txt2);margin-bottom:6px;display:block}
+.fi{width:100%;padding:13px 15px;border:1.5px solid var(--bdr);border-radius:11px;font-size:17px;outline:none;font-family:inherit;transition:border-color .2s}
 .fi:focus{border-color:var(--pri)}
-.fsel{width:100%;padding:14px 15px;border:1.5px solid var(--bdr);border-radius:11px;font-size:17px;outline:none;background:#fff;font-family:inherit;cursor:pointer}
+.fsel{width:100%;padding:13px 15px;border:1.5px solid var(--bdr);border-radius:11px;font-size:17px;outline:none;background:#fff;font-family:inherit;cursor:pointer}
 .fsel:focus{border-color:var(--pri)}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* LOGIN MODAL */
-.login-modal{background:#fff;border-radius:20px;padding:24px 20px 20px;width:calc(100% - 32px);max-width:360px;animation:fadeIn .2s ease}
-.login-logo{text-align:center;font-size:36px;margin-bottom:6px}
-.login-ttl{text-align:center;font-size:22px;font-weight:800;color:var(--pri);margin-bottom:3px}
-.login-sub{text-align:center;color:var(--txt2);font-size:15px;margin-bottom:18px}
-.pin-dots{display:flex;justify-content:center;gap:13px;margin:12px 0 8px}
-.pd{width:13px;height:13px;border-radius:50%;border:2px solid var(--pri);background:#fff;transition:all .18s}
-.pd.on{background:var(--pri);transform:scale(1.1)}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:8px 0 12px}
-.pk{height:64px;border:1.5px solid var(--bdr);border-radius:13px;font-size:26px;font-weight:700;background:#fff;cursor:pointer;transition:all .1s;color:var(--txt);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.07)}
-.pk:active{background:var(--pri);color:#fff;transform:scale(.93)}
-.pk.del{font-size:16px;color:var(--txt2)}
-.pk.ok{background:var(--pri);color:#fff;font-size:17px}
-.pk.ok:active{background:var(--pri3)}
-.login-err{color:var(--red);font-size:16px;text-align:center;margin-top:4px;min-height:18px;font-weight:600}
-.login-employee-btn{display:block;width:100%;padding:15px;border-radius:13px;background:#f3f5ff;border:2px solid var(--pri2);color:var(--pri);font-size:17px;font-weight:800;cursor:pointer;text-align:center;margin-bottom:10px;transition:all .15s}
-.login-employee-btn:active{transform:scale(.97);background:#e8eaff}
+/* LOGIN */
+.lcard{background:#fff;border-radius:20px;padding:26px 20px 22px;width:calc(100% - 32px);max-width:360px;animation:fadeIn .2s ease}
+.llogo{text-align:center;font-size:40px;margin-bottom:8px}
+.lttl{text-align:center;font-size:20px;font-weight:800;color:var(--pri);margin-bottom:4px;line-height:1.3}
+.lsub{text-align:center;color:var(--txt2);font-size:14px;margin-bottom:18px}
+.ldots{display:flex;justify-content:center;gap:14px;margin:12px 0 8px}
+.ldot{width:14px;height:14px;border-radius:50%;border:2px solid var(--pri);background:#fff;transition:all .18s}
+.ldot.on{background:var(--pri);transform:scale(1.1)}
+.lpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 12px}
+.lpk{height:64px;border:1.5px solid var(--bdr);border-radius:13px;font-size:24px;font-weight:700;background:#fff;cursor:pointer;color:var(--txt);transition:all .1s;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.lpk:active{background:var(--pri);color:#fff;transform:scale(.93)}
+.lpk.del{font-size:18px;color:var(--txt2)}
+.lpk.ok{background:var(--pri);color:#fff;font-size:18px}
+.lpk.ok:active{background:var(--pri3)}
+.lerr{color:var(--red);font-size:15px;text-align:center;margin-top:4px;min-height:20px;font-weight:600}
+.lnologin{display:block;width:100%;padding:15px;border-radius:13px;background:#f3f5ff;border:2px solid var(--pri2);color:var(--pri);font-size:16px;font-weight:800;cursor:pointer;text-align:center;margin-bottom:12px}
+.lnologin:active{transform:scale(.97)}
 
-/* SYNC */
-#syncBadge{position:fixed;top:56px;right:10px;font-size:10px;padding:3px 9px;border-radius:12px;background:#e8f5e9;color:var(--ok);z-index:150;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.1)}
-#syncBadge.syncing{background:#fff8e1;color:var(--warn)}
-#syncBadge.error{background:#ffebee;color:#c62828}
-
-/* TOAST */
-#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:13px 22px;border-radius:26px;font-size:16px;font-weight:600;z-index:400;opacity:0;pointer-events:none;white-space:nowrap;max-width:92vw;text-align:center;transition:opacity .3s;box-shadow:0 3px 12px rgba(0,0,0,.28)}
+/* SYNC / TOAST */
+#sync{position:fixed;top:54px;right:10px;font-size:11px;padding:3px 10px;border-radius:12px;background:#e8f5e9;color:var(--ok);z-index:150;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+#sync.s{background:#fff8e1;color:var(--warn)}
+#sync.e{background:#ffebee;color:#c62828}
+#toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:11px 22px;border-radius:26px;font-size:14px;font-weight:600;z-index:400;opacity:0;pointer-events:none;white-space:nowrap;max-width:93vw;text-align:center;transition:opacity .3s;box-shadow:0 3px 14px rgba(0,0,0,.28)}
 #toast.show{opacity:1}
-
-/* SHAKE */
+.ndot{position:absolute;top:-2px;right:-2px;width:9px;height:9px;background:#ef5350;border-radius:50%;border:1.5px solid var(--pri);display:none}
+.ndot.show{display:block}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 .shake{animation:shake .35s ease}
-
-/* NOTIF DOT */
-.ndot{position:absolute;top:0;right:0;width:8px;height:8px;background:#ef5350;border-radius:50%;border:1.5px solid var(--pri);display:none}
-.ndot.show{display:block}
-
-/* EMPTY STATE */
-.empty-state{text-align:center;padding:44px 20px;color:var(--txt2);font-size:17px}
-.empty-ico{font-size:48px;margin-bottom:10px}
-
-@media(min-width:480px){
-  #main{padding:18px;padding-bottom:90px}
-  .o-tbl{font-size:17px}
-}
-
-/* VIEW TOGGLE */
-.view-ctrl{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
-.view-ctrl-left{font-size:16px;color:var(--txt2);font-weight:700}
-.view-toggle{display:flex;background:#e8eaf0;border-radius:10px;padding:3px;gap:2px;flex-shrink:0}
-.vt-btn{padding:8px 18px;border-radius:8px;border:none;font-size:15px;font-weight:700;cursor:pointer;transition:all .18s;background:none;color:var(--txt2)}
-.vt-btn.active{background:#fff;color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.15)}
-
-/* CARD VIEW */
-.card-view-wrap{display:flex;flex-direction:column;gap:14px}
-.cv-round{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
-.cv-round-hdr{padding:12px 15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;border-bottom:1px solid var(--bdr)}
-.cv-round-hdr:active{background:#f5f6ff}
-.cv-rname{font-size:19px;font-weight:800}
-.cv-rmeta{display:flex;align-items:center;gap:8px}
-.cv-body{padding:12px}
-.cv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.cv-item{border:2px solid var(--bdr);border-radius:12px;padding:14px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:default;transition:all .2s;background:#fafbff;position:relative;overflow:hidden}
-.cv-item.done-item{border-color:var(--red);background:var(--redbg)}
-.cv-item.clickable-item{cursor:pointer}
-.cv-item.clickable-item:hover{border-color:var(--pri);background:#f0f2ff}
-.cv-seq{width:38px;height:38px;border-radius:50%;background:var(--pri);color:#fff;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.cv-dept{font-size:13px;color:var(--txt2);font-weight:600;text-align:center}
-.cv-team{font-size:13px;color:var(--txt2);text-align:center}
-.cv-name{font-size:19px;font-weight:800;text-align:center;word-break:keep-all;line-height:1.25}
-.cv-name.err{color:var(--red)}
-.cv-x{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.cv-x.pending{border:2.5px solid var(--bdr);background:#fff}
-.cv-x.pending.can{border-color:var(--pri2)}
-.cv-x.checked-x{background:var(--red);position:relative}
-.cv-x.checked-x::before,.cv-x.checked-x::after{content:'';position:absolute;width:18px;height:3px;background:#fff;border-radius:2px}
-.cv-x.checked-x::before{transform:rotate(45deg)}
-.cv-x.checked-x::after{transform:rotate(-45deg)}
-.cv-ts{font-size:12px;color:var(--txt2);text-align:center;line-height:1.3}
-.cv-done-ribbon{position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)}
-.cv-foot{padding:8px 12px;display:flex;justify-content:flex-end;gap:7px;border-top:1px solid var(--bdr);background:#fafbff}
-.cv-empty{padding:20px;text-align:center;color:var(--txt2);font-size:16px}
-
-/* EMPTY SLOT */
-.slot-empty td{background:#fafafa;color:#bbb}
-.slot-empty .seq-b{background:#ddd;color:#999}
-.cv-item.cv-empty-slot{background:#f8f8f8;border:2px dashed #ddd;opacity:.7;cursor:default!important}
-.cv-item.cv-empty-slot .cv-seq{background:#ccc}
-.cv-item.cv-empty-slot .cv-name{color:#bbb;font-size:15px}
+.empty-st{text-align:center;padding:50px 20px;color:var(--txt2)}
+.empty-ico{font-size:52px;margin-bottom:12px}
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
 <div id="hdr">
-  <div class="hdr-title">🏢 신포역 벽산 블루밍 워킹 순서</div>
+  <div class="hdr-title">🏢 신포역 벽산 블루밍<br>워킹 순서</div>
   <div class="hdr-right">
     <div id="hdrUser" style="display:none">
-      <span class="user-badge" id="userBadge"></span>
-      <button class="logout-btn" onclick="doLogout()" title="로그아웃">🚪</button>
+      <span class="ubadge" id="ubadge"></span>
+      <button class="hbtn" onclick="doLogout()">🚪</button>
     </div>
-    <button class="login-btn" id="loginBtn" onclick="openLoginModal()">🔐 로그인</button>
+    <button class="hbtn" id="loginBtn" onclick="openLogin()">🔐 로그인</button>
     <div style="position:relative">
-      <button class="login-btn" style="padding:7px 10px;font-size:18px" onclick="openNotifModal()" title="알림">🔔<span class="ndot" id="ndot"></span></button>
+      <button class="hbtn" style="padding:7px 10px;font-size:19px" onclick="openNotif()">🔔<span class="ndot" id="ndot"></span></button>
     </div>
   </div>
 </div>
 
-<!-- TABS -->
-<div class="tab-bar" id="tabBar">
-  <button class="tab active" data-tab="rounds" onclick="switchTab('rounds')">📅 워킹표</button>
-  <button class="tab" data-tab="manage" onclick="switchTab('manage')" style="display:none">⚙️ 관리</button>
-  <button class="tab" data-tab="employees" onclick="switchTab('employees')" style="display:none">👥 직원관리</button>
-  <button class="tab" data-tab="accounts" onclick="switchTab('accounts')" style="display:none">🔐 계정설정</button>
+<div class="tabs" id="tabBar">
+  <button class="tab on" data-tab="work" onclick="sw('work')">📋 워킹표</button>
+  <button class="tab" data-tab="manage" onclick="sw('manage')" style="display:none">⚙️ 조직관리</button>
+  <button class="tab" data-tab="emp" onclick="sw('emp')" style="display:none">👥 직원관리</button>
+  <button class="tab" data-tab="acct" onclick="sw('acct')" style="display:none">🔐 계정설정</button>
 </div>
 
-<!-- MAIN CONTENT -->
 <div id="main">
-  <div id="tab-rounds"></div>
+  <div id="tab-work"></div>
   <div id="tab-manage" style="display:none"></div>
-  <div id="tab-employees" style="display:none"></div>
-  <div id="tab-accounts" style="display:none"></div>
+  <div id="tab-emp" style="display:none"></div>
+  <div id="tab-acct" style="display:none"></div>
 </div>
 
-<button class="fab" id="fab" onclick="openAddRoundModal()">+</button>
-<div id="syncBadge">✅ 연결됨</div>
+<button class="fab" id="fab" onclick="openAddSlot()">+</button>
+<div id="sync">✅ 연결됨</div>
 <div id="toast"></div>
 
-<!-- MODALS -->
-<div class="mbg center" id="loginMbg" onclick="if(event.target===this)closeMbg('loginMbg')">
-  <div class="login-modal" id="loginCard">
-    <div class="login-logo">📋</div>
-    <div class="login-ttl">신포역 벽산 블루밍<br>워킹 순서</div>
-    <div class="login-sub">역할을 선택하고 로그인하세요</div>
-
-    <!-- 직원 공개 열람 버튼 -->
-    <button class="login-employee-btn" onclick="closeMbg('loginMbg')">👁️ 직원 열람 (로그인 없이 보기)</button>
-
+<!-- LOGIN MODAL -->
+<div class="mbg c" id="lmbg" onclick="if(event.target===this)closeMbg('lmbg')">
+  <div class="lcard" id="lcard">
+    <div class="llogo">📋</div>
+    <div class="lttl">신포역 벽산 블루밍<br>워킹 순서</div>
+    <div class="lsub">역할을 선택하고 PIN을 입력하세요</div>
+    <button class="lnologin" onclick="closeMbg('lmbg')">👁️ 로그인 없이 보기</button>
     <div class="fg">
       <label class="fl">역할 선택</label>
       <select class="fsel" id="roleSelect" onchange="onRoleChange()">
@@ -274,917 +237,631 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
         <option value="team_leader">👥 팀장</option>
       </select>
     </div>
-
-    <div class="fg" id="accountWrap" style="display:none">
-      <label class="fl" id="accountLabel">계정 선택</label>
-      <select class="fsel" id="accountSelect"></select>
+    <div class="fg" id="acctWrap" style="display:none">
+      <label class="fl" id="acctLabel">계정 선택</label>
+      <select class="fsel" id="acctSelect"></select>
     </div>
-
-    <div id="pinWrap">
-      <div class="pin-dots">
-        <div class="pd" id="pd0"></div><div class="pd" id="pd1"></div>
-        <div class="pd" id="pd2"></div><div class="pd" id="pd3"></div>
-      </div>
-      <div class="pin-pad">
-        <button class="pk" onclick="pk('1')">1</button>
-        <button class="pk" onclick="pk('2')">2</button>
-        <button class="pk" onclick="pk('3')">3</button>
-        <button class="pk" onclick="pk('4')">4</button>
-        <button class="pk" onclick="pk('5')">5</button>
-        <button class="pk" onclick="pk('6')">6</button>
-        <button class="pk" onclick="pk('7')">7</button>
-        <button class="pk" onclick="pk('8')">8</button>
-        <button class="pk" onclick="pk('9')">9</button>
-        <button class="pk del" onclick="pdel()">⌫</button>
-        <button class="pk" onclick="pk('0')">0</button>
-        <button class="pk ok" onclick="pok()">✓</button>
-      </div>
+    <div class="ldots">
+      <div class="ldot" id="ld0"></div><div class="ldot" id="ld1"></div>
+      <div class="ldot" id="ld2"></div><div class="ldot" id="ld3"></div>
     </div>
-    <div class="login-err" id="loginErr"></div>
+    <div class="lpad">
+      <button class="lpk" onclick="pk('1')">1</button>
+      <button class="lpk" onclick="pk('2')">2</button>
+      <button class="lpk" onclick="pk('3')">3</button>
+      <button class="lpk" onclick="pk('4')">4</button>
+      <button class="lpk" onclick="pk('5')">5</button>
+      <button class="lpk" onclick="pk('6')">6</button>
+      <button class="lpk" onclick="pk('7')">7</button>
+      <button class="lpk" onclick="pk('8')">8</button>
+      <button class="lpk" onclick="pk('9')">9</button>
+      <button class="lpk del" onclick="pdel()">⌫</button>
+      <button class="lpk" onclick="pk('0')">0</button>
+      <button class="lpk ok" onclick="pok()">✓</button>
+    </div>
+    <div class="lerr" id="lerr"></div>
   </div>
 </div>
 
-<div class="mbg" id="editMbg" onclick="if(event.target===this)closeMbg('editMbg')">
-  <div class="modal" id="editModal">
-    <div id="editBody"></div>
-  </div>
+<!-- GENERAL MODAL -->
+<div class="mbg" id="gmbg" onclick="if(event.target===this)closeMbg('gmbg')">
+  <div class="modal"><div id="gmbody"></div></div>
 </div>
 
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getDatabase, ref, set, onValue, push, update, remove } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import{getDatabase,ref,set,onValue,push,update,remove}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-/* ─── FIREBASE CONFIG ─── */
-const FB = {
-  apiKey:            "AIzaSyAzXJJTR6pKMjS776ruaT99l5I53H6BFDo",
-  authDomain:        "working-order-7e2e3.firebaseapp.com",
-  databaseURL:       "https://working-order-7e2e3-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId:         "working-order-7e2e3",
-  storageBucket:     "working-order-7e2e3.firebasestorage.app",
-  messagingSenderId: "105733670486",
-  appId:             "1:105733670486:web:7580f154c43d17d9cf5df7"
-};
-const ROOT = 'working_order';
-const app = initializeApp(FB);
-const db  = getDatabase(app);
-const r   = p => ref(db, `${ROOT}/${p}`);
+const FB={apiKey:"AIzaSyAzXJJTR6pKMjS776ruaT99l5I53H6BFDo",authDomain:"working-order-7e2e3.firebaseapp.com",databaseURL:"https://working-order-7e2e3-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"working-order-7e2e3",storageBucket:"working-order-7e2e3.firebasestorage.app",messagingSenderId:"105733670486",appId:"1:105733670486:web:7580f154c43d17d9cf5df7"};
+const ROOT='working_order';
+const app=initializeApp(FB);
+const db=getDatabase(app);
+const r=p=>ref(db,`${ROOT}/${p}`);
 
-/* ─── INITIAL DATA ─── */
-function initData() {
-  const rounds = {};
-  for (let i = 1; i <= 20; i++) {
-    rounds[`round${String(i).padStart(2,'0')}`] = {
-      name: `${i}회차`, createdDate: '', createdAt: i, slotCount: 10, orders: {}
-    };
-  }
-  return {
-    settings: {
-      adminPin: '0000',
-      infoAccounts: {},
-      generalAccounts: {},
-      departments: {}
-    },
-    rounds,
-    notifications: {}
-  };
+/* ── RANK (숫자 낮을수록 높은 권한) ── */
+const RANK={admin:1,general:2,info:3,dept_head:4,team_leader:5,employee:6};
+
+function canSeePin(myRole,targetRole){
+  // 자신보다 낮은 역할의 PIN만 볼 수 있음
+  return RANK[myRole] < RANK[targetRole];
+}
+function canEditPin(myRole,targetRole){
+  return RANK[myRole] < RANK[targetRole];
 }
 
-/* ─── STATE ─── */
-let D = initData();
-let U = null;
-let openR = {};
-let viewMode = localStorage.getItem('wo_view')||'table'; // 'table' or 'card'
-let prevNC = 0;
+/* ── INITIAL STATE ── */
+function initD(){
+  return{settings:{adminPin:'0000',slotCount:20,infoAccounts:{},generalAccounts:{},departments:{}},slots:{},notifications:{}};
+}
+let D=initD();
+let U=null;
+let prevNC=0;
+let viewMode=localStorage.getItem('wo_view')||'table';
 
-/* ─── PERMISSIONS ─── */
-const P = {
-  canCheck:   u => u && ['admin','info','general'].includes(u.role),
-  canRounds:  u => u && ['admin','info','general'].includes(u.role),
-  canOrders:  u => u && ['admin','info','general','dept_head'].includes(u.role),
-  canEmpMgmt: u => u && ['admin','info','general'].includes(u.role),
-  canAcctMgmt:u => u && ['admin','info','general'].includes(u.role),
-  canAddDept: u => u && ['admin','info','general'].includes(u.role),
-  canAddTeam: u => u && ['admin','info','general','dept_head'].includes(u.role),
-  canFullEdit:u => u && ['admin','info','general'].includes(u.role),
+/* ── PERMISSIONS ── */
+const P={
+  canCheck:  u=>u&&['admin','info','general'].includes(u.role),
+  canSlotEdit:u=>u&&['admin','info','general'].includes(u.role),
+  canSlotAdd:u=>u&&['admin','info','general'].includes(u.role),
+  canOrgEdit:u=>u&&['admin','info','general','dept_head','team_leader'].includes(u.role),
+  canEmpAdd: u=>u&&['admin','info','general','dept_head','team_leader'].includes(u.role),
+  canEmpEdit:u=>u&&['admin','info','general','dept_head','team_leader'].includes(u.role),
+  canEmpMgmtTab:u=>u&&['admin','info','general'].includes(u.role),
+  canAcctTab:u=>u&&['admin','info','general'].includes(u.role),
+  canDeptAdd:u=>u&&['admin','info','general'].includes(u.role),
+  canTeamAdd:u=>u&&['admin','info','general','dept_head'].includes(u.role),
+  isHigher:  (u,target)=>u&&RANK[u.role]<RANK[target],
 };
 
-/* ─── FIREBASE SYNC ─── */
-function sb(s,m){ const e=document.getElementById('syncBadge'); e.className=s; e.textContent=m; }
+/* ── FIREBASE ── */
+function sb(s,m){const e=document.getElementById('sync');e.className=s;e.textContent=m;}
+window._save=async(path,val)=>{sb('s','☁️ 저장중');try{await set(ref(db,`${ROOT}/${path}`),val);sb('','✅ 동기화됨');}catch(e){sb('e','❌ 실패');throw e;}};
+window._upd=async(obj)=>{sb('s','☁️ 저장중');const f={};for(const[k,v]of Object.entries(obj))f[`${ROOT}/${k}`]=v;try{await update(ref(db),f);sb('','✅ 동기화됨');}catch(e){sb('e','❌ 실패');throw e;}};
 
-window._save = async (path, val) => {
-  sb('syncing','☁️ 저장중');
-  try { await set(ref(db,`${ROOT}/${path}`),val); sb('','✅ 동기화됨'); }
-  catch(e) { sb('error','❌ 실패'); throw e; }
-};
-window._upd = async (obj) => {
-  sb('syncing','☁️ 저장중');
-  const full={};
-  for(const [k,v] of Object.entries(obj)) full[`${ROOT}/${k}`]=v;
-  try { await update(ref(db),full); sb('','✅ 동기화됨'); }
-  catch(e) { sb('error','❌ 실패'); throw e; }
-};
-
-onValue(ref(db,ROOT), snap => {
-  const val = snap.val();
-  if(val) {
-    D = val;
-    if(!D.settings) D.settings = initData().settings;
-    if(!D.settings.departments) D.settings.departments = {};
-    if(!D.settings.infoAccounts) D.settings.infoAccounts = {};
-    if(!D.settings.generalAccounts) D.settings.generalAccounts = {};
-    if(!D.rounds) D.rounds = {};
-    if(!D.notifications) D.notifications = {};
-  } else {
-    D = initData();
-    set(ref(db,ROOT), D);
-  }
+onValue(ref(db,ROOT),snap=>{
+  const v=snap.val();
+  if(v){
+    D=v;
+    if(!D.settings)D.settings=initD().settings;
+    if(!D.settings.departments)D.settings.departments={};
+    if(!D.settings.infoAccounts)D.settings.infoAccounts={};
+    if(!D.settings.generalAccounts)D.settings.generalAccounts={};
+    if(D.settings.slotCount===undefined)D.settings.slotCount=20;
+    if(!D.slots)D.slots={};
+    if(!D.notifications)D.notifications={};
+  }else{D=initD();set(ref(db,ROOT),D);}
   sb('','✅ 동기화됨');
   rerender();
   checkNotif();
-}, err => { sb('error','❌ 연결오류'); });
+},()=>sb('e','❌ 연결오류'));
 
-/* ─── NOTIFICATIONS ─── */
+/* ── NOTIF ── */
 function checkNotif(){
-  const nc = Object.keys(D.notifications||{}).length;
-  if(nc > prevNC && prevNC > 0){
-    const latest = Object.values(D.notifications).sort((a,b)=>b.timestamp-a.timestamp)[0];
-    if(latest){ browserNotif('✅ 워킹오더', latest.message); showToast('🔔 '+latest.message); }
+  const nc=Object.keys(D.notifications||{}).length;
+  if(nc>prevNC&&prevNC>0){
+    const latest=Object.values(D.notifications).sort((a,b)=>b.timestamp-a.timestamp)[0];
+    if(latest){showToast('🔔 '+latest.message);}
   }
-  prevNC = nc;
-  const dot = document.getElementById('ndot');
-  if(dot) dot.classList.toggle('show', nc > 0);
+  prevNC=nc;
+  const dot=document.getElementById('ndot');
+  if(dot)dot.classList.toggle('show',nc>0);
 }
-async function addNotif(msg){
-  const nr = push(r('notifications'));
-  await set(nr,{message:msg,timestamp:Date.now(),by:U?.displayName||'시스템'});
-}
-function browserNotif(t,b){
-  if(Notification.permission==='granted') try{new Notification(t,{body:b,icon:'icons/icon-192.png'})}catch(e){}
-}
-window.openNotifModal = () => {
-  const arr = Object.entries(D.notifications||{}).sort((a,b)=>b[1].timestamp-a[1].timestamp).slice(0,40);
-  const rows = arr.length===0 ? '<div class="empty-sec">알림 없음</div>'
-    : arr.map(([,n])=>`<div class="sec-row"><div><div class="row-name" style="font-size:12px">✅ ${n.message}</div><div class="row-sub">${new Date(n.timestamp).toLocaleString('ko-KR')} · ${n.by}</div></div></div>`).join('');
-  showEditModal(`🔔 알림 기록 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,
-    `<div style="max-height:55vh;overflow-y:auto;margin:0 -18px;padding:0 18px">${rows}</div>
-     ${P.canFullEdit(U)?`<br><button class="btn-full bp" onclick="clearNotifs()">전체 삭제</button>`:''}`)
+async function addNotif(msg){const nr=push(r('notifications'));await set(nr,{message:msg,timestamp:Date.now(),by:U?.displayName||'시스템'});}
+
+window.openNotif=()=>{
+  const arr=Object.entries(D.notifications||{}).sort((a,b)=>b[1].timestamp-a[1].timestamp).slice(0,40);
+  const rows=arr.length?arr.map(([,n])=>`<div class="sec-row"><div class="row-info"><div class="row-name" style="font-size:13px">✅ ${n.message}</div><div class="row-sub">${new Date(n.timestamp).toLocaleString('ko-KR')} · ${n.by}</div></div></div>`).join(''):'<div class="sec-empty">알림 없음</div>';
+  showGM(`🔔 알림 기록 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`<div style="max-height:55vh;overflow-y:auto;margin:0 -18px;padding:0 18px">${rows}</div>${P.canSlotEdit(U)?`<br><button class="btn-full bp" onclick="clearNotifs()">전체 삭제</button>`:''}`)
 };
-window.clearNotifs = async () => {
-  if(!confirm('알림 기록을 전체 삭제할까요?')) return;
-  await window._save('notifications',{}); prevNC=0; closeMbg('editMbg'); showToast('삭제됨');
+window.clearNotifs=async()=>{if(!confirm('알림 기록 전체 삭제?'))return;await window._save('notifications',{});prevNC=0;closeMbg('gmbg');showToast('삭제됨');};
+
+/* ── LOGIN ── */
+let pinBuf='',selRole=null,selAcctId=null;
+window.openLogin=()=>document.getElementById('lmbg').classList.add('show');
+window.onRoleChange=()=>{
+  selRole=document.getElementById('roleSelect').value;selAcctId=null;pinBuf='';updDots();
+  document.getElementById('lerr').textContent='';
+  const wrap=document.getElementById('acctWrap'),sel=document.getElementById('acctSelect'),lbl=document.getElementById('acctLabel');
+  const s=D.settings;
+  if(selRole==='admin'){wrap.style.display='none';}
+  else if(selRole==='info'){
+    const a=Object.entries(s.infoAccounts||{});
+    if(!a.length){wrap.style.display='none';document.getElementById('lerr').textContent='등록된 인포 계정 없음';return;}
+    lbl.textContent='인포 계정 선택';sel.innerHTML='<option value="">-- 선택 --</option>'+a.map(([id,ac])=>`<option value="${id}">${ac.name}</option>`).join('');wrap.style.display='block';
+  }else if(selRole==='general'){
+    const a=Object.entries(s.generalAccounts||{});
+    if(!a.length){wrap.style.display='none';document.getElementById('lerr').textContent='등록된 총괄 계정 없음';return;}
+    lbl.textContent='총괄본부장 선택';sel.innerHTML='<option value="">-- 선택 --</option>'+a.map(([id,ac])=>`<option value="${id}">${ac.name}</option>`).join('');wrap.style.display='block';
+  }else if(selRole==='dept_head'){
+    const deps=Object.entries(s.departments||{});
+    if(!deps.length){wrap.style.display='none';document.getElementById('lerr').textContent='등록된 본부 없음';return;}
+    lbl.textContent='본부 선택';sel.innerHTML='<option value="">-- 선택 --</option>'+deps.map(([id,d])=>`<option value="${id}">${d.name}</option>`).join('');wrap.style.display='block';
+  }else if(selRole==='team_leader'){
+    const teams=[];for(const[dId,dep]of Object.entries(s.departments||{}))for(const[tId,t]of Object.entries(dep.teams||{}))teams.push({id:tId,name:t.name,dId});
+    if(!teams.length){wrap.style.display='none';document.getElementById('lerr').textContent='등록된 팀 없음';return;}
+    lbl.textContent='팀 선택';sel.innerHTML='<option value="">-- 선택 --</option>'+teams.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');wrap.style.display='block';
+  }else wrap.style.display='none';
 };
-
-/* ─── LOGIN ─── */
-let pinBuf='', selRole=null, selAcctId=null;
-
-window.onRoleChange = () => {
-  selRole = document.getElementById('roleSelect').value;
-  selAcctId = null;
-  pinBuf = ''; updateDots();
-  document.getElementById('loginErr').textContent='';
-  const wrap = document.getElementById('accountWrap');
-  const sel  = document.getElementById('accountSelect');
-  const lbl  = document.getElementById('accountLabel');
-  const s    = D.settings;
-
-  if(selRole === 'admin'){
-    wrap.style.display = 'none';
-  } else if(selRole === 'info'){
-    const accts = Object.entries(s.infoAccounts||{});
-    if(!accts.length){ wrap.style.display='none'; document.getElementById('loginErr').textContent='등록된 인포 계정이 없습니다'; return; }
-    lbl.textContent='인포 계정 선택';
-    sel.innerHTML = '<option value="">-- 선택 --</option>' + accts.map(([id,a])=>`<option value="${id}">${a.name}</option>`).join('');
-    wrap.style.display='block';
-  } else if(selRole === 'general'){
-    const accts = Object.entries(s.generalAccounts||{});
-    if(!accts.length){ wrap.style.display='none'; document.getElementById('loginErr').textContent='등록된 총괄 계정이 없습니다'; return; }
-    lbl.textContent='총괄본부장 계정 선택';
-    sel.innerHTML = '<option value="">-- 선택 --</option>' + accts.map(([id,a])=>`<option value="${id}">${a.name}</option>`).join('');
-    wrap.style.display='block';
-  } else if(selRole === 'dept_head'){
-    const depts = Object.entries(s.departments||{});
-    if(!depts.length){ wrap.style.display='none'; document.getElementById('loginErr').textContent='등록된 본부가 없습니다'; return; }
-    lbl.textContent='본부 선택';
-    sel.innerHTML = '<option value="">-- 선택 --</option>' + depts.map(([id,d])=>`<option value="${id}">${d.name}</option>`).join('');
-    wrap.style.display='block';
-  } else if(selRole === 'team_leader'){
-    const teams=[];
-    for(const [dId,dep] of Object.entries(s.departments||{}))
-      for(const [tId,team] of Object.entries(dep.teams||{}))
-        teams.push({id:tId,name:team.name,deptId:dId});
-    if(!teams.length){ wrap.style.display='none'; document.getElementById('loginErr').textContent='등록된 팀이 없습니다'; return; }
-    lbl.textContent='팀 선택';
-    sel.innerHTML = '<option value="">-- 선택 --</option>' + teams.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
-    wrap.style.display='block';
-  } else {
-    wrap.style.display='none';
-  }
+window.pk=d=>{if(pinBuf.length>=4)return;pinBuf+=d;updDots();if(pinBuf.length===4)setTimeout(pok,80);};
+window.pdel=()=>{if(pinBuf)pinBuf=pinBuf.slice(0,-1);updDots();};
+function updDots(){for(let i=0;i<4;i++)document.getElementById(`ld${i}`).classList.toggle('on',i<pinBuf.length);}
+window.pok=()=>{
+  document.getElementById('lerr').textContent='';
+  if(!selRole){document.getElementById('lerr').textContent='역할을 선택하세요';return;}
+  if(pinBuf.length<4){document.getElementById('lerr').textContent='PIN 4자리 입력';return;}
+  const s=D.settings;let user=null;
+  const acId=document.getElementById('acctSelect').value;
+  if(selRole==='admin'){if(pinBuf===(s.adminPin||'0000'))user={role:'admin',displayName:'관리자'};}
+  else if(selRole==='info'){if(!acId){document.getElementById('lerr').textContent='계정을 선택하세요';return;}const a=s.infoAccounts?.[acId];if(a&&pinBuf===a.pin)user={role:'info',displayName:a.name,acctId:acId};}
+  else if(selRole==='general'){if(!acId){document.getElementById('lerr').textContent='계정을 선택하세요';return;}const a=s.generalAccounts?.[acId];if(a&&pinBuf===a.pin)user={role:'general',displayName:a.name,acctId:acId};}
+  else if(selRole==='dept_head'){if(!acId){document.getElementById('lerr').textContent='본부를 선택하세요';return;}const dep=s.departments?.[acId];if(dep&&pinBuf===(dep.headPin||'2345'))user={role:'dept_head',displayName:dep.name+' 본부장',deptId:acId};}
+  else if(selRole==='team_leader'){if(!acId){document.getElementById('lerr').textContent='팀을 선택하세요';return;}let dId=null;for(const[d2,dep]of Object.entries(s.departments||{}))if(dep.teams?.[acId]){dId=d2;break;}const team=s.departments?.[dId]?.teams?.[acId];if(team&&pinBuf===(team.leaderPin||'4567'))user={role:'team_leader',displayName:team.name+' 팀장',teamId:acId,deptId:dId};}
+  if(user){loginOK(user);}
+  else{document.getElementById('lerr').textContent='❌ PIN이 올바르지 않습니다';pinBuf='';updDots();document.getElementById('lcard').classList.add('shake');setTimeout(()=>document.getElementById('lcard').classList.remove('shake'),400);}
 };
-
-window.pk = d => { if(pinBuf.length>=4) return; pinBuf+=d; updateDots(); if(pinBuf.length===4) setTimeout(pok,80); };
-window.pdel = () => { if(pinBuf) pinBuf=pinBuf.slice(0,-1); updateDots(); };
-function updateDots(){ for(let i=0;i<4;i++) document.getElementById(`pd${i}`).classList.toggle('on',i<pinBuf.length); }
-
-window.pok = () => {
-  document.getElementById('loginErr').textContent='';
-  if(!selRole){ document.getElementById('loginErr').textContent='역할을 선택하세요'; return; }
-  if(pinBuf.length<4){ document.getElementById('loginErr').textContent='PIN 4자리를 입력하세요'; return; }
-
-  const s = D.settings;
-  const acctSel = document.getElementById('accountSelect').value;
-  let user = null;
-
-  if(selRole==='admin'){
-    if(pinBuf===(s.adminPin||'0000')) user={role:'admin',displayName:'관리자'};
-  } else if(selRole==='info'){
-    selAcctId = acctSel;
-    if(!selAcctId){ document.getElementById('loginErr').textContent='계정을 선택하세요'; return; }
-    const a = s.infoAccounts?.[selAcctId];
-    if(a && pinBuf===a.pin) user={role:'info',displayName:a.name,acctId:selAcctId};
-  } else if(selRole==='general'){
-    selAcctId = acctSel;
-    if(!selAcctId){ document.getElementById('loginErr').textContent='계정을 선택하세요'; return; }
-    const a = s.generalAccounts?.[selAcctId];
-    if(a && pinBuf===a.pin) user={role:'general',displayName:a.name,acctId:selAcctId};
-  } else if(selRole==='dept_head'){
-    selAcctId = acctSel;
-    if(!selAcctId){ document.getElementById('loginErr').textContent='본부를 선택하세요'; return; }
-    const dep = s.departments?.[selAcctId];
-    if(dep && pinBuf===(dep.headPin||'2345')) user={role:'dept_head',displayName:dep.name+' 본부장',deptId:selAcctId};
-  } else if(selRole==='team_leader'){
-    selAcctId = acctSel;
-    if(!selAcctId){ document.getElementById('loginErr').textContent='팀을 선택하세요'; return; }
-    let dId=null;
-    for(const [d2,dep] of Object.entries(s.departments||{}))
-      if(dep.teams?.[selAcctId]){dId=d2;break;}
-    const team = s.departments?.[dId]?.teams?.[selAcctId];
-    if(team && pinBuf===(team.leaderPin||'4567')) user={role:'team_leader',displayName:team.name+' 팀장',teamId:selAcctId,deptId:dId};
-  }
-
-  if(user){ loginSuccess(user); }
-  else {
-    document.getElementById('loginErr').textContent='❌ PIN이 올바르지 않습니다';
-    pinBuf=''; updateDots();
-    document.getElementById('loginCard').classList.add('shake');
-    setTimeout(()=>document.getElementById('loginCard').classList.remove('shake'),400);
-  }
-};
-
-function loginSuccess(user){
-  U = user;
-  Notification.requestPermission?.();
-  closeMbg('loginMbg');
+function loginOK(u){
+  U=u;Notification.requestPermission?.();closeMbg('lmbg');
   document.getElementById('loginBtn').style.display='none';
   document.getElementById('hdrUser').style.display='flex';
-  document.getElementById('userBadge').textContent=U.displayName;
-  updateTabs();
-  rerender();
-  showToast(`✅ ${U.displayName}으로 로그인됨`);
+  document.getElementById('ubadge').textContent=U.displayName;
+  updTabs();rerender();showToast(`✅ ${U.displayName} 로그인`);
 }
-
-window.doLogout = () => {
-  U=null; pinBuf=''; selRole=null; selAcctId=null; updateDots();
+window.doLogout=()=>{
+  U=null;pinBuf='';selRole=null;selAcctId=null;updDots();
   document.getElementById('roleSelect').value='';
-  document.getElementById('accountWrap').style.display='none';
-  document.getElementById('loginErr').textContent='';
+  document.getElementById('acctWrap').style.display='none';
+  document.getElementById('lerr').textContent='';
   document.getElementById('loginBtn').style.display='';
   document.getElementById('hdrUser').style.display='none';
   document.getElementById('fab').classList.remove('show');
-  updateTabs();
-  rerender();
-  switchTab('rounds');
+  updTabs();rerender();sw('work');
 };
-
-function updateTabs(){
-  const canAdmin = P.canRounds(U);
-  const canEmp   = P.canEmpMgmt(U);
-  const canAcct  = P.canAcctMgmt(U);
-  document.querySelector('[data-tab="manage"]').style.display = canAdmin?'':'none';
-  document.querySelector('[data-tab="employees"]').style.display = canEmp?'':'none';
-  document.querySelector('[data-tab="accounts"]').style.display = canAcct?'':'none';
-  if(P.canRounds(U)) document.getElementById('fab').classList.add('show');
-  else document.getElementById('fab').classList.remove('show');
+function updTabs(){
+  document.querySelector('[data-tab="manage"]').style.display=P.canOrgEdit(U)?'':'none';
+  document.querySelector('[data-tab="emp"]').style.display=P.canEmpMgmtTab(U)?'':'none';
+  document.querySelector('[data-tab="acct"]').style.display=P.canAcctTab(U)?'':'none';
+  document.getElementById('fab').classList.toggle('show',!!P.canSlotAdd(U));
 }
 
-/* ─── TABS ─── */
-window.switchTab = tab => {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
-  ['rounds','manage','employees','accounts'].forEach(t=>{
-    document.getElementById(`tab-${t}`).style.display = t===tab?'block':'none';
-  });
-  if(tab==='rounds') renderRounds();
-  else if(tab==='manage') renderManage();
-  else if(tab==='employees') renderEmployees();
-  else if(tab==='accounts') renderAccounts();
+/* ── TABS ── */
+window.sw=tab=>{
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===tab));
+  ['work','manage','emp','acct'].forEach(t=>document.getElementById(`tab-${t}`).style.display=t===tab?'block':'none');
+  if(tab==='work')renderWork();
+  else if(tab==='manage')renderManage();
+  else if(tab==='emp')renderEmp();
+  else if(tab==='acct')renderAcct();
 };
+function rerender(){const a=document.querySelector('.tab.on')?.dataset.tab||'work';if(a==='work')renderWork();else if(a==='manage')renderManage();else if(a==='emp')renderEmp();else if(a==='acct')renderAcct();}
 
-function rerender(){
-  const active = document.querySelector('.tab.active')?.dataset.tab || 'rounds';
-  if(active==='rounds') renderRounds();
-  else if(active==='manage') renderManage();
-  else if(active==='employees') renderEmployees();
-  else if(active==='accounts') renderAccounts();
-}
+/* ── HELPERS ── */
+function getMember(dId,tId,name){const ms=D.settings?.departments?.[dId]?.teams?.[tId]?.members||{};return Object.entries(ms).find(([,m])=>m.name===name);}
+function getTeamMembers(dId,tId){return Object.entries(D.settings?.departments?.[dId]?.teams?.[tId]?.members||{}).map(([id,m])=>({id,name:m.name}));}
 
-/* ─── EMPLOYEE LOOKUP ─── */
-function isMemberRegistered(deptId, teamId, name){
-  const members = D.settings?.departments?.[deptId]?.teams?.[teamId]?.members || {};
-  return Object.values(members).some(m=>m.name===name);
-}
-function getTeamMembers(deptId, teamId){
-  return Object.values(D.settings?.departments?.[deptId]?.teams?.[teamId]?.members||{}).map(m=>m.name);
-}
+/* ── RENDER WORK (워킹표) ── */
+function renderWork(){
+  const wrap=document.getElementById('tab-work');
+  const slotCount=D.settings?.slotCount||20;
+  const slots=D.slots||{};
+  // seq → slot 매핑
+  const bySeq={};
+  Object.entries(slots).forEach(([id,s])=>{bySeq[s.seq]={id,...s};});
+  const filledSeqs=new Set(Object.values(slots).map(s=>s.seq));
+  const maxSeq=Math.max(slotCount,...Array.from(filledSeqs),0);
+  const done=Object.values(slots).filter(s=>s.checked).length;
+  const pct=maxSeq>0?Math.round(done/maxSeq*100):0;
 
-/* ─── RENDER ROUNDS (PUBLIC) ─── */
-function renderRounds(){
-  const wrap = document.getElementById('tab-rounds');
-  const rounds = D.rounds || {};
-  const arr = Object.entries(rounds).sort((a,b)=>(a[1].createdAt||0)-(b[1].createdAt||0));
+  const canCheck=P.canCheck(U);
+  const canEdit=P.canSlotEdit(U);
+  const canAdd=P.canSlotAdd(U);
 
-  // 기본: 모든 회차 열림
-  arr.forEach(([rid])=>{ if(openR[rid]===undefined) openR[rid]=true; });
+  // 슬롯 수 컨트롤
+  const slotCtrl=canEdit?`<div class="slot-ctrl">
+    <div class="slot-label">📊 총 슬롯 수</div>
+    <button class="sc-btn" onclick="changeSlotCount(-1)">−</button>
+    <div class="slot-val" id="scVal">${slotCount}</div>
+    <button class="sc-btn" onclick="changeSlotCount(1)">+</button>
+    <button class="sc-edit" onclick="openSlotCountEdit()">직접입력</button>
+  </div>`:'';
 
-  const total = arr.length;
-  const ctrl = `<div class="view-ctrl">
-    <div class="view-ctrl-left">총 ${total}개 회차</div>
-    <div class="view-toggle">
-      <button class="vt-btn ${viewMode==='table'?'active':''}" onclick="setView('table')">≡ 테이블</button>
-      <button class="vt-btn ${viewMode==='card'?'active':''}" onclick="setView('card')">⊞ 카드</button>
+  // 진행률
+  const progHtml=`<div class="prog-wrap">
+    <div class="prog-top"><span>진행 현황</span><span style="color:${done===maxSeq&&maxSeq>0?'var(--ok)':'var(--pri)'}">${done} / ${maxSeq} (${pct}%)</span></div>
+    <div class="prog"><div class="prog-fill" style="width:${pct}%"></div></div>
+  </div>`;
+
+  // 뷰 토글
+  const vToggle=`<div class="vtop">
+    <div class="vcnt">총 ${maxSeq}칸</div>
+    <div class="vtog">
+      <button class="vbtn${viewMode==='table'?' on':''}" onclick="setView('table')">≡ 테이블</button>
+      <button class="vbtn${viewMode==='card'?' on':''}" onclick="setView('card')">⊞ 카드</button>
     </div>
   </div>`;
 
-  if(!arr.length){
-    wrap.innerHTML=ctrl+`<div class="empty-state"><div class="empty-ico">📅</div><div>등록된 회차가 없습니다</div></div>`;
-    return;
-  }
-
-  if(viewMode==='card'){
-    wrap.innerHTML = ctrl + `<div class="card-view-wrap">${arr.map(([rid,rnd])=>renderCardView(rid,rnd)).join('')}</div>`;
+  let content='';
+  if(viewMode==='table'){
+    const rows=Array.from({length:maxSeq},(_,i)=>i+1).map(seq=>{
+      const entry=bySeq[seq];
+      if(!entry)return`<tr class="slot-empty"><td><span class="seq-b">${seq}</span></td><td></td><td></td><td></td><td></td></tr>`;
+      const dept=D.settings.departments[entry.deptId];
+      const team=dept?.teams?.[entry.teamId];
+      const reg=entry.deptId&&entry.teamId?!!getMember(entry.deptId,entry.teamId,entry.memberName):true;
+      const nameHtml=reg?`<span class="name-ok">${entry.memberName||'-'}</span>`
+        :`<span class="name-err" onclick="offerAddMember('${entry.deptId}','${entry.teamId}','${entry.memberName}')">${entry.memberName||'-'}<span class="name-err-b" onclick="event.stopPropagation();offerAddMember('${entry.deptId}','${entry.teamId}','${entry.memberName}')">미등록↑</span></span>`;
+      const ts=entry.checkedAt?new Date(entry.checkedAt).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+      const xc=entry.checked?'xbtn done':(canCheck?'xbtn can':'xbtn');
+      return`<tr><td><span class="seq-b">${seq}</span></td><td>${dept?.name||'-'}</td><td>${team?.name||'-'}</td><td>${nameHtml}</td>
+        <td><div class="xwrap"><button class="${xc}" data-id="${entry.id}" data-done="${entry.checked?1:0}"></button>${entry.checked?`<div class="x-info">${ts}<br>${entry.checkedBy||''}</div>`:''}</div></td></tr>`;
+    }).join('');
+    content=`<div class="tbl-wrap"><table class="o-tbl"><thead><tr><th>순서</th><th>본부</th><th>팀</th><th>직원명</th><th>완료</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   } else {
-    wrap.innerHTML = ctrl + arr.map(([rid,rnd])=>renderRoundCard(rid,rnd)).join('');
+    const cards=Array.from({length:maxSeq},(_,i)=>i+1).map(seq=>{
+      const entry=bySeq[seq];
+      if(!entry)return`<div class="cv-item empty"><div class="cv-seq">${seq}</div><div class="cv-dept"> </div><div class="cv-team"> </div><div class="cv-name" style="color:#ccc">—</div><div class="cv-x pend"></div></div>`;
+      const dept=D.settings.departments[entry.deptId];
+      const team=dept?.teams?.[entry.teamId];
+      const reg=entry.deptId&&entry.teamId?!!getMember(entry.deptId,entry.teamId,entry.memberName):true;
+      const ts=entry.checkedAt?new Date(entry.checkedAt).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+      const xc=entry.checked?'cv-x chk':(canCheck?'cv-x cpend':'cv-x pend');
+      const ic=`cv-item${entry.checked?' done':''}${canCheck?' can':''}`;
+      return`<div class="${ic}" data-id="${entry.id}" data-done="${entry.checked?1:0}">
+        ${entry.checked?'<div class="cv-ribbon"></div>':''}
+        <div class="cv-seq">${seq}</div>
+        <div class="cv-dept">${dept?.name||'-'}</div>
+        <div class="cv-team">${team?.name||'-'}</div>
+        <div class="cv-name${reg?'':' err'}">${entry.memberName||'-'}${reg?'':' ⚠'}</div>
+        <div class="${xc}"></div>
+        ${entry.checked?`<div class="cv-ts">${ts}<br>${entry.checkedBy||''}</div>`:''}
+      </div>`;
+    }).join('');
+    content=`<div class="cv-grid">${cards}</div>`;
   }
-  bindRoundEvents();
-}
 
-window.setView = v => {
-  viewMode = v;
-  localStorage.setItem('wo_view', v);
-  renderRounds();
-};
+  wrap.innerHTML=slotCtrl+progHtml+vToggle+content;
 
-
-function renderCardView(rid, rnd){
-  const orders = Object.entries(rnd.orders||{}).sort((a,b)=>(a[1].seq||0)-(b[1].seq||0));
-  const slotTotal = rnd.slotCount || (orders.length > 0 ? Math.max(orders.length, 20) : 20);
-  const total=slotTotal, done=orders.filter(([,o])=>o.checked).length;
-  const pct=total>0?Math.round(done/total*100):0;
-  const isOpen = openR[rid]!==false;
-  const canCheck=P.canCheck(U);
-  const canEdit=P.canRounds(U);
-
-  const slotCntCV = Math.max(orders.length, rnd.slotCount||0);
-  const cards_data = orders.map(([oid,o])=>{
-        const dept=D.settings.departments[o.deptId];
-        const team=dept?.teams?.[o.teamId];
-        const reg=(o.deptId&&o.teamId)?isMemberRegistered(o.deptId,o.teamId,o.memberName):true;
-        const ts=o.checkedAt?new Date(o.checkedAt).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
-        const xClass=o.checked?'cv-x checked-x':(canCheck?'cv-x pending can':'cv-x pending');
-        const itemClass=`cv-item${o.checked?' done-item':''}${canCheck?' clickable-item':''}`;
-        return `<div class="${itemClass}" data-rid="${rid}" data-oid="${oid}" data-done="${o.checked?1:0}">
-          ${o.checked?'<div class="cv-done-ribbon"></div>':''}
-          <div class="cv-seq">${o.seq}</div>
-          <div class="cv-dept">${dept?.name||'-'}</div>
-          <div class="cv-team">${team?.name||'-'}</div>
-          <div class="cv-name${reg?'':' err'}">${o.memberName||'-'}${reg?'':' ⚠'}</div>
-          <div class="${xClass}"></div>
-          ${o.checked?`<div class="cv-ts">${ts}<br>${o.checkedBy||''}</div>`:''}
-        </div>`;
-      });
-
-  const emptyCardsCV = [];
-  for(let i=orders.length; i<slotCntCV; i++){
-    emptyCardsCV.push(`<div class="cv-item" style="opacity:.4">
-      <div class="cv-seq" style="background:#bbb">${i+1}</div>
-      <div class="cv-dept">—</div>
-      <div class="cv-team">—</div>
-      <div class="cv-name" style="color:#bbb">—</div>
-      <div class="cv-x pending"></div>
-    </div>`);
+  // 이벤트
+  if(canCheck){
+    wrap.querySelectorAll('.xbtn[data-id]').forEach(b=>b.onclick=e=>{e.stopPropagation();toggleCheck(b.dataset.id,b.dataset.done==='1');});
+    wrap.querySelectorAll('.cv-item.can[data-id]').forEach(c=>c.onclick=()=>toggleCheck(c.dataset.id,c.dataset.done==='1'));
   }
-  const cards = (orders.length===0 && slotCntCV===0)
-    ? `<div class="cv-empty">워킹 순서가 없습니다${canEdit?' — 테이블뷰에서 추가하세요':''}</div>`
-    : [...cards_data, ...emptyCardsCV].join('');
-
-  return `<div class="cv-round" id="rc-${rid}">
-    <div class="cv-round-hdr" data-rid="${rid}">
-      <div>
-        <div class="cv-rname">${rnd.name}</div>
-        ${rnd.createdDate?`<div style="font-size:11px;color:var(--txt2);margin-top:2px">${rnd.createdDate}</div>`:''}
-      </div>
-      <div class="cv-rmeta">
-        <span class="r-cnt" style="font-size:14px;font-weight:700;color:${done===total&&total>0?'var(--ok)':'var(--pri)'}">${done}/${total}</span>
-        <span style="font-size:12px;color:var(--txt2)">${pct}%</span>
-        <span class="r-arr${isOpen?' open':''}">▶</span>
-      </div>
-    </div>
-    <div class="prog"><div class="prog-fill" style="width:${pct}%"></div></div>
-    <div id="rb-${rid}" style="display:${isOpen?'block':'none'}">
-      <div class="cv-body"><div class="cv-grid">${cards}</div></div>
-      ${canEdit?`<div class="cv-foot">
-        <button class="btn bs" onclick="openAddOrderModal('${rid}')">+ 순서추가</button>
-        <button class="btn bd" onclick="delRound('${rid}')">회차삭제</button>
-      </div>`:''}
-    </div>
-  </div>`;
 }
 
-function renderRoundCard(rid, rnd){
-  const orders = Object.entries(rnd.orders||{}).sort((a,b)=>(a[1].seq||0)-(b[1].seq||0));
-  const slotTotal = rnd.slotCount || (orders.length > 0 ? Math.max(orders.length, 20) : 20);
-  const total=slotTotal, done=orders.filter(([,o])=>o.checked).length;
-  const pct=total>0?Math.round(done/total*100):0;
-  const isOpen = openR[rid]!==false;
-  const canCheck=P.canCheck(U);
-  const canEdit=P.canRounds(U);
-
-  // 슬롯 수: 실제 데이터 수와 설정값 중 큰 쪽
-  const slotCnt = Math.max(orders.length, rnd.slotCount||0);
-  const rows_data = orders.map(([oid,o])=>{
-        const dept=D.settings.departments[o.deptId];
-        const team=dept?.teams?.[o.teamId];
-        const registered = (o.deptId && o.teamId) ? isMemberRegistered(o.deptId,o.teamId,o.memberName) : true;
-        const nameHtml = registered
-          ? `<span class="name-ok">${o.memberName||'-'}</span>`
-          : `<span class="name-err">${o.memberName||'-'}<span class="name-err-badge">미등록</span></span>`;
-        const ts=o.checkedAt?new Date(o.checkedAt).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
-        const xClass=o.checked?'x-btn done':(canCheck?'x-btn clickable':'x-btn');
-        return `<tr>
-          <td><span class="seq-b">${o.seq}</span></td>
-          <td>${dept?.name||'-'}</td>
-          <td>${team?.name||'-'}</td>
-          <td>${nameHtml}</td>
-          <td><div class="x-wrap">
-            <button class="${xClass}" data-rid="${rid}" data-oid="${oid}" data-done="${o.checked?1:0}"></button>
-            ${o.checked?`<div class="x-info">${ts}<br>${o.checkedBy||''}</div>`:''}
-          </div></td>
-        </tr>`;
-      });
-
-  // 빈 슬롯 추가 (데이터 없는 칸도 표시)
-  const emptySlots = [];
-  for(let i=orders.length; i<slotCnt; i++){
-    emptySlots.push(`<tr class="empty-slot-row">
-      <td><span class="seq-b" style="background:#ccc">${i+1}</span></td>
-      <td style="color:#ccc">—</td><td style="color:#ccc">—</td>
-      <td style="color:#ccc">—</td>
-      <td><div class="x-wrap"><button class="x-btn" style="opacity:.3"></button></div></td>
-    </tr>`);
-  }
-  const rows = (orders.length===0 && slotCnt===0)
-    ? `<tr><td colspan="5" class="empty-row">워킹 순서가 없습니다${canEdit?' — 아래 버튼으로 추가하세요':''}</td></tr>`
-    : [...rows_data, ...emptySlots].join('');
-
-  return `<div class="r-card" id="rc-${rid}">
-    <div class="r-hdr${isOpen?' open':''}" data-rid="${rid}">
-      <div>
-        <div class="r-name">${rnd.name}</div>
-        <div class="r-date">${rnd.createdDate||''}</div>
-      </div>
-      <div class="r-meta">
-        <span class="r-cnt" style="color:${done===total&&total>0?'var(--ok)':'var(--pri)'}">${done}/${total}</span>
-        <span class="r-pct">${pct}%</span>
-        <span class="r-arr${isOpen?' open':''}">▶</span>
-      </div>
-    </div>
-    <div class="prog"><div class="prog-fill" style="width:${pct}%"></div></div>
-    <div id="rb-${rid}" style="display:${isOpen?'block':'none'}">
-      <div class="tbl-wrap"><table class="o-tbl">
-        <thead><tr><th>순서</th><th>본부</th><th>팀</th><th>직원명</th><th>완료</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table></div>
-      ${canEdit?`<div class="tbl-foot">
-        <button class="btn bs" onclick="openAddOrderModal('${rid}')">+ 순서추가</button>
-        <button class="btn bd" onclick="delRound('${rid}')">회차삭제</button>
-      </div>`:''}
-    </div>
-  </div>`;
-}
-
-function bindRoundEvents(){
-  // 테이블 뷰 헤더 토글
-  document.querySelectorAll('.r-hdr').forEach(h=>{
-    h.onclick = () => {
-      const rid=h.dataset.rid;
-      openR[rid] = openR[rid]===false ? true : false;
-      document.getElementById(`rb-${rid}`).style.display=openR[rid]===false?'none':'block';
-      h.classList.toggle('open', openR[rid]!==false);
-      h.querySelector('.r-arr').classList.toggle('open', openR[rid]!==false);
-    };
-  });
-  // 카드 뷰 헤더 토글
-  document.querySelectorAll('.cv-round-hdr').forEach(h=>{
-    h.onclick = () => {
-      const rid=h.dataset.rid;
-      openR[rid] = openR[rid]===false ? true : false;
-      document.getElementById(`rb-${rid}`).style.display=openR[rid]===false?'none':'block';
-      h.querySelector('.r-arr').classList.toggle('open', openR[rid]!==false);
-    };
-  });
-  // 테이블 뷰 X버튼
-  document.querySelectorAll('.x-btn[data-rid]').forEach(btn=>{
-    btn.onclick = e=>{e.stopPropagation(); toggleCheck(btn.dataset.rid,btn.dataset.oid,btn.dataset.done==='1');};
-  });
-  // 카드 뷰 X버튼 (카드 전체 클릭)
-  document.querySelectorAll('.cv-item.clickable-item').forEach(item=>{
-    item.onclick = e=>{e.stopPropagation(); toggleCheck(item.dataset.rid,item.dataset.oid,item.dataset.done==='1');};
-  });
-}
-
-async function toggleCheck(rid,oid,wasDone){
-  if(!P.canCheck(U)){showToast('권한이 없습니다');return;}
-  const o = D.rounds?.[rid]?.orders?.[oid]; if(!o) return;
-  const newVal=!wasDone;
-  const upd={};
-  upd[`rounds/${rid}/orders/${oid}/checked`]=newVal;
-  upd[`rounds/${rid}/orders/${oid}/checkedAt`]=newVal?Date.now():null;
-  upd[`rounds/${rid}/orders/${oid}/checkedBy`]=newVal?U.displayName:null;
-  await window._upd(upd);
-  if(newVal){
-    const dept=D.settings.departments[o.deptId];
-    const team=dept?.teams?.[o.teamId];
-    const msg=`[${D.rounds[rid].name}] ${o.seq}번 완료 — ${dept?.name||''} ${team?.name||''} ${o.memberName||''}`;
-    await addNotif(msg);
-    showToast('✅ '+msg);
-    browserNotif('✅ 완료',msg);
-  } else { showToast('↩️ 완료 취소'); }
-}
-
-/* ROUND CRUD */
-window.openAddRoundModal = () => {
-  if(!P.canRounds(U)){showToast('권한이 없습니다');return;}
-  const cnt=Object.keys(D.rounds||{}).length+1;
-  const today=new Date().toISOString().split('T')[0];
-  showEditModal(`📅 회차 추가 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
-    <div class="fg"><label class="fl">회차 이름</label><input class="fi" id="rName" value="${cnt}회차"></div>
-    <div class="fg"><label class="fl">날짜</label><input class="fi" type="date" id="rDate" value="${today}"></div>
-    <div class="fg"><label class="fl">빈 칸 수 (데이터 없어도 이 수만큼 칸 표시)</label><input class="fi" type="number" id="rSlots" value="10" min="0" max="100"></div>
-    <button class="btn-full bp" onclick="saveRound()">추가</button>`);
+/* 슬롯 수 조정 */
+window.changeSlotCount=async d=>{
+  const cur=D.settings?.slotCount||20;
+  const nv=Math.max(1,cur+d);
+  await window._save('settings/slotCount',nv);
 };
-window.saveRound = async()=>{
-  const name=document.getElementById('rName').value.trim();
-  const date=document.getElementById('rDate').value;
-  const slots=parseInt(document.getElementById('rSlots')?.value||'0')||0;
-  if(!name){showToast('이름을 입력하세요');return;}
-  const nr=push(r('rounds'));
-  await set(nr,{name,createdDate:date,createdAt:Date.now(),slotCount:slots,orders:{}});
-  closeMbg('editMbg'); showToast('✅ 회차 추가');
+window.openSlotCountEdit=()=>{
+  showGM(`📊 슬롯 수 변경 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">총 슬롯 수 (1~200)</label><input class="fi" type="number" id="scInput" value="${D.settings?.slotCount||20}" min="1" max="200"></div>
+    <button class="btn-full bp" onclick="saveSlotCount()">저장</button>`);
 };
-window.delRound=async rid=>{
-  if(!confirm('이 회차를 삭제할까요?')) return;
-  await window._save(`rounds/${rid}`,null);
-  delete openR[rid]; showToast('삭제됨');
+window.saveSlotCount=async()=>{
+  const v=parseInt(document.getElementById('scInput').value)||20;
+  if(v<1||v>200){showToast('1~200 사이로 입력하세요');return;}
+  await window._save('settings/slotCount',v);closeMbg('gmbg');showToast(`✅ ${v}칸으로 변경`);
 };
+window.setView=v=>{viewMode=v;localStorage.setItem('wo_view',v);renderWork();};
 
-/* ORDER CRUD */
-window.openAddOrderModal = rid => {
-  if(!P.canOrders(U)){showToast('권한이 없습니다');return;}
+/* 슬롯 추가 */
+window.openAddSlot=()=>{
+  if(!P.canSlotAdd(U)){showToast('권한 없음');return;}
   const depts=D.settings.departments||{};
   const dOpts=Object.entries(depts).map(([id,d])=>`<option value="${id}">${d.name}</option>`).join('');
-  const cnt=Object.keys(D.rounds?.[rid]?.orders||{}).length+1;
-  const adminMode=P.canFullEdit(U);
-  showEditModal(`➕ 워킹순서 추가 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
-    <input type="hidden" id="oRid" value="${rid}">
-    <div class="fg"><label class="fl">순서 번호</label><input class="fi" type="number" id="oSeq" value="${cnt}" min="1"></div>
-    <div class="fg"><label class="fl">본부</label>
-      <select class="fsel" id="oDept" onchange="onODeptChange()"><option value="">-- 선택 --</option>${dOpts}</select></div>
-    <div class="fg"><label class="fl">팀</label>
-      <select class="fsel" id="oTeam" onchange="onOTeamChange()"><option value="">-- 선택 --</option></select></div>
-    <div class="fg"><label class="fl">직원명${adminMode?' <span style="color:var(--txt2);font-weight:400">(미등록도 입력 가능)</span>':''}</label>
+  const bySeq={};Object.values(D.slots||{}).forEach(s=>bySeq[s.seq]=true);
+  let nextSeq=1;while(bySeq[nextSeq])nextSeq++;
+  showGM(`➕ 슬롯 추가 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">순서 번호</label><input class="fi" type="number" id="ss" value="${nextSeq}" min="1"></div>
+    <div class="fg"><label class="fl">본부</label><select class="fsel" id="sd" onchange="onSdChange()"><option value="">-- 선택 --</option>${dOpts}</select></div>
+    <div class="fg"><label class="fl">팀</label><select class="fsel" id="st" onchange="onStChange()"><option value="">-- 선택 --</option></select></div>
+    <div class="fg"><label class="fl">직원명</label>
       <div style="display:flex;gap:8px">
-        <input class="fi" id="oName" placeholder="이름 입력" style="flex:1">
-        <select class="fsel" id="oNameSel" style="width:130px" onchange="document.getElementById('oName').value=this.value">
-          <option value="">목록에서 선택</option>
-        </select>
+        <input class="fi" id="sn" placeholder="이름 입력" style="flex:1">
+        <select class="fsel" id="snSel" style="width:130px" onchange="document.getElementById('sn').value=this.value"><option value="">목록선택</option></select>
       </div>
     </div>
-    <button class="btn-full bp" onclick="saveOrder()">추가</button>`);
+    <button class="btn-full bp" onclick="saveSlot()">추가</button>`);
 };
-window.onODeptChange=()=>{
-  const dId=document.getElementById('oDept').value;
+window.onSdChange=()=>{
+  const dId=document.getElementById('sd').value;
   const teams=D.settings.departments[dId]?.teams||{};
-  document.getElementById('oTeam').innerHTML='<option value="">-- 선택 --</option>'+
-    Object.entries(teams).map(([id,t])=>`<option value="${id}">${t.name}</option>`).join('');
-  document.getElementById('oNameSel').innerHTML='<option value="">목록에서 선택</option>';
-  document.getElementById('oName').value='';
+  document.getElementById('st').innerHTML='<option value="">-- 선택 --</option>'+Object.entries(teams).map(([id,t])=>`<option value="${id}">${t.name}</option>`).join('');
+  document.getElementById('snSel').innerHTML='<option value="">목록선택</option>';
+  document.getElementById('sn').value='';
 };
-window.onOTeamChange=()=>{
-  const dId=document.getElementById('oDept').value;
-  const tId=document.getElementById('oTeam').value;
-  const names=getTeamMembers(dId,tId);
-  document.getElementById('oNameSel').innerHTML='<option value="">목록에서 선택</option>'+
-    names.map(n=>`<option value="${n}">${n}</option>`).join('');
+window.onStChange=()=>{
+  const dId=document.getElementById('sd').value,tId=document.getElementById('st').value;
+  const members=getTeamMembers(dId,tId);
+  document.getElementById('snSel').innerHTML='<option value="">목록선택</option>'+members.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
 };
-window.saveOrder=async()=>{
-  const rid=document.getElementById('oRid').value;
-  const seq=parseInt(document.getElementById('oSeq').value)||1;
-  const deptId=document.getElementById('oDept').value;
-  const teamId=document.getElementById('oTeam').value;
-  const memberName=document.getElementById('oName').value.trim();
-  if(!deptId||!teamId||!memberName){showToast('모든 항목을 입력하세요');return;}
-  const nr=push(r(`rounds/${rid}/orders`));
-  await set(nr,{seq,deptId,teamId,memberName,checked:false,checkedAt:null,checkedBy:null});
-  closeMbg('editMbg'); showToast('✅ 순서 추가');
+window.saveSlot=async()=>{
+  const seq=parseInt(document.getElementById('ss').value)||1;
+  const dId=document.getElementById('sd').value,tId=document.getElementById('st').value;
+  const name=document.getElementById('sn').value.trim();
+  if(!dId||!tId||!name){showToast('모든 항목 입력 필요');return;}
+  const nr=push(r('slots'));
+  await set(nr,{seq,deptId:dId,teamId:tId,memberName:name,checked:false,checkedAt:null,checkedBy:null});
+  closeMbg('gmbg');showToast('✅ 슬롯 추가');
 };
 
-/* ─── RENDER MANAGE (dept/team) ─── */
+/* 완료 체크 */
+async function toggleCheck(id,wasDone){
+  if(!P.canCheck(U)){showToast('권한 없음');return;}
+  const s=D.slots?.[id];if(!s)return;
+  const nv=!wasDone;
+  const upd={[`slots/${id}/checked`]:nv,[`slots/${id}/checkedAt`]:nv?Date.now():null,[`slots/${id}/checkedBy`]:nv?U.displayName:null};
+  await window._upd(upd);
+  if(nv){
+    const dept=D.settings.departments[s.deptId];const team=dept?.teams?.[s.teamId];
+    const msg=`${s.seq}번 완료 — ${dept?.name||''} ${team?.name||''} ${s.memberName||''}`;
+    await addNotif(msg);showToast('✅ '+msg);
+    if(Notification.permission==='granted')try{new Notification('✅ 완료',{body:msg,icon:'icons/icon-192.png'})}catch(e){}
+  }else showToast('↩️ 완료 취소');
+}
+
+/* 미등록 직원 팀 추가 제안 */
+window.offerAddMember=async(dId,tId,name)=>{
+  if(!name||!dId||!tId)return;
+  const dept=D.settings.departments[dId];const team=dept?.teams?.[tId];
+  if(!confirm(`"${name}"을 ${dept?.name||''} > ${team?.name||''}에 직원으로 등록할까요?`))return;
+  const nr=push(r(`settings/departments/${dId}/teams/${tId}/members`));
+  await set(nr,{name});showToast(`✅ ${name} 등록 완료`);
+};
+
+/* ── RENDER MANAGE (조직관리 — 인라인 편집) ── */
 function renderManage(){
-  if(!P.canRounds(U)){document.getElementById('tab-manage').innerHTML='<div class="empty-state"><div class="empty-ico">🔒</div><div>권한이 없습니다</div></div>';return;}
+  const wrap=document.getElementById('tab-manage');
+  if(!P.canOrgEdit(U)){wrap.innerHTML='<div class="empty-st"><div class="empty-ico">🔒</div><div>권한이 없습니다</div></div>';return;}
   const depts=D.settings.departments||{};
-  const canDept=P.canAddDept(U);
+  const canDept=P.canDeptAdd(U);
+  let html=`<div class="sec"><div class="sec-hdr"><span>🏢 본부 / 팀 구조</span>${canDept?`<button class="btn bp" onclick="addDept()">+ 본부</button>`:''}</div>`;
 
-  let html=`<div class="sec">
-    <div class="sec-hdr"><span>🏢 본부 / 팀 구조</span>
-      ${canDept?`<button class="btn bp" onclick="openDeptModal()">+ 본부추가</button>`:''}
-    </div>`;
+  const visDepts=U.role==='dept_head'?Object.entries(depts).filter(([id])=>id===U.deptId):
+                 U.role==='team_leader'?Object.entries(depts).filter(([id])=>id===U.deptId):
+                 Object.entries(depts);
 
-  const dArr=Object.entries(depts);
-  const visDepts=U?.role==='dept_head'?dArr.filter(([id])=>id===U.deptId):
-                 U?.role==='team_leader'?dArr.filter(([id])=>id===U.deptId):dArr;
+  if(!visDepts.length)html+=`<div class="sec-empty">본부 없음</div>`;
 
-  if(!visDepts.length) html+=`<div class="empty-sec">등록된 본부가 없습니다</div>`;
-
-  for(const [dId,dept] of visDepts){
-    const canTeam=P.canAddTeam(U)&&(U.role!=='dept_head'||U.deptId===dId);
-    const canDeptEdit=P.canFullEdit(U)||(U.role==='dept_head'&&U.deptId===dId);
-    html+=`<div class="sec-row"><div><div class="row-name">🏢 ${dept.name}</div>
-      <div class="row-sub">본부장 PIN: ${dept.headPin||'2345(기본)'} · ${Object.keys(dept.teams||{}).length}팀</div></div>
-      <div class="btn-grp">
-        ${canTeam?`<button class="btn bp" onclick="openTeamModal('${dId}')">+ 팀</button>`:''}
-        ${canDeptEdit?`<button class="btn bs" onclick="openDeptModal('${dId}')">수정</button>`:''}
-        ${P.canFullEdit(U)?`<button class="btn bd" onclick="delDept('${dId}')">삭제</button>`:''}
+  for(const[dId,dept]of visDepts){
+    const canDeptEdit=P.isHigher(U,'dept_head')||(U.role==='dept_head'&&U.deptId===dId);
+    const canTeam=P.canTeamAdd(U)&&(P.isHigher(U,'dept_head')||U.deptId===dId);
+    html+=`<div class="sec-row">
+      <div class="row-info">
+        <div class="row-name">🏢 <span class="editable" onclick="inlineEdit(this,'settings/departments/${dId}/name','${dept.name}')">${dept.name}</span></div>
+        <div class="row-sub">${Object.keys(dept.teams||{}).length}팀</div>
+      </div>
+      <div class="row-btns">
+        ${canTeam?`<button class="btn bp" onclick="addTeam('${dId}')">+ 팀</button>`:''}
+        ${P.isHigher(U,'dept_head')?`<button class="btn bd" onclick="delDept('${dId}')">삭제</button>`:''}
       </div></div>`;
-    for(const [tId,team] of Object.entries(dept.teams||{})){
-      if(U?.role==='team_leader'&&U.teamId!==tId) continue;
-      html+=`<div class="sec-row indent1"><div><div class="row-name">👥 ${team.name}</div>
-        <div class="row-sub">팀장 PIN: ${team.leaderPin||'4567(기본)'} · ${Object.keys(team.members||{}).length}명</div></div>
-        <div class="btn-grp">
-          ${canDeptEdit?`<button class="btn bs" onclick="openTeamModal('${dId}','${tId}')">수정</button>`:''}
-          ${P.canFullEdit(U)?`<button class="btn bd" onclick="delTeam('${dId}','${tId}')">삭제</button>`:''}
+    const visTeams=U.role==='team_leader'?Object.entries(dept.teams||{}).filter(([id])=>id===U.teamId):Object.entries(dept.teams||{});
+    for(const[tId,team]of visTeams){
+      const canTeamEdit=P.isHigher(U,'team_leader')||(U.role==='dept_head'&&U.deptId===dId)||(U.role==='team_leader'&&U.teamId===tId);
+      html+=`<div class="sec-row ind1">
+        <div class="row-info">
+          <div class="row-name">👥 <span class="editable" onclick="inlineEdit(this,'settings/departments/${dId}/teams/${tId}/name','${team.name}')">${team.name}</span></div>
+          <div class="row-sub">${Object.keys(team.members||{}).length}명</div>
+        </div>
+        <div class="row-btns">
+          ${canTeamEdit&&P.isHigher(U,'team_leader')?`<button class="btn bd" onclick="delTeam('${dId}','${tId}')">삭제</button>`:''}
         </div></div>`;
     }
   }
   html+=`</div>`;
-  document.getElementById('tab-manage').innerHTML=html;
+  wrap.innerHTML=html;
 }
 
-/* DEPT CRUD */
-window.openDeptModal=dId=>{
-  const dept=dId?D.settings.departments[dId]:null;
+window.inlineEdit=async(el,path,cur)=>{
+  if(el.querySelector('input'))return;
+  const inp=document.createElement('input');
+  inp.className='inline-input';inp.value=cur;
+  el.innerHTML='';el.appendChild(inp);inp.focus();inp.select();
+  const save=async()=>{
+    const v=inp.value.trim();
+    if(v&&v!==cur)await window._save(path,v);
+    el.textContent=v||cur;
+  };
+  inp.onblur=save;
+  inp.onkeydown=e=>{if(e.key==='Enter')inp.blur();if(e.key==='Escape'){el.textContent=cur;}};
+};
+
+window.addDept=()=>{
   const cnt=Object.keys(D.settings.departments||{}).length+1;
-  showEditModal(`🏢 본부 ${dId?'수정':'추가'} <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
-    <div class="fg"><label class="fl">본부 이름</label>
-      <input class="fi" id="dName" value="${dept?.name||cnt+'본부'}" placeholder="예: 1본부"></div>
-    <div class="fg"><label class="fl">본부장 PIN (4자리 숫자)</label>
-      <input class="fi" id="dPin" type="tel" inputmode="numeric" maxlength="4" value="${dept?.headPin||'2345'}" placeholder="2345"></div>
-    <button class="btn-full bp" onclick="saveDept('${dId||''}')">저장</button>`);
+  showGM(`🏢 본부 추가 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">본부 이름</label><input class="fi" id="dn" value="${cnt}본부" placeholder="예: 1본부"></div>
+    <div class="fg"><label class="fl">본부장 PIN (4자리)</label><input class="fi" id="dp" type="tel" inputmode="numeric" maxlength="4" value="2345"></div>
+    <button class="btn-full bp" onclick="saveDept()">추가</button>`);
 };
-window.saveDept=async dId=>{
-  const name=document.getElementById('dName').value.trim();
-  const pin=document.getElementById('dPin').value.trim();
-  if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리를 확인하세요');return;}
-  if(dId){
-    await window._upd({[`settings/departments/${dId}/name`]:name,[`settings/departments/${dId}/headPin`]:pin});
-  } else {
-    const nr=push(r('settings/departments'));
-    await set(nr,{name,headPin:pin,teams:{}});
-  }
-  closeMbg('editMbg'); showToast(`✅ 본부 ${dId?'수정':'추가'}`);
+window.saveDept=async()=>{
+  const name=document.getElementById('dn').value.trim(),pin=document.getElementById('dp').value.trim();
+  if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리 확인');return;}
+  const nr=push(r('settings/departments'));await set(nr,{name,headPin:pin,teams:{}});closeMbg('gmbg');showToast('✅ 본부 추가');
 };
-window.delDept=async dId=>{
-  if(!confirm('본부와 하위 팀/직원을 모두 삭제합니다. 계속할까요?')) return;
-  await window._save(`settings/departments/${dId}`,null); showToast('삭제됨');
-};
+window.delDept=async dId=>{if(!confirm('본부 전체 삭제?'))return;await window._save(`settings/departments/${dId}`,null);showToast('삭제됨');};
 
-/* TEAM CRUD */
-window.openTeamModal=(dId,tId)=>{
-  const dept=D.settings.departments[dId];
-  const team=tId?dept?.teams?.[tId]:null;
-  const deptNum=dept?.name.replace('본부','').trim()||'';
-  const teamCnt=Object.keys(dept?.teams||{}).length+(tId?0:1);
-  const suggestName=tId?(team?.name||''):`${deptNum}-${teamCnt}팀`;
-  showEditModal(`👥 팀 ${tId?'수정':'추가'} <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
-    <div class="fg"><label class="fl">팀 이름</label>
-      <input class="fi" id="tName" value="${suggestName}" placeholder="예: 1-1팀"></div>
-    <div class="fg"><label class="fl">팀장 PIN (4자리 숫자)</label>
-      <input class="fi" id="tPin" type="tel" inputmode="numeric" maxlength="4" value="${team?.leaderPin||'4567'}" placeholder="4567"></div>
-    <button class="btn-full bp" onclick="saveTeam('${dId}','${tId||''}')">저장</button>`);
+window.addTeam=dId=>{
+  const dep=D.settings.departments[dId];
+  const dNum=dep?.name.replace(/[^0-9]/g,'')||'';
+  const cnt=Object.keys(dep?.teams||{}).length+1;
+  const suggest=dNum?(dNum+'-'+cnt+'팀'):(cnt+'팀');
+  showGM(`👥 팀 추가 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <input type="hidden" id="tdId" value="${dId}">
+    <div class="fg"><label class="fl">팀 이름</label><input class="fi" id="tn" value="${suggest}" placeholder="예: 1-1팀"></div>
+    <div class="fg"><label class="fl">팀장 PIN (4자리)</label><input class="fi" id="tp" type="tel" inputmode="numeric" maxlength="4" value="4567"></div>
+    <button class="btn-full bp" onclick="saveTeam()">추가</button>`);
 };
-window.saveTeam=async(dId,tId)=>{
-  const name=document.getElementById('tName').value.trim();
-  const pin=document.getElementById('tPin').value.trim();
-  if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리를 확인하세요');return;}
-  if(tId){
-    await window._upd({[`settings/departments/${dId}/teams/${tId}/name`]:name,[`settings/departments/${dId}/teams/${tId}/leaderPin`]:pin});
-  } else {
-    const nr=push(r(`settings/departments/${dId}/teams`));
-    await set(nr,{name,leaderPin:pin,members:{}});
-  }
-  closeMbg('editMbg'); showToast(`✅ 팀 ${tId?'수정':'추가'}`);
+window.saveTeam=async()=>{
+  const dId=document.getElementById('tdId').value;
+  const name=document.getElementById('tn').value.trim(),pin=document.getElementById('tp').value.trim();
+  if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리 확인');return;}
+  const nr=push(r(`settings/departments/${dId}/teams`));await set(nr,{name,leaderPin:pin,members:{}});closeMbg('gmbg');showToast('✅ 팀 추가');
 };
-window.delTeam=async(dId,tId)=>{
-  if(!confirm('팀과 하위 직원을 삭제합니다.')) return;
-  await window._save(`settings/departments/${dId}/teams/${tId}`,null); showToast('삭제됨');
-};
+window.delTeam=async(dId,tId)=>{if(!confirm('팀 삭제?'))return;await window._save(`settings/departments/${dId}/teams/${tId}`,null);showToast('삭제됨');};
 
-/* ─── RENDER EMPLOYEES ─── */
-function renderEmployees(){
-  if(!P.canEmpMgmt(U)){document.getElementById('tab-employees').innerHTML='<div class="empty-state"><div class="empty-ico">🔒</div><div>권한이 없습니다<br><small>관리자·인포·총괄만 접근 가능</small></div></div>';return;}
+/* ── RENDER EMP (직원관리) ── */
+function renderEmp(){
+  const wrap=document.getElementById('tab-emp');
+  if(!P.canEmpMgmtTab(U)){wrap.innerHTML='<div class="empty-st"><div class="empty-ico">🔒</div><div>관리자·인포·총괄만 접근 가능</div></div>';return;}
   const depts=D.settings.departments||{};
   let html='';
-  for(const [dId,dept] of Object.entries(depts)){
-    html+=`<div class="sec"><div class="sec-hdr"><span>🏢 ${dept.name}</span></div>`;
+  for(const[dId,dept]of Object.entries(depts)){
+    html+=`<div class="sec"><div class="sec-hdr">🏢 ${dept.name}</div>`;
     const teams=dept.teams||{};
-    if(!Object.keys(teams).length) html+=`<div class="empty-sec">팀 없음 — 관리탭에서 팀을 추가하세요</div>`;
-    for(const [tId,team] of Object.entries(teams)){
-      html+=`<div class="sec-row indent1"><div><div class="row-name">👥 ${team.name}</div></div>
-        <button class="btn bp" onclick="openMemberModal('${dId}','${tId}')">+ 직원추가</button></div>`;
-      for(const [mId,mem] of Object.entries(team.members||{})){
-        html+=`<div class="sec-row indent2"><div class="row-name">👤 ${mem.name}</div>
-          <div class="btn-grp">
-            <button class="btn bs" onclick="openMemberModal('${dId}','${tId}','${mId}')">수정</button>
-            <button class="btn bd" onclick="delMember('${dId}','${tId}','${mId}')">삭제</button>
-          </div></div>`;
+    if(!Object.keys(teams).length)html+=`<div class="sec-empty">팀 없음</div>`;
+    for(const[tId,team]of Object.entries(teams)){
+      html+=`<div class="sec-row ind1"><div class="row-info"><div class="row-name">👥 ${team.name}</div></div><button class="btn bp" onclick="openAddMember('${dId}','${tId}')">+ 직원</button></div>`;
+      for(const[mId,mem]of Object.entries(team.members||{})){
+        html+=`<div class="sec-row ind2"><div class="row-name">👤 <span class="editable" onclick="inlineEdit(this,'settings/departments/${dId}/teams/${tId}/members/${mId}/name','${mem.name}')">${mem.name}</span></div>
+          <button class="btn bd" onclick="delMember('${dId}','${tId}','${mId}')">삭제</button></div>`;
       }
     }
     html+=`</div>`;
   }
-  if(!Object.keys(depts).length) html=`<div class="empty-state"><div class="empty-ico">👥</div><div>먼저 관리탭에서 본부와 팀을 추가하세요</div></div>`;
-  document.getElementById('tab-employees').innerHTML=html;
+  if(!Object.keys(depts).length)html='<div class="empty-st"><div class="empty-ico">👥</div><div>조직관리 탭에서 본부/팀을 먼저 추가하세요</div></div>';
+  wrap.innerHTML=html;
 }
-
-window.openMemberModal=(dId,tId,mId)=>{
-  const mem=mId?D.settings.departments[dId]?.teams?.[tId]?.members?.[mId]:null;
-  showEditModal(`👤 직원 ${mId?'수정':'추가'} <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
-    <div class="fg"><label class="fl">직원 이름</label>
-      <input class="fi" id="mName" value="${mem?.name||''}" placeholder="이름 입력"></div>
-    <button class="btn-full bp" onclick="saveMember('${dId}','${tId}','${mId||''}')">저장</button>`);
+window.openAddMember=(dId,tId)=>{
+  showGM(`👤 직원 추가 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">직원 이름</label><input class="fi" id="mn" placeholder="이름 입력" autofocus></div>
+    <button class="btn-full bp" onclick="saveMember('${dId}','${tId}')">추가</button>`);
 };
 window.saveMember=async(dId,tId,mId)=>{
-  const name=document.getElementById('mName').value.trim();
-  if(!name){showToast('이름을 입력하세요');return;}
-  if(mId){
-    await window._save(`settings/departments/${dId}/teams/${tId}/members/${mId}/name`,name);
-  } else {
-    const nr=push(r(`settings/departments/${dId}/teams/${tId}/members`));
-    await set(nr,{name});
-  }
-  closeMbg('editMbg'); showToast(`✅ 직원 ${mId?'수정':'추가'}`);
+  const name=document.getElementById('mn').value.trim();
+  if(!name){showToast('이름 입력 필요');return;}
+  if(mId)await window._save(`settings/departments/${dId}/teams/${tId}/members/${mId}/name`,name);
+  else{const nr=push(r(`settings/departments/${dId}/teams/${tId}/members`));await set(nr,{name});}
+  closeMbg('gmbg');showToast('✅ 직원 추가');
 };
-window.delMember=async(dId,tId,mId)=>{
-  if(!confirm('직원을 삭제합니다.')) return;
-  await window._save(`settings/departments/${dId}/teams/${tId}/members/${mId}`,null); showToast('삭제됨');
-};
+window.delMember=async(dId,tId,mId)=>{if(!confirm('직원 삭제?'))return;await window._save(`settings/departments/${dId}/teams/${tId}/members/${mId}`,null);showToast('삭제됨');};
 
-/* ─── RENDER ACCOUNTS ─── */
-function renderAccounts(){
-  if(!P.canAcctMgmt(U)){document.getElementById('tab-accounts').innerHTML='<div class="empty-state"><div class="empty-ico">🔒</div><div>권한이 없습니다</div></div>';return;}
+/* ── RENDER ACCT (계정설정 — 권한 기반 PIN 노출) ── */
+function renderAcct(){
+  const wrap=document.getElementById('tab-acct');
+  if(!P.canAcctTab(U)){wrap.innerHTML='<div class="empty-st"><div class="empty-ico">🔒</div><div>권한 없음</div></div>';return;}
   const s=D.settings;
   let html='';
 
-  /* 관리자 */
-  html+=`<div class="sec"><div class="sec-hdr">🛡️ 관리자</div>
-    <div class="sec-row"><div><div class="row-name">관리자</div><div class="row-sub">PIN: ${s.adminPin||'0000'}</div></div>
-      <button class="btn bs" onclick="openPinModal('admin')">PIN 변경</button>
-    </div></div>`;
+  // 관리자 PIN — 관리자 본인만 볼 수 있음
+  if(U.role==='admin'){
+    html+=`<div class="sec"><div class="sec-hdr">🛡️ 관리자</div>
+      <div class="sec-row"><div class="row-info"><div class="row-name">관리자</div><div class="row-sub">PIN: ${s.adminPin||'0000'}</div></div>
+      <button class="btn bs" onclick="openPinEdit('admin')">PIN 변경</button></div></div>`;
+  }
 
-  /* 인포 */
-  html+=`<div class="sec"><div class="sec-hdr"><span>🖥️ 인포 계정</span>
-    <button class="btn bp" onclick="openAcctModal('info')">+ 추가</button></div>`;
-  const infoArr=Object.entries(s.infoAccounts||{});
-  if(!infoArr.length) html+=`<div class="empty-sec">인포 계정 없음</div>`;
-  infoArr.forEach(([id,a])=>{
-    html+=`<div class="sec-row"><div><div class="row-name">${a.name}</div><div class="row-sub">PIN: ${a.pin}</div></div>
-      <div class="btn-grp">
-        <button class="btn bs" onclick="openAcctModal('info','${id}')">수정</button>
-        <button class="btn bd" onclick="delAcct('info','${id}')">삭제</button>
-      </div></div>`;
-  });
-  html+=`</div>`;
-
-  /* 총괄 */
-  html+=`<div class="sec"><div class="sec-hdr"><span>👑 총괄본부장 계정</span>
-    <button class="btn bp" onclick="openAcctModal('general')">+ 추가</button></div>`;
-  const genArr=Object.entries(s.generalAccounts||{});
-  if(!genArr.length) html+=`<div class="empty-sec">총괄본부장 계정 없음</div>`;
-  genArr.forEach(([id,a])=>{
-    html+=`<div class="sec-row"><div><div class="row-name">${a.name}</div><div class="row-sub">PIN: ${a.pin}</div></div>
-      <div class="btn-grp">
-        <button class="btn bs" onclick="openAcctModal('general','${id}')">수정</button>
-        <button class="btn bd" onclick="delAcct('general','${id}')">삭제</button>
-      </div></div>`;
-  });
-  html+=`</div>`;
-
-  /* 본부장 PIN */
-  html+=`<div class="sec"><div class="sec-hdr">🏢 본부장 PIN</div>`;
-  const dArr=Object.entries(s.departments||{});
-  if(!dArr.length) html+=`<div class="empty-sec">등록된 본부 없음</div>`;
-  dArr.forEach(([dId,dept])=>{
-    html+=`<div class="sec-row"><div><div class="row-name">${dept.name} 본부장</div><div class="row-sub">PIN: ${dept.headPin||'2345'}</div></div>
-      <button class="btn bs" onclick="openDeptPinModal('${dId}')">PIN 변경</button></div>`;
-    Object.entries(dept.teams||{}).forEach(([tId,team])=>{
-      html+=`<div class="sec-row indent1"><div><div class="row-name">${team.name} 팀장</div><div class="row-sub">PIN: ${team.leaderPin||'4567'}</div></div>
-        <button class="btn bs" onclick="openTeamPinModal('${dId}','${tId}')">PIN 변경</button></div>`;
+  // 인포 계정 — 관리자/총괄만 수정 가능, 인포는 자기것만
+  if(canSeePin(U.role,'info')||U.role==='info'){
+    html+=`<div class="sec"><div class="sec-hdr"><span>🖥️ 인포 계정</span>${P.isHigher(U,'info')?`<button class="btn bp" onclick="openAcctEdit('info')">+ 추가</button>`:''}</div>`;
+    const arr=Object.entries(s.infoAccounts||{});
+    if(!arr.length)html+=`<div class="sec-empty">인포 계정 없음</div>`;
+    arr.forEach(([id,a])=>{
+      const canEdit=P.isHigher(U,'info')||(U.role==='info'&&U.acctId===id);
+      const canDel=P.isHigher(U,'info');
+      const pinShow=canSeePin(U.role,'info')||U.role==='admin'?a.pin:'••••';
+      html+=`<div class="sec-row"><div class="row-info"><div class="row-name">${a.name}</div><div class="row-sub">PIN: ${pinShow}</div></div>
+        <div class="row-btns">${canEdit?`<button class="btn bs" onclick="openAcctEdit('info','${id}')">수정</button>`:''}${canDel?`<button class="btn bd" onclick="delAcct('info','${id}')">삭제</button>`:''}</div></div>`;
     });
-  });
-  html+=`</div>`;
+    html+=`</div>`;
+  }
 
-  document.getElementById('tab-accounts').innerHTML=html;
+  // 총괄 계정 — 관리자만 수정 가능
+  if(canSeePin(U.role,'general')||U.role==='general'){
+    html+=`<div class="sec"><div class="sec-hdr"><span>👑 총괄본부장 계정</span>${U.role==='admin'?`<button class="btn bp" onclick="openAcctEdit('general')">+ 추가</button>`:''}</div>`;
+    const arr=Object.entries(s.generalAccounts||{});
+    if(!arr.length)html+=`<div class="sec-empty">총괄 계정 없음</div>`;
+    arr.forEach(([id,a])=>{
+      const canEdit=U.role==='admin'||(U.role==='general'&&U.acctId===id);
+      const canDel=U.role==='admin';
+      const pinShow=U.role==='admin'?a.pin:'••••';
+      html+=`<div class="sec-row"><div class="row-info"><div class="row-name">${a.name}</div><div class="row-sub">PIN: ${pinShow}</div></div>
+        <div class="row-btns">${canEdit?`<button class="btn bs" onclick="openAcctEdit('general','${id}')">수정</button>`:''}${canDel?`<button class="btn bd" onclick="delAcct('general','${id}')">삭제</button>`:''}</div></div>`;
+    });
+    html+=`</div>`;
+  }
+
+  // 본부장 PIN — 관리자/총괄/인포만 볼 수 있음
+  if(P.isHigher(U,'dept_head')){
+    html+=`<div class="sec"><div class="sec-hdr">🏢 본부장 PIN</div>`;
+    const deps=Object.entries(s.departments||{});
+    if(!deps.length)html+=`<div class="sec-empty">등록된 본부 없음</div>`;
+    deps.forEach(([dId,dep])=>{
+      html+=`<div class="sec-row"><div class="row-info"><div class="row-name">${dep.name} 본부장</div><div class="row-sub">PIN: ${dep.headPin||'2345'}</div></div>
+        <button class="btn bs" onclick="openDeptPinEdit('${dId}')">변경</button></div>`;
+      // 팀장 PIN — 관리자/총괄/인포/본부장만 볼 수 있음
+      if(P.isHigher(U,'team_leader')){
+        Object.entries(dep.teams||{}).forEach(([tId,team])=>{
+          html+=`<div class="sec-row ind1"><div class="row-info"><div class="row-name">${team.name} 팀장</div><div class="row-sub">PIN: ${team.leaderPin||'4567'}</div></div>
+            <button class="btn bs" onclick="openTeamPinEdit('${dId}','${tId}')">변경</button></div>`;
+        });
+      }
+    });
+    html+=`</div>`;
+  }
+
+  wrap.innerHTML=html||`<div class="empty-st"><div class="empty-ico">🔐</div><div>설정 권한이 없습니다</div></div>`;
 }
 
-window.openAcctModal=(type,id)=>{
-  const isInfo=type==='info';
-  const accts=isInfo?D.settings.infoAccounts:D.settings.generalAccounts;
-  const a=id?accts?.[id]:null;
-  const lbl=isInfo?'인포':'총괄본부장';
-  showEditModal(`${isInfo?'🖥️':'👑'} ${lbl} 계정 ${id?'수정':'추가'} <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
-    <div class="fg"><label class="fl">이름</label><input class="fi" id="acName" value="${a?.name||''}" placeholder="이름 입력"></div>
-    <div class="fg"><label class="fl">PIN (4자리 숫자)</label><input class="fi" id="acPin" type="tel" inputmode="numeric" maxlength="4" value="${a?.pin||''}" placeholder="0000"></div>
+window.openPinEdit=type=>{
+  showGM(`🔐 관리자 PIN 변경 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">새 PIN (4자리 숫자)</label><input class="fi" id="np" type="tel" inputmode="numeric" maxlength="4" placeholder="0000"></div>
+    <button class="btn-full bp" onclick="saveAdminPin()">저장</button>`);
+};
+window.saveAdminPin=async()=>{
+  const p=document.getElementById('np').value.trim();
+  if(p.length!==4||!/^\d+$/.test(p)){showToast('숫자 4자리 입력');return;}
+  await window._save('settings/adminPin',p);closeMbg('gmbg');showToast('✅ PIN 변경');
+};
+window.openAcctEdit=(type,id)=>{
+  const isInfo=type==='info';const a=id?(isInfo?D.settings.infoAccounts:D.settings.generalAccounts)?.[id]:null;
+  showGM(`${isInfo?'🖥️ 인포':'👑 총괄'} 계정 ${id?'수정':'추가'} <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">이름</label><input class="fi" id="an" value="${a?.name||''}" placeholder="이름"></div>
+    <div class="fg"><label class="fl">PIN (4자리)</label><input class="fi" id="ap" type="tel" inputmode="numeric" maxlength="4" value="${a?.pin||''}" placeholder="0000"></div>
     <button class="btn-full bp" onclick="saveAcct('${type}','${id||''}')">저장</button>`);
 };
 window.saveAcct=async(type,id)=>{
-  const name=document.getElementById('acName').value.trim();
-  const pin=document.getElementById('acPin').value.trim();
-  if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리를 확인하세요');return;}
+  const name=document.getElementById('an').value.trim(),pin=document.getElementById('ap').value.trim();
+  if(!name||pin.length!==4||!/^\d+$/.test(pin)){showToast('이름과 PIN 4자리 확인');return;}
   const path=type==='info'?'infoAccounts':'generalAccounts';
-  if(id){
-    await window._upd({[`settings/${path}/${id}/name`]:name,[`settings/${path}/${id}/pin`]:pin});
-  } else {
-    const nr=push(r(`settings/${path}`));
-    await set(nr,{name,pin});
-  }
-  closeMbg('editMbg'); showToast('✅ 저장됨');
+  if(id)await window._upd({[`settings/${path}/${id}/name`]:name,[`settings/${path}/${id}/pin`]:pin});
+  else{const nr=push(r(`settings/${path}`));await set(nr,{name,pin});}
+  closeMbg('gmbg');showToast('✅ 저장');
 };
-window.delAcct=async(type,id)=>{
-  if(!confirm('계정을 삭제합니다.')) return;
-  const path=type==='info'?'infoAccounts':'generalAccounts';
-  await window._save(`settings/${path}/${id}`,null); showToast('삭제됨');
-};
-window.openPinModal=type=>{
-  showEditModal(`🔐 관리자 PIN 변경 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
-    <div class="fg"><label class="fl">새 PIN (4자리 숫자)</label><input class="fi" id="nPin" type="tel" inputmode="numeric" maxlength="4" placeholder="0000"></div>
-    <button class="btn-full bp" onclick="savePin('admin')">저장</button>`);
-};
-window.savePin=async type=>{
-  const pin=document.getElementById('nPin').value.trim();
-  if(pin.length!==4||!/^\d+$/.test(pin)){showToast('숫자 4자리를 입력하세요');return;}
-  await window._save('settings/adminPin',pin);
-  closeMbg('editMbg'); showToast('✅ PIN 변경됨');
-};
-window.openDeptPinModal=dId=>{
-  showEditModal(`🏢 본부장 PIN 변경 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
-    <div class="fg"><label class="fl">새 PIN (4자리)</label><input class="fi" id="nPin" type="tel" inputmode="numeric" maxlength="4" placeholder="0000"></div>
+window.delAcct=async(type,id)=>{if(!confirm('삭제?'))return;await window._save(`settings/${type==='info'?'infoAccounts':'generalAccounts'}/${id}`,null);showToast('삭제됨');};
+window.openDeptPinEdit=dId=>{
+  showGM(`🏢 본부장 PIN 변경 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">새 PIN (4자리)</label><input class="fi" id="np" type="tel" inputmode="numeric" maxlength="4" placeholder="0000"></div>
     <button class="btn-full bp" onclick="saveDeptPin('${dId}')">저장</button>`);
 };
 window.saveDeptPin=async dId=>{
-  const pin=document.getElementById('nPin').value.trim();
-  if(pin.length!==4||!/^\d+$/.test(pin)){showToast('숫자 4자리를 입력하세요');return;}
-  await window._save(`settings/departments/${dId}/headPin`,pin);
-  closeMbg('editMbg'); showToast('✅ PIN 변경됨');
+  const p=document.getElementById('np').value.trim();
+  if(p.length!==4||!/^\d+$/.test(p)){showToast('숫자 4자리');return;}
+  await window._save(`settings/departments/${dId}/headPin`,p);closeMbg('gmbg');showToast('✅ PIN 변경');
 };
-window.openTeamPinModal=(dId,tId)=>{
-  showEditModal(`👥 팀장 PIN 변경 <button class="m-close" onclick="closeMbg('editMbg')">×</button>`,`
-    <div class="fg"><label class="fl">새 PIN (4자리)</label><input class="fi" id="nPin" type="tel" inputmode="numeric" maxlength="4" placeholder="0000"></div>
+window.openTeamPinEdit=(dId,tId)=>{
+  showGM(`👥 팀장 PIN 변경 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
+    <div class="fg"><label class="fl">새 PIN (4자리)</label><input class="fi" id="np" type="tel" inputmode="numeric" maxlength="4" placeholder="0000"></div>
     <button class="btn-full bp" onclick="saveTeamPin('${dId}','${tId}')">저장</button>`);
 };
 window.saveTeamPin=async(dId,tId)=>{
-  const pin=document.getElementById('nPin').value.trim();
-  if(pin.length!==4||!/^\d+$/.test(pin)){showToast('숫자 4자리를 입력하세요');return;}
-  await window._save(`settings/departments/${dId}/teams/${tId}/leaderPin`,pin);
-  closeMbg('editMbg'); showToast('✅ PIN 변경됨');
+  const p=document.getElementById('np').value.trim();
+  if(p.length!==4||!/^\d+$/.test(p)){showToast('숫자 4자리');return;}
+  await window._save(`settings/departments/${dId}/teams/${tId}/leaderPin`,p);closeMbg('gmbg');showToast('✅ PIN 변경');
 };
 
-/* ─── MODALS ─── */
-window.openLoginModal=()=>{ document.getElementById('loginMbg').classList.add('show'); };
+/* ── MODAL HELPERS ── */
+function showGM(title,body){document.getElementById('gmbody').innerHTML=`<div class="m-ttl">${title}</div>${body}`;document.getElementById('gmbg').classList.add('show');}
+window.showGM=showGM;
 window.closeMbg=id=>document.getElementById(id).classList.remove('show');
-function showEditModal(title,body){
-  document.getElementById('editBody').innerHTML=`<div class="m-title">${title}</div>${body}`;
-  document.getElementById('editMbg').classList.add('show');
-}
 
-/* ─── UTILS ─── */
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2600);
-}
+/* ── TOAST ── */
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2600);}
 window.showToast=showToast;
 
-/* ─── SW ─── */
-if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+/* ── SW ── */
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
-/* init */
-renderRounds();
+renderWork();
 </script>
 </body>
 </html>
