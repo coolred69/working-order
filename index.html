@@ -1020,6 +1020,82 @@ window.showToast=showToast;
 
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
+/* ── 카카오톡 인앱 브라우저 감지 ── */
+(function(){
+  const ua=navigator.userAgent.toLowerCase();
+  const isKakao=ua.includes('kakaotalk');
+  const isLine=ua.includes('line/');
+  const isNaver=ua.includes('naver');
+  const isInApp=isKakao||isLine||isNaver;
+  if(!isInApp)return;
+
+  // 안내 오버레이 생성
+  const overlay=document.createElement('div');
+  overlay.id='kakao-guide';
+  overlay.style.cssText=`
+    position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;
+    display:flex;align-items:flex-end;justify-content:center;
+  `;
+
+  const isIOS=/iphone|ipad|ipod/.test(ua);
+  const isAndroid=/android/.test(ua);
+  const url=location.href;
+
+  let guideHtml='';
+  if(isAndroid){
+    guideHtml=`
+      <div style="background:#fff;border-radius:22px 22px 0 0;padding:28px 24px 40px;width:100%;max-width:460px">
+        <div style="text-align:center;font-size:32px;margin-bottom:12px">🌐</div>
+        <div style="font-size:18px;font-weight:800;text-align:center;color:#1a237e;margin-bottom:8px">외부 브라우저로 열기</div>
+        <div style="font-size:14px;color:#555;text-align:center;line-height:1.7;margin-bottom:20px">
+          홈화면 설치를 위해<br>크롬 브라우저로 열어주세요
+        </div>
+        <div style="background:#f3f5ff;border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#333;line-height:2">
+          ① 우측 하단 <b>···</b> 또는 <b>⋮</b> 버튼 클릭<br>
+          ② <b>"다른 브라우저로 열기"</b> 선택<br>
+          ③ <b>Chrome</b> 선택
+        </div>
+        <button onclick="document.getElementById('kakao-guide').remove()"
+          style="width:100%;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:16px;font-weight:800;border:none;cursor:pointer">
+          닫기 (카카오톡으로 계속 보기)
+        </button>
+      </div>`;
+  } else if(isIOS){
+    guideHtml=`
+      <div style="background:#fff;border-radius:22px 22px 0 0;padding:28px 24px 40px;width:100%;max-width:460px">
+        <div style="text-align:center;font-size:32px;margin-bottom:12px">🌐</div>
+        <div style="font-size:18px;font-weight:800;text-align:center;color:#1a237e;margin-bottom:8px">외부 브라우저로 열기</div>
+        <div style="font-size:14px;color:#555;text-align:center;line-height:1.7;margin-bottom:20px">
+          홈화면 설치를 위해<br>Safari 브라우저로 열어주세요
+        </div>
+        <div style="background:#f3f5ff;border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#333;line-height:2">
+          ① 우측 하단 <b>···</b> 버튼 클릭<br>
+          ② <b>"Safari로 열기"</b> 선택
+        </div>
+        <button onclick="document.getElementById('kakao-guide').remove()"
+          style="width:100%;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:16px;font-weight:800;border:none;cursor:pointer">
+          닫기 (카카오톡으로 계속 보기)
+        </button>
+      </div>`;
+  } else {
+    guideHtml=`
+      <div style="background:#fff;border-radius:22px 22px 0 0;padding:28px 24px 40px;width:100%;max-width:460px">
+        <div style="text-align:center;font-size:32px;margin-bottom:12px">🌐</div>
+        <div style="font-size:18px;font-weight:800;text-align:center;color:#1a237e;margin-bottom:8px">외부 브라우저로 열기</div>
+        <div style="background:#f3f5ff;border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#333;line-height:2">
+          우측 상단 <b>···</b> → <b>다른 브라우저로 열기</b>
+        </div>
+        <button onclick="document.getElementById('kakao-guide').remove()"
+          style="width:100%;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:16px;font-weight:800;border:none;cursor:pointer">
+          닫기
+        </button>
+      </div>`;
+  }
+
+  overlay.innerHTML=guideHtml;
+  document.body.appendChild(overlay);
+})();
+
 renderWork();
 </script>
 </body>
