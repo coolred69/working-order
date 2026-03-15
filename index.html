@@ -19,32 +19,22 @@
   --bdr:#e0e0e0;--redbg:#fff5f5;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;font-size:16px}
-
-/* HEADER */
 #hdr{background:var(--pri);color:#fff;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.3)}
 .hdr-title{font-size:15px;font-weight:800;line-height:1.3;flex:1}
 .hdr-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
 .hbtn{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.35);color:#fff;padding:7px 12px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer}
 .hbtn:active{background:rgba(255,255,255,.3)}
 .ubadge{background:rgba(255,255,255,.15);padding:5px 11px;border-radius:18px;font-size:12px;font-weight:700}
-
-/* TABS */
 .tabs{display:flex;background:#fff;border-bottom:2px solid var(--bdr);overflow-x:auto;scrollbar-width:none;position:sticky;top:49px;z-index:90}
 .tabs::-webkit-scrollbar{display:none}
 .tab{padding:13px 20px;font-size:15px;font-weight:700;color:var(--txt2);border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px}
 .tab.on{color:var(--pri);border-bottom-color:var(--pri)}
-
-/* MAIN */
 #main{padding:13px;padding-bottom:90px}
-
-/* VIEW TOGGLE */
 .vtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .vtog{display:flex;background:#e8eaf0;border-radius:10px;padding:3px;gap:2px}
 .vbtn{padding:8px 16px;border-radius:8px;border:none;font-size:14px;font-weight:700;cursor:pointer;background:none;color:var(--txt2)}
 .vbtn.on{background:#fff;color:var(--pri);box-shadow:0 1px 4px rgba(0,0,0,.15)}
 .vcnt{font-size:15px;font-weight:700;color:var(--txt2)}
-
-/* SLOT COUNT EDIT */
 .slot-ctrl{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:12px 15px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
 .slot-label{font-size:15px;font-weight:700;flex:1}
 .slot-val{font-size:20px;font-weight:800;color:var(--pri);min-width:40px;text-align:center}
@@ -52,14 +42,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .sc-btn:active{background:var(--pri);color:#fff}
 .sc-edit{font-size:13px;color:var(--pri2);font-weight:700;cursor:pointer;padding:6px 10px;border-radius:8px;border:1.5px solid var(--pri2);background:#fff;white-space:nowrap}
 .sc-edit:active{background:#eef}
-
-/* PROG BAR */
 .prog-wrap{background:#fff;border-radius:12px;padding:12px 15px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.07)}
 .prog-top{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;font-weight:700}
 .prog{height:10px;background:#eee;border-radius:8px;overflow:hidden}
 .prog-fill{height:100%;background:var(--ok);border-radius:8px;transition:width .4s}
-
-/* TABLE VIEW */
 .tbl-wrap{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
 .o-tbl{width:100%;border-collapse:collapse;font-size:16px;min-width:300px}
 .o-tbl th{background:#f3f5ff;padding:13px 10px;text-align:center;font-weight:800;color:var(--pri);border-bottom:2px solid var(--bdr);font-size:15px;white-space:nowrap}
@@ -71,8 +57,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .name-ok{font-size:17px;font-weight:800}
 .name-err{font-size:17px;font-weight:800;color:var(--red);cursor:pointer;text-decoration:underline dotted}
 .name-err-b{font-size:11px;background:var(--redbg);color:var(--red);border:1px solid var(--red);border-radius:4px;padding:2px 5px;margin-left:4px;cursor:pointer}
-
-/* X BUTTON */
 .xwrap{display:flex;flex-direction:column;align-items:center;gap:3px}
 .xbtn{width:44px;height:44px;border-radius:50%;border:2px solid var(--bdr);background:#fff;cursor:default;display:flex;align-items:center;justify-content:center;transition:all .18s;position:relative;flex-shrink:0}
 .xbtn.can{border-color:var(--pri2);cursor:pointer}
@@ -82,8 +66,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .xbtn.done::before{transform:rotate(45deg)}
 .xbtn.done::after{transform:rotate(-45deg)}
 .x-info{font-size:11px;color:var(--txt2);line-height:1.3;text-align:center;max-width:72px}
-
-/* CARD VIEW */
 .cv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .cv-item{border:2px solid var(--bdr);border-radius:13px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#fafbff;position:relative;overflow:hidden;transition:all .2s}
 .cv-item.can{cursor:pointer}
@@ -105,8 +87,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .cv-x.chk::before{transform:translate(-50%,-50%) rotate(45deg)}
 .cv-x.chk::after{transform:translate(-50%,-50%) rotate(-45deg)}
 .cv-ts{font-size:11px;color:var(--txt2);text-align:center;line-height:1.4}
-
-/* SECTIONS (manage/employees/accounts) */
 .sec{background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:14px;overflow:hidden}
 .sec-hdr{padding:14px 16px;background:#f3f5ff;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:16px}
 .sec-row{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f5f5f5;gap:8px}
@@ -118,13 +98,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .ind1{padding-left:28px;border-left:3px solid var(--pri2);background:#fdfdff}
 .ind2{padding-left:44px;border-left:3px solid #9fa8da;background:#fefeff}
 .sec-empty{padding:22px;text-align:center;color:var(--txt2);font-size:15px}
-
-/* INLINE EDIT */
 .editable{border-radius:8px;padding:3px 7px;cursor:pointer;border:1.5px solid transparent;transition:border-color .15s;font-size:16px;font-weight:700}
 .editable:hover{border-color:var(--pri2);background:#f0f2ff}
 .inline-input{border:1.5px solid var(--pri);border-radius:8px;padding:5px 9px;font-size:15px;font-weight:700;outline:none;font-family:inherit;width:140px;max-width:100%}
-
-/* BUTTONS */
 .btn{padding:9px 15px;border-radius:9px;font-size:14px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;line-height:1.4;transition:all .15s}
 .btn:active{transform:scale(.93)}
 .bp{background:var(--pri);color:#fff}
@@ -135,8 +111,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .fab{position:fixed;bottom:22px;right:18px;width:58px;height:58px;border-radius:50%;background:var(--pri);color:#fff;font-size:28px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(26,35,126,.4);display:none;align-items:center;justify-content:center;z-index:200}
 .fab:active{transform:scale(.9)}
 .fab.show{display:flex}
-
-/* MODAL */
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-end;justify-content:center}
 .mbg.show{display:flex}
 .mbg.c{align-items:center}
@@ -145,16 +119,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 @keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 .m-ttl{font-size:18px;font-weight:800;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
 .m-x{background:none;border:none;font-size:24px;cursor:pointer;color:var(--txt2);line-height:1}
-
-/* FORMS */
 .fg{margin-bottom:14px}
 .fl{font-size:14px;font-weight:700;color:var(--txt2);margin-bottom:6px;display:block}
 .fi{width:100%;padding:13px 15px;border:1.5px solid var(--bdr);border-radius:11px;font-size:17px;outline:none;font-family:inherit;transition:border-color .2s}
 .fi:focus{border-color:var(--pri)}
 .fsel{width:100%;padding:13px 15px;border:1.5px solid var(--bdr);border-radius:11px;font-size:17px;outline:none;background:#fff;font-family:inherit;cursor:pointer}
 .fsel:focus{border-color:var(--pri)}
-
-/* LOGIN */
 .lcard{background:#fff;border-radius:20px;padding:26px 20px 22px;width:calc(100% - 32px);max-width:360px;animation:fadeIn .2s ease}
 .llogo{text-align:center;font-size:40px;margin-bottom:8px}
 .lttl{text-align:center;font-size:20px;font-weight:800;color:var(--pri);margin-bottom:4px;line-height:1.3}
@@ -171,8 +141,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .lerr{color:var(--red);font-size:15px;text-align:center;margin-top:4px;min-height:20px;font-weight:600}
 .lnologin{display:block;width:100%;padding:15px;border-radius:13px;background:#f3f5ff;border:2px solid var(--pri2);color:var(--pri);font-size:16px;font-weight:800;cursor:pointer;text-align:center;margin-bottom:12px}
 .lnologin:active{transform:scale(.97)}
-
-/* SYNC / TOAST */
 #sync{position:fixed;top:54px;right:10px;font-size:11px;padding:3px 10px;border-radius:12px;background:#e8f5e9;color:var(--ok);z-index:150;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.1)}
 #sync.s{background:#fff8e1;color:var(--warn)}
 #sync.e{background:#ffebee;color:#c62828}
@@ -219,7 +187,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 <div id="sync">✅ 연결됨</div>
 <div id="toast"></div>
 
-<!-- LOGIN MODAL -->
 <div class="mbg c" id="lmbg" onclick="if(event.target===this)closeMbg('lmbg')">
   <div class="lcard" id="lcard">
     <div class="llogo">📋</div>
@@ -263,7 +230,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
   </div>
 </div>
 
-<!-- GENERAL MODAL -->
 <div class="mbg" id="gmbg" onclick="if(event.target===this)closeMbg('gmbg')">
   <div class="modal"><div id="gmbody"></div></div>
 </div>
@@ -277,27 +243,16 @@ firebase.initializeApp(FB);
 const db=firebase.database();
 const r=p=>db.ref(`${ROOT}/${p}`);
 
-/* ── RANK (숫자 낮을수록 높은 권한) ── */
 const RANK={admin:1,general:2,info:3,dept_head:4,team_leader:5,employee:6};
+function canSeePin(myRole,targetRole){return RANK[myRole]<RANK[targetRole];}
+function canEditPin(myRole,targetRole){return RANK[myRole]<RANK[targetRole];}
 
-function canSeePin(myRole,targetRole){
-  // 자신보다 낮은 역할의 PIN만 볼 수 있음
-  return RANK[myRole] < RANK[targetRole];
-}
-function canEditPin(myRole,targetRole){
-  return RANK[myRole] < RANK[targetRole];
-}
-
-/* ── INITIAL STATE ── */
-function initD(){
-  return{settings:{adminPin:'0000',slotCount:20,infoAccounts:{},generalAccounts:{},departments:{}},slots:{},notifications:{}};
-}
+function initD(){return{settings:{adminPin:'0000',slotCount:20,infoAccounts:{},generalAccounts:{},departments:{}},slots:{},notifications:{}};}
 let D=initD();
 let U=null;
 let prevNC=0;
 let viewMode=localStorage.getItem('wo_view')||'table';
 
-/* ── PERMISSIONS ── */
 const P={
   canCheck:  u=>u&&['admin','info','general'].includes(u.role),
   canSlotEdit:u=>u&&['admin','info','general'].includes(u.role),
@@ -314,7 +269,6 @@ const P={
   isHigher:  (u,target)=>u&&RANK[u.role]<RANK[target],
 };
 
-/* ── FIREBASE ── */
 function sb(s,m){const e=document.getElementById('sync');e.className=s;e.textContent=m;}
 window._save=async(path,val)=>{sb('s','☁️ 저장중');try{await r(path).set(val);sb('','✅ 동기화됨');}catch(e){sb('e','❌ 실패');throw e;}};
 window._upd=async(obj)=>{sb('s','☁️ 저장중');const f={};for(const[k,v]of Object.entries(obj))f[`${ROOT}/${k}`]=v;try{await db.ref().update(f);sb('','✅ 동기화됨');}catch(e){sb('e','❌ 실패');throw e;}};
@@ -336,7 +290,6 @@ db.ref(ROOT).on('value',snap=>{
   checkNotif();
 },()=>sb('e','❌ 연결오류'));
 
-/* ── NOTIF ── */
 function checkNotif(){
   const nc=Object.keys(D.notifications||{}).length;
   if(nc>prevNC&&prevNC>0){
@@ -356,7 +309,6 @@ window.openNotif=()=>{
 };
 window.clearNotifs=async()=>{if(!confirm('알림 기록 전체 삭제?'))return;await window._save('notifications',{});prevNC=0;closeMbg('gmbg');showToast('삭제됨');};
 
-/* ── LOGIN ── */
 let pinBuf='',selRole=null,selAcctId=null;
 window.openLogin=()=>document.getElementById('lmbg').classList.add('show');
 window.onRoleChange=()=>{
@@ -424,7 +376,6 @@ function updTabs(){
   document.getElementById('fab').classList.toggle('show',!!P.canSlotAdd(U));
 }
 
-/* ── TABS ── */
 window.sw=tab=>{
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===tab));
   ['work','manage','emp','acct'].forEach(t=>document.getElementById(`tab-${t}`).style.display=t===tab?'block':'none');
@@ -435,28 +386,22 @@ window.sw=tab=>{
 };
 function rerender(){const a=(document.querySelector('.tab.on')&&document.querySelector('.tab.on').dataset.tab)||'work';if(a==='work')renderWork();else if(a==='manage')renderManage();else if(a==='emp')renderEmp();else if(a==='acct')renderAcct();}
 
-/* ── HELPERS ── */
 function getMember(dId,tId,name){const ms=(D.settings&&D.settings.departments&&D.settings.departments[dId]&&D.settings.departments[dId].teams&&D.settings.departments[dId].teams[tId]&&D.settings.departments[dId].teams[tId].members)||{};return Object.entries(ms).find(([,m])=>m.name===name);}
 function getTeamMembers(dId,tId){return Object.entries((D.settings&&D.settings.departments&&D.settings.departments[dId]&&D.settings.departments[dId].teams&&D.settings.departments[dId].teams[tId]&&D.settings.departments[dId].teams[tId].members)||{}).map(([id,m])=>({id,name:m.name}));}
 
-/* ── RENDER WORK (워킹표) ── */
 function renderWork(){
   const wrap=document.getElementById('tab-work');
   const slotCount=(D.settings&&D.settings.slotCount)||20;
   const slots=D.slots||{};
-  // seq → slot 매핑
   const bySeq={};
   Object.entries(slots).forEach(([id,s])=>{bySeq[s.seq]={id,...s};});
   const filledSeqs=new Set(Object.values(slots).map(s=>s.seq));
   const maxSeq=Math.max(slotCount,...Array.from(filledSeqs),0);
   const done=Object.values(slots).filter(s=>s.checked).length;
   const pct=maxSeq>0?Math.round(done/maxSeq*100):0;
-
   const canCheck=P.canCheck(U);
   const canEdit=P.canSlotEdit(U);
   const canAdd=P.canSlotAdd(U);
-
-  // 슬롯 수 컨트롤
   const slotCtrl=canEdit?`<div class="slot-ctrl">
     <div class="slot-label">📊 총 슬롯 수</div>
     <button class="sc-btn" onclick="changeSlotCount(-1)">−</button>
@@ -464,14 +409,10 @@ function renderWork(){
     <button class="sc-btn" onclick="changeSlotCount(1)">+</button>
     <button class="sc-edit" onclick="openSlotCountEdit()">직접입력</button>
   </div>`:'';
-
-  // 진행률
   const progHtml=`<div class="prog-wrap">
     <div class="prog-top"><span>진행 현황</span><span style="color:${done===maxSeq&&maxSeq>0?'var(--ok)':'var(--pri)'}">${done} / ${maxSeq} (${pct}%)</span></div>
     <div class="prog"><div class="prog-fill" style="width:${pct}%"></div></div>
   </div>`;
-
-  // 뷰 토글
   const vToggle=`<div class="vtop">
     <div class="vcnt">총 ${maxSeq}칸</div>
     <div class="vtog">
@@ -479,7 +420,6 @@ function renderWork(){
       <button class="vbtn${viewMode==='card'?' on':''}" onclick="setView('card')">⊞ 카드</button>
     </div>
   </div>`;
-
   let content='';
   if(viewMode==='table'){
     const rows=Array.from({length:maxSeq},(_,i)=>i+1).map(seq=>{
@@ -505,7 +445,7 @@ function renderWork(){
         </div></td></tr>`;
     }).join('');
     content=`<div class="tbl-wrap"><table class="o-tbl"><thead><tr><th>순서</th><th>본부</th><th>팀</th><th>직원명</th><th>완료</th><th>관리</th></tr></thead><tbody>${rows}</tbody></table></div>`;
-  } else {
+  }else{
     const cards=Array.from({length:maxSeq},(_,i)=>i+1).map(seq=>{
       const entry=bySeq[seq];
       const canDel=P.canDeleteSlot(U);
@@ -521,7 +461,7 @@ function renderWork(){
       const xc=entry.checked?'cv-x chk':(canCheck?'cv-x cpend':'cv-x pend');
       const ic=`cv-item${entry.checked?' done':''}${canCheck?' can':''}`;
       const canE=P.canEditSlot(U,entry);
-      const nameClick=!reg?`onclick="event.stopPropagation();offerAddMember('${entry.deptId}','${entry.teamId}','${entry.memberName}')"`:''
+      const nameClick=!reg?`onclick="event.stopPropagation();offerAddMember('${entry.deptId}','${entry.teamId}','${entry.memberName}')"`:'';
       return`<div class="${ic}" data-id="${entry.id}" data-done="${entry.checked?1:0}">
         ${entry.checked?'<div class="cv-ribbon"></div>':''}
         <div class="cv-seq">${seq}</div>
@@ -538,17 +478,13 @@ function renderWork(){
     }).join('');
     content=`<div class="cv-grid">${cards}</div>`;
   }
-
   wrap.innerHTML=slotCtrl+progHtml+vToggle+content;
-
-  // 이벤트
   if(canCheck){
     wrap.querySelectorAll('.xbtn[data-id]').forEach(b=>b.onclick=e=>{e.stopPropagation();toggleCheck(b.dataset.id,b.dataset.done==='1');});
     wrap.querySelectorAll('.cv-item.can[data-id]').forEach(c=>c.onclick=()=>toggleCheck(c.dataset.id,c.dataset.done==='1'));
   }
 }
 
-/* 슬롯 수 조정 */
 window.changeSlotCount=async d=>{
   const cur=(D.settings&&D.settings.slotCount)||20;
   const nv=Math.max(1,cur+d);
@@ -566,18 +502,14 @@ window.saveSlotCount=async()=>{
 };
 window.setView=v=>{viewMode=v;localStorage.setItem('wo_view',v);renderWork();};
 
-/* 슬롯 추가 */
 window.openAddSlot=()=>{
   if(!P.canSlotAdd(U)){showToast('권한 없음');return;}
   const depts=D.settings.departments||{};
-  const isSup=['admin','info','general'].includes(U.role); // 총괄 이상
+  const isSup=['admin','info','general'].includes(U.role);
   const isDH=U.role==='dept_head';
   const isTL=U.role==='team_leader';
-
   const bySeq={};Object.values(D.slots||{}).forEach(s=>bySeq[s.seq]=true);
   let nextSeq=1;while(bySeq[nextSeq])nextSeq++;
-
-  // ── 총괄 이상: 순서번호+본부(필수)+팀(선택)+직원(선택)
   if(isSup){
     const dOpts=Object.entries(depts).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999))
       .map(([id,d])=>`<option value="${id}">${d.name}</option>`).join('');
@@ -597,8 +529,6 @@ window.openAddSlot=()=>{
       <button class="btn-full bp" onclick="saveSlot('sup')">추가</button>`);
     return;
   }
-
-  // ── 본부장: 본부 고정 + 팀(선택) + 직원(선택)
   if(isDH){
     const dept=depts[U.deptId];if(!dept){showToast('본부 정보 없음');return;}
     const tOpts=Object.entries(dept.teams||{}).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999))
@@ -617,8 +547,6 @@ window.openAddSlot=()=>{
       <button class="btn-full bp" onclick="saveSlot('dh')">추가</button>`);
     return;
   }
-
-  // ── 팀장: 본부+팀 고정 + 직원명만 입력
   if(isTL){
     const dept=depts[U.deptId];const team=dept&&dept.teams&&dept.teams[U.teamId];
     if(!dept||!team){showToast('팀 정보 없음');return;}
@@ -662,30 +590,27 @@ window.saveSlot=async(mode)=>{
   let seq,dId,tId,name;
   const bySeq={};Object.values(D.slots||{}).forEach(s=>bySeq[s.seq]=true);
   let nextSeq=1;while(bySeq[nextSeq])nextSeq++;
-
   if(mode==='sup'){
     seq=parseInt(document.getElementById('ss').value)||1;
     dId=document.getElementById('sd').value;
     tId=document.getElementById('st').value||null;
     name=document.getElementById('sn').value.trim()||null;
     if(!dId){showToast('본부는 필수 선택');return;}
-  } else if(mode==='dh'){
-    seq=nextSeq; // 본부장은 순서번호 자동
+  }else if(mode==='dh'){
+    seq=nextSeq;
     dId=U.deptId;
     tId=document.getElementById('st').value||null;
     name=document.getElementById('sn').value.trim()||null;
     if(!dId){showToast('본부 정보 없음');return;}
-  } else if(mode==='tl'){
-    seq=nextSeq; // 팀장은 순서번호 자동
+  }else if(mode==='tl'){
+    seq=nextSeq;
     dId=U.deptId;
     tId=U.teamId;
     name=document.getElementById('sn').value.trim();
     if(!name){showToast('직원명은 필수');return;}
-  } else return;
-
-  // seq 이후 밀기
+  }else return;
   const shifts={};
-  Object.entries(D.slots||{}).forEach(([id,s])=>{if(s.seq>=seq)shifts['slots/'+id+'/seq']=s.seq+1;});
+  Object.entries(D.slots||{}).forEach(([id,s])=>{if(s.seq>=seq)shifts[`slots/${id}/seq`]=s.seq+1;});
   if(Object.keys(shifts).length)await window._upd(shifts);
   await r('slots').push({seq,deptId:dId,teamId:tId,memberName:name,checked:false,checkedAt:null,checkedBy:null});
   const sc=(D.settings&&D.settings.slotCount)||20;
@@ -693,7 +618,6 @@ window.saveSlot=async(mode)=>{
   closeMbg('gmbg');showToast('✅ 슬롯 추가 ('+seq+'번)');
 };
 
-/* 슬롯 삭제 + 재정렬 */
 window.deleteSlot=async id=>{
   if(!P.canDeleteSlot(U)){showToast('권한 없음');return;}
   if(!confirm('이 슬롯을 삭제하고 뒤 번호를 앞으로 당깁니까?'))return;
@@ -714,7 +638,6 @@ window.deleteEmptySlot=async seq=>{
   showToast('🗑 빈 슬롯 삭제');
 };
 
-/* 슬롯 수정 */
 window.openEditSlot=id=>{
   const slot=(D.slots&&D.slots[id]);if(!slot)return;
   if(!P.canEditSlot(U,slot)){showToast('권한 없음');return;}
@@ -724,9 +647,7 @@ window.openEditSlot=id=>{
   const isTL=U.role==='team_leader';
   const curDept=depts[slot.deptId];
   const curTeam=curDept&&curDept.teams&&curDept.teams[slot.teamId];
-
   if(isSup){
-    // 총괄 이상: 본부/팀/직원 모두 수정 가능
     const dOpts=Object.entries(depts).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999))
       .map(([id,d])=>`<option value="${id}" ${id===slot.deptId?'selected':''}>${d.name}</option>`).join('');
     const tOpts='<option value="">-- 선택 안 함 --</option>'+Object.entries((curDept&&curDept.teams)||{}).map(([tid,t])=>`<option value="${tid}" ${tid===slot.teamId?'selected':''}>${t.name}</option>`).join('');
@@ -742,9 +663,7 @@ window.openEditSlot=id=>{
       <button class="btn-full bp" onclick="saveEditSlot('${id}','sup')">저장</button>`);
     return;
   }
-
   if(isDH){
-    // 본부장: 본부 고정, 팀/직원 수정
     const dept=depts[U.deptId];if(!dept)return;
     const tOpts='<option value="">-- 선택 안 함 --</option>'+Object.entries(dept.teams||{}).sort((a,b)=>(parseInt(a[1].name)||999)-(parseInt(b[1].name)||999))
       .map(([tid,t])=>`<option value="${tid}" ${tid===slot.teamId?'selected':''}>${t.name}</option>`).join('');
@@ -761,9 +680,7 @@ window.openEditSlot=id=>{
       <button class="btn-full bp" onclick="saveEditSlot('${id}','dh')">저장</button>`);
     return;
   }
-
   if(isTL){
-    // 팀장: 본부+팀 고정, 직원명만 수정
     const dept=depts[U.deptId];const team=dept&&dept.teams&&dept.teams[U.teamId];if(!team)return;
     const mOpts='<option value="">목록선택</option>'+getTeamMembers(U.deptId,U.teamId).map(m=>`<option value="${m.name}" ${m.name===slot.memberName?'selected':''}>${m.name}</option>`).join('');
     showGM(`✏️ 슬롯 수정 (${slot.seq}번) <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
@@ -795,6 +712,8 @@ window.onEstChangeDH=()=>{
   const members=getTeamMembers(U.deptId,tId);
   document.getElementById('esnSel').innerHTML='<option value="">목록선택</option>'+members.map(m=>`<option value="${m.name}">${m.name}</option>`).join('');
 };
+
+// ✅ 핵심 수정 부분 - 백틱 템플릿 리터럴로 교체
 window.saveEditSlot=async(id,mode)=>{
   let dId,tId,name;
   if(mode==='sup'){
@@ -802,18 +721,19 @@ window.saveEditSlot=async(id,mode)=>{
     tId=document.getElementById('est').value||null;
     name=document.getElementById('esn').value.trim()||null;
     if(!dId){showToast('본부는 필수');return;}
-  } else if(mode==='dh'){
+  }else if(mode==='dh'){
     dId=U.deptId;
     tId=document.getElementById('est').value||null;
     name=document.getElementById('esn').value.trim()||null;
-  } else if(mode==='tl'){
+  }else if(mode==='tl'){
     dId=U.deptId;tId=U.teamId;
     name=document.getElementById('esn').value.trim();
     if(!name){showToast('직원명은 필수');return;}
-  } else return;
-  await window._upd({'slots/'+id+'/deptId':dId,'slots/'+id+'/teamId':tId,'slots/'+id+'/memberName':name});
+  }else return;
+  await window._upd({[`slots/${id}/deptId`]:dId,[`slots/${id}/teamId`]:tId,[`slots/${id}/memberName`]:name});
   closeMbg('gmbg');showToast('✅ 수정 완료');
 };
+
 async function toggleCheck(id,wasDone){
   if(!P.canCheck(U)){showToast('권한 없음');return;}
   const s=(D.slots&&D.slots[id]);if(!s)return;
@@ -828,13 +748,10 @@ async function toggleCheck(id,wasDone){
   }else showToast('↩️ 완료 취소');
 }
 
-/* 미등록 직원 팀 추가 제안 */
 window.offerAddMember=(dId,tId,name)=>{
-  // 본부장 이상만 등록 제안 가능
   if(!U||!['admin','info','general','dept_head'].includes(U.role)){showToast('로그인 후 등록 가능');return;}
   if(!name||!dId||!tId)return;
   const dept=D.settings.departments[dId];const team=(dept&&dept.teams&&dept.teams[tId]);
-  // 본부장은 자기 본부만
   if(U.role==='dept_head'&&U.deptId!==dId){showToast('본인 본부만 등록 가능');return;}
   showGM(`👤 미등록 직원 <button class="m-x" onclick="closeMbg('gmbg')">×</button>`,`
     <div style="background:#fff8e1;border-radius:10px;padding:13px 14px;margin-bottom:14px;font-size:15px;line-height:1.6">
@@ -851,22 +768,17 @@ window.confirmAddMember=async(dId,tId,name)=>{
   closeMbg('gmbg');showToast('✅ '+name+' 등록 완료');
 };
 
-/* ── RENDER MANAGE (조직관리 — 인라인 편집) ── */
 function renderManage(){
   const wrap=document.getElementById('tab-manage');
   if(!P.canOrgEdit(U)){wrap.innerHTML='<div class="empty-st"><div class="empty-ico">🔒</div><div>권한이 없습니다</div></div>';return;}
   const depts=D.settings.departments||{};
   const canDept=P.canDeptAdd(U);
   let html=`<div class="sec"><div class="sec-hdr"><span>🏢 본부 / 팀 구조</span>${canDept?`<button class="btn bp" onclick="addDept()">+ 본부</button>`:''}</div>`;
-
   const visDepts=U.role==='dept_head'?Object.entries(depts).filter(([id])=>id===U.deptId):
                  U.role==='team_leader'?Object.entries(depts).filter(([id])=>id===U.deptId):
                  Object.entries(depts).sort((a,b)=>{const na=parseInt(a[1].name)||999,nb=parseInt(b[1].name)||999;return na-nb||a[1].name.localeCompare(b[1].name,'ko');});
-
   if(!visDepts.length)html+=`<div class="sec-empty">본부 없음</div>`;
-
   for(const[dId,dept]of visDepts){
-    const canDeptEdit=P.isHigher(U,'dept_head')||(U.role==='dept_head'&&U.deptId===dId);
     const canTeam=P.canTeamAdd(U)&&(P.isHigher(U,'dept_head')||U.deptId===dId);
     html+=`<div class="sec-row">
       <div class="row-info">
@@ -879,14 +791,13 @@ function renderManage(){
       </div></div>`;
     const visTeams=U.role==='team_leader'?Object.entries(dept.teams||{}).filter(([id])=>id===U.teamId):Object.entries(dept.teams||{}).sort((a,b)=>{const na=parseInt(a[1].name)||999,nb=parseInt(b[1].name)||999;return na-nb||a[1].name.localeCompare(b[1].name,'ko');});
     for(const[tId,team]of visTeams){
-      const canTeamEdit=P.isHigher(U,'team_leader')||(U.role==='dept_head'&&U.deptId===dId)||(U.role==='team_leader'&&U.teamId===tId);
       html+=`<div class="sec-row ind1">
         <div class="row-info">
           <div class="row-name">👥 <span class="editable" onclick="inlineEdit(this,'settings/departments/${dId}/teams/${tId}/name','${team.name}')">${team.name}</span></div>
           <div class="row-sub">${Object.keys(team.members||{}).length}명</div>
         </div>
         <div class="row-btns">
-          ${canTeamEdit&&P.isHigher(U,'team_leader')?`<button class="btn bd" onclick="delTeam('${dId}','${tId}')">삭제</button>`:''}
+          ${P.isHigher(U,'team_leader')?`<button class="btn bd" onclick="delTeam('${dId}','${tId}')">삭제</button>`:''}
         </div></div>`;
     }
   }
@@ -899,11 +810,7 @@ window.inlineEdit=async(el,path,cur)=>{
   const inp=document.createElement('input');
   inp.className='inline-input';inp.value=cur;
   el.innerHTML='';el.appendChild(inp);inp.focus();inp.select();
-  const save=async()=>{
-    const v=inp.value.trim();
-    if(v&&v!==cur)await window._save(path,v);
-    el.textContent=v||cur;
-  };
+  const save=async()=>{const v=inp.value.trim();if(v&&v!==cur)await window._save(path,v);el.textContent=v||cur;};
   inp.onblur=save;
   inp.onkeydown=e=>{if(e.key==='Enter')inp.blur();if(e.key==='Escape'){el.textContent=cur;}};
 };
@@ -923,12 +830,9 @@ window.saveDept=async()=>{
 window.delDept=async dId=>{
   if(!confirm('본부 전체 삭제? 워킹표의 해당 본부 슬롯도 모두 삭제됩니다.'))return;
   const upd={[`settings/departments/${dId}`]:null};
-  // 해당 본부 슬롯 수집
-  const toDelSeqs=[];
-  Object.entries(D.slots||{}).forEach(([sid,s])=>{if(s.deptId===dId){upd[`slots/${sid}`]=null;toDelSeqs.push(s.seq);}});
+  Object.entries(D.slots||{}).forEach(([sid,s])=>{if(s.deptId===dId){upd[`slots/${sid}`]=null;}});
   await window._upd(upd);
-  // 남은 슬롯 재정렬
-  if(toDelSeqs.length)await resequenceSlots();
+  await resequenceSlots();
   showToast('삭제됨');
 };
 
@@ -958,26 +862,21 @@ window.delTeam=async(dId,tId)=>{
   showToast('삭제됨');
 };
 
-/* 슬롯 재정렬 - 빈 seq 없애기 */
 async function resequenceSlots(){
-  // 최신 D.slots 기준으로 seq 재배열
   const sorted=Object.entries(D.slots||{}).sort((a,b)=>a[1].seq-b[1].seq);
   const upd={};
   sorted.forEach(([id,s],i)=>{if(s.seq!==i+1)upd[`slots/${id}/seq`]=i+1;});
   if(Object.keys(upd).length)await window._upd(upd);
 }
 
-/* ── RENDER EMP (직원관리) ── */
 function renderEmp(){
   const wrap=document.getElementById('tab-emp');
   if(!P.canEmpMgmtTab(U)){wrap.innerHTML='<div class="empty-st"><div class="empty-ico">🔒</div><div>본부장 이상만 접근 가능</div></div>';return;}
   const depts=D.settings.departments||{};
   let html='';
-  // 본부장: 자기 본부만 / 나머지: 전체
   const visDepts=U.role==='dept_head'
     ?Object.entries(depts).filter(([id])=>id===U.deptId)
     :Object.entries(depts).sort((a,b)=>{const na=parseInt(a[1].name)||999,nb=parseInt(b[1].name)||999;return na-nb||a[1].name.localeCompare(b[1].name,'ko');});
-
   for(const[dId,dept]of visDepts){
     html+=`<div class="sec"><div class="sec-hdr">🏢 ${dept.name}</div>`;
     const teams=dept.teams||{};
@@ -1010,21 +909,16 @@ window.saveMember=async(dId,tId,mId)=>{
 };
 window.delMember=async(dId,tId,mId)=>{if(!confirm('직원 삭제?'))return;await window._save(`settings/departments/${dId}/teams/${tId}/members/${mId}`,null);showToast('삭제됨');};
 
-/* ── RENDER ACCT (계정설정 — 권한 기반 PIN 노출) ── */
 function renderAcct(){
   const wrap=document.getElementById('tab-acct');
   if(!P.canAcctTab(U)){wrap.innerHTML='<div class="empty-st"><div class="empty-ico">🔒</div><div>권한 없음</div></div>';return;}
   const s=D.settings;
   let html='';
-
-  // 관리자 PIN — 관리자 본인만 볼 수 있음
   if(U.role==='admin'){
     html+=`<div class="sec"><div class="sec-hdr">🛡️ 관리자</div>
       <div class="sec-row"><div class="row-info"><div class="row-name">관리자</div><div class="row-sub">PIN: ${s.adminPin||'0000'}</div></div>
       <button class="btn bs" onclick="openPinEdit('admin')">PIN 변경</button></div></div>`;
   }
-
-  // 총괄 계정 — 관리자만 수정 가능 (먼저 표시)
   if(canSeePin(U.role,'general')||U.role==='general'){
     html+=`<div class="sec"><div class="sec-hdr"><span>👑 총괄본부장 계정</span>${U.role==='admin'?`<button class="btn bp" onclick="openAcctEdit('general')">+ 추가</button>`:''}</div>`;
     const arr=Object.entries(s.generalAccounts||{});
@@ -1038,8 +932,6 @@ function renderAcct(){
     });
     html+=`</div>`;
   }
-
-  // 인포 계정 — 관리자/총괄만 수정 가능, 인포는 자기것만
   if(canSeePin(U.role,'info')||U.role==='info'){
     html+=`<div class="sec"><div class="sec-hdr"><span>🖥️ 인포 계정</span>${P.isHigher(U,'info')?`<button class="btn bp" onclick="openAcctEdit('info')">+ 추가</button>`:''}</div>`;
     const arr=Object.entries(s.infoAccounts||{});
@@ -1053,8 +945,6 @@ function renderAcct(){
     });
     html+=`</div>`;
   }
-
-  // 본부장 PIN — 관리자/총괄/인포만 볼 수 있음
   if(P.isHigher(U,'dept_head')){
     html+=`<div class="sec"><div class="sec-hdr">🏢 본부장 PIN</div>`;
     const deps=Object.entries(s.departments||{});
@@ -1062,7 +952,6 @@ function renderAcct(){
     deps.forEach(([dId,dep])=>{
       html+=`<div class="sec-row"><div class="row-info"><div class="row-name">${dep.name} 본부장</div><div class="row-sub">PIN: ${dep.headPin||'2345'}</div></div>
         <button class="btn bs" onclick="openDeptPinEdit('${dId}')">변경</button></div>`;
-      // 팀장 PIN — 관리자/총괄/인포/본부장만 볼 수 있음
       if(P.isHigher(U,'team_leader')){
         Object.entries(dep.teams||{}).forEach(([tId,team])=>{
           html+=`<div class="sec-row ind1"><div class="row-info"><div class="row-name">${team.name} 팀장</div><div class="row-sub">PIN: ${team.leaderPin||'4567'}</div></div>
@@ -1072,7 +961,6 @@ function renderAcct(){
     });
     html+=`</div>`;
   }
-
   wrap.innerHTML=html||`<div class="empty-st"><div class="empty-ico">🔐</div><div>설정 권한이 없습니다</div></div>`;
 }
 
@@ -1123,16 +1011,13 @@ window.saveTeamPin=async(dId,tId)=>{
   await window._save(`settings/departments/${dId}/teams/${tId}/leaderPin`,p);closeMbg('gmbg');showToast('✅ PIN 변경');
 };
 
-/* ── MODAL HELPERS ── */
 function showGM(title,body){document.getElementById('gmbody').innerHTML=`<div class="m-ttl">${title}</div>${body}`;document.getElementById('gmbg').classList.add('show');}
 window.showGM=showGM;
 window.closeMbg=id=>document.getElementById(id).classList.remove('show');
 
-/* ── TOAST ── */
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2600);}
 window.showToast=showToast;
 
-/* ── SW ── */
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
 renderWork();
