@@ -1055,10 +1055,16 @@ if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catc
           ② <b>"다른 브라우저로 열기"</b> 선택<br>
           ③ <b>Chrome</b> 선택
         </div>
-        <button onclick="document.getElementById('kakao-guide').remove()"
-          style="width:100%;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:16px;font-weight:800;border:none;cursor:pointer">
-          닫기 (카카오톡으로 계속 보기)
-        </button>
+        <div style="display:flex;gap:10px">
+          <button onclick="location.href='intent://'+location.href.replace(/https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;end'"
+            style="flex:1;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:15px;font-weight:800;border:none;cursor:pointer">
+            🌐 크롬으로 열기
+          </button>
+          <button onclick="document.getElementById('kakao-guide').remove()"
+            style="flex:1;padding:15px;border-radius:12px;background:#e8e8e8;color:#333;font-size:15px;font-weight:800;border:none;cursor:pointer">
+            계속 보기
+          </button>
+        </div>
       </div>`;
   } else if(isIOS){
     guideHtml=`
@@ -1072,10 +1078,16 @@ if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catc
           ① 우측 하단 <b>···</b> 버튼 클릭<br>
           ② <b>"Safari로 열기"</b> 선택
         </div>
-        <button onclick="document.getElementById('kakao-guide').remove()"
-          style="width:100%;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:16px;font-weight:800;border:none;cursor:pointer">
-          닫기 (카카오톡으로 계속 보기)
-        </button>
+        <div style="display:flex;gap:10px">
+          <button onclick="location.href='safari-https://'+location.href.replace(/https?:\/\//,'')"
+            style="flex:1;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:15px;font-weight:800;border:none;cursor:pointer">
+            🌐 Safari로 열기
+          </button>
+          <button onclick="document.getElementById('kakao-guide').remove()"
+            style="flex:1;padding:15px;border-radius:12px;background:#e8e8e8;color:#333;font-size:15px;font-weight:800;border:none;cursor:pointer">
+            계속 보기
+          </button>
+        </div>
       </div>`;
   } else {
     guideHtml=`
@@ -1085,10 +1097,12 @@ if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catc
         <div style="background:#f3f5ff;border-radius:12px;padding:14px 16px;margin-bottom:20px;font-size:13px;color:#333;line-height:2">
           우측 상단 <b>···</b> → <b>다른 브라우저로 열기</b>
         </div>
-        <button onclick="document.getElementById('kakao-guide').remove()"
-          style="width:100%;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:16px;font-weight:800;border:none;cursor:pointer">
-          닫기
-        </button>
+        <div style="display:flex;gap:10px">
+          <button onclick="document.getElementById('kakao-guide').remove()"
+            style="flex:1;padding:15px;border-radius:12px;background:#e8e8e8;color:#333;font-size:15px;font-weight:800;border:none;cursor:pointer">
+            계속 보기
+          </button>
+        </div>
       </div>`;
   }
 
