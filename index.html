@@ -1056,13 +1056,13 @@ if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catc
           ③ <b>Chrome</b> 선택
         </div>
         <div style="display:flex;gap:10px">
-          <button onclick="location.href='intent://'+location.href.replace(/https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;end'"
-            style="flex:1;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:15px;font-weight:800;border:none;cursor:pointer">
+          <button onclick="location.href='intent://${location.host}${location.pathname}#Intent;scheme=https;package=com.android.chrome;end;'"
+            style="flex:1;padding:15px;border-radius:12px;background:#4285f4;color:#fff;font-size:15px;font-weight:800;border:none;cursor:pointer">
             🌐 크롬으로 열기
           </button>
-          <button onclick="document.getElementById('kakao-guide').remove()"
-            style="flex:1;padding:15px;border-radius:12px;background:#e8e8e8;color:#333;font-size:15px;font-weight:800;border:none;cursor:pointer">
-            계속 보기
+          <button onclick="location.href='intent://${location.host}${location.pathname}#Intent;scheme=https;package=com.sec.android.app.sbrowser;end;'"
+            style="flex:1;padding:15px;border-radius:12px;background:#1a237e;color:#fff;font-size:15px;font-weight:800;border:none;cursor:pointer">
+            🌐 삼성브라우저
           </button>
         </div>
       </div>`;
