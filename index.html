@@ -153,6 +153,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .empty-st{text-align:center;padding:50px 20px;color:var(--txt2)}
 .empty-ico{font-size:52px;margin-bottom:12px}
 </style>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "7891a86f-8c30-4e2d-9a22-2d4d4806ec8d",
+    });
+  });
+</script>
 </head>
 <body>
 <div id="hdr">
