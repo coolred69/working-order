@@ -133,7 +133,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .ldot{width:14px;height:14px;border-radius:50%;border:2px solid var(--pri);background:#fff;transition:all .18s}
 .ldot.on{background:var(--pri);transform:scale(1.1)}
 .lpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 12px}
-.lpk{height:64px;border:1.5px solid var(--bdr);border-radius:13px;font-size:24px;font-weight:700;background:#fff;cursor:pointer;color:var(--txt);transition:all .1s;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.lpk{height:64px;border:1.5px solid var(--bdr);border-radius:13px;font-size:24px;font-weight:700;background:#fff;cursor:pointer;color:var(--txt);transition:all .1s;box-shadow:0 1px 3px rgba(0,0,0,.07);-webkit-tap-highlight-color:rgba(0,0,0,.1);touch-action:manipulation}
 .lpk:active{background:var(--pri);color:#fff;transform:scale(.93)}
 .lpk.del{font-size:18px;color:var(--txt2)}
 .lpk.ok{background:var(--pri);color:#fff;font-size:18px}
@@ -335,11 +335,13 @@ window.onRoleChange=()=>{
     lbl.textContent='팀 선택';sel.innerHTML='<option value="">-- 선택 --</option>'+teams.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');wrap.style.display='block';
   }else wrap.style.display='none';
 };
-window.pk=d=>{if(pinBuf.length>=4)return;pinBuf+=d;updDots();if(pinBuf.length===4)setTimeout(pok,80);};
+window.pk=d=>{if(pinBuf.length>=4)return;pinBuf+=d;updDots();if(pinBuf.length===4)setTimeout(pok,300);};
 window.pdel=()=>{if(pinBuf)pinBuf=pinBuf.slice(0,-1);updDots();};
 function updDots(){for(let i=0;i<4;i++)document.getElementById(`ld${i}`).classList.toggle('on',i<pinBuf.length);}
 window.pok=()=>{
   document.getElementById('lerr').textContent='';
+  // iOS 대응: selRole 변수 대신 DOM에서 직접 읽기
+  selRole=document.getElementById('roleSelect').value;
   if(!selRole){document.getElementById('lerr').textContent='역할을 선택하세요';return;}
   if(pinBuf.length<4){document.getElementById('lerr').textContent='PIN 4자리 입력';return;}
   const s=D.settings;let user=null;
