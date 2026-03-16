@@ -138,7 +138,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif;back
 .lpk.del{font-size:18px;color:var(--txt2)}
 .lpk.ok{background:var(--pri);color:#fff;font-size:18px}
 .lpk.ok:active{background:var(--pri3)}
-.lerr{color:var(--red);font-size:15px;text-align:center;margin-top:4px;min-height:20px;font-weight:600}
+.lerr{color:var(--red);font-size:16px;text-align:center;margin-top:8px;min-height:24px;font-weight:700;padding:6px;background:#fff5f5;border-radius:8px}
 .lnologin{display:block;width:100%;padding:15px;border-radius:13px;background:#f3f5ff;border:2px solid var(--pri2);color:var(--pri);font-size:16px;font-weight:800;cursor:pointer;text-align:center;margin-bottom:12px}
 .lnologin:active{transform:scale(.97)}
 #sync{position:fixed;top:54px;right:10px;font-size:11px;padding:3px 10px;border-radius:12px;background:#e8f5e9;color:var(--ok);z-index:150;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.1)}
@@ -335,7 +335,7 @@ window.onRoleChange=()=>{
     lbl.textContent='팀 선택';sel.innerHTML='<option value="">-- 선택 --</option>'+teams.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');wrap.style.display='block';
   }else wrap.style.display='none';
 };
-window.pk=d=>{if(pinBuf.length>=4)return;pinBuf+=d;updDots();if(pinBuf.length===4)setTimeout(pok,300);};
+window.pk=d=>{if(pinBuf.length>=4)return;pinBuf+=d;updDots();if(pinBuf.length===4)setTimeout(pok,150);};
 window.pdel=()=>{if(pinBuf)pinBuf=pinBuf.slice(0,-1);updDots();};
 function updDots(){for(let i=0;i<4;i++)document.getElementById(`ld${i}`).classList.toggle('on',i<pinBuf.length);}
 window.pok=()=>{
@@ -345,7 +345,8 @@ window.pok=()=>{
   if(!selRole){document.getElementById('lerr').textContent='역할을 선택하세요';return;}
   if(pinBuf.length<4){document.getElementById('lerr').textContent='PIN 4자리 입력';return;}
   const s=D.settings;let user=null;
-  const acId=document.getElementById('acctSelect').value;
+  const acctEl=document.getElementById('acctSelect');
+  const acId=acctEl.options[acctEl.selectedIndex]?acctEl.options[acctEl.selectedIndex].value:'';
   if(selRole==='admin'){if(pinBuf===(s.adminPin||'0000'))user={role:'admin',displayName:'관리자'};}
   else if(selRole==='info'){if(!acId){document.getElementById('lerr').textContent='계정을 선택하세요';return;}const a=(s.infoAccounts&&s.infoAccounts[acId]);if(a&&pinBuf===a.pin)user={role:'info',displayName:a.name,acctId:acId};}
   else if(selRole==='general'){if(!acId){document.getElementById('lerr').textContent='계정을 선택하세요';return;}const a=(s.generalAccounts&&s.generalAccounts[acId]);if(a&&pinBuf===a.pin)user={role:'general',displayName:a.name,acctId:acId};}
