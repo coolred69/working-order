@@ -356,7 +356,9 @@ window.pok=()=>{
   else{document.getElementById('lerr').textContent='❌ PIN이 올바르지 않습니다';pinBuf='';updDots();document.getElementById('lcard').classList.add('shake');setTimeout(()=>document.getElementById('lcard').classList.remove('shake'),400);}
 };
 function loginOK(u){
-  U=u;Notification.requestPermission&&Notification.requestPermission();closeMbg('lmbg');
+  U=u;
+  try{if(typeof Notification!=='undefined'&&Notification.requestPermission)Notification.requestPermission();}catch(e){}
+  closeMbg('lmbg');
   document.getElementById('loginBtn').style.display='none';
   document.getElementById('hdrUser').style.display='flex';
   document.getElementById('ubadge').textContent=U.displayName;
